@@ -244,12 +244,12 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-gradient-to-b from-slate-900 to-slate-800">
       <div className="container mx-auto px-4 py-12">
-        <header className="text-center mb-12">
-          <h1 className="text-5xl font-bold text-white mb-4">DBD Randomizer</h1>
+        <header className="text-center mb-10">
+          <h1 className="text-5xl font-bold text-white mb-3">DBD Randomizer</h1>
           <p className="text-xl text-gray-300">
             Ad-free, lightweight randomizer for Dead by Daylight
           </p>
-          <p className="text-sm text-gray-500 mt-2">
+          <p className="text-sm text-gray-400 leading-relaxed mt-3 max-w-xl mx-auto">
             Don&apos;t have something unlocked? Click &quot;Omit&quot; next to it to exclude it and roll a
             replacement. Omissions clear the next time you hit Randomize.
           </p>
@@ -315,13 +315,13 @@ export default function Home() {
               </div>
 
               {survivorLoadout && (
-                <div className="space-y-4">
-                  <div className="bg-slate-700 rounded p-4 flex items-start justify-between gap-4">
+                <div className="space-y-6">
+                  <div className="bg-slate-700 rounded-lg p-4 flex items-start justify-between gap-4">
                     <div>
                       <h3 className="text-xl font-bold text-white mb-2">
                         {survivorLoadout.survivor.name}
                       </h3>
-                      <p className="text-gray-300 mb-2">{survivorLoadout.survivor.description}</p>
+                      <p className="text-gray-300 leading-relaxed mb-2">{survivorLoadout.survivor.description}</p>
                       <p className="text-sm text-gray-400">
                         Difficulty: {survivorLoadout.survivor.difficulty}
                       </p>
@@ -336,17 +336,17 @@ export default function Home() {
                   </div>
 
                   <div>
-                    <h4 className="text-lg font-bold text-white mb-2">Perks (4)</h4>
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-2">
+                    <h4 className="text-lg font-bold text-white mb-3">Perks (4)</h4>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       {survivorLoadout.perks.map((perk, index) => (
-                        <div key={perk.id} className="bg-slate-700 rounded p-3 flex flex-col gap-2">
+                        <div key={perk.id} className="bg-slate-700 rounded-lg p-4 flex flex-col gap-3">
                           <div>
-                            <p className="text-white font-semibold text-sm">{perk.name}</p>
-                            <p className="text-xs text-gray-300">{perk.effect}</p>
+                            <p className="text-white font-semibold">{perk.name}</p>
+                            <p className="text-sm text-gray-300 leading-relaxed mt-1">{perk.effect}</p>
                           </div>
                           <button
                             onClick={() => omitAndRerollSurvivorPerk(index)}
-                            className="self-start bg-orange-600 hover:bg-orange-700 text-white text-xs font-semibold py-1 px-2 rounded transition"
+                            className="self-start bg-orange-600 hover:bg-orange-700 text-white text-xs font-semibold py-1.5 px-3 rounded transition"
                             title="Don't have this perk unlocked? Omit it and roll another."
                           >
                             Omit
@@ -358,34 +358,34 @@ export default function Home() {
 
                   {survivorLoadout.item && (
                     <div>
-                      <h4 className="text-lg font-bold text-white mb-2">Item</h4>
-                      <div className="bg-slate-700 rounded p-3">
+                      <h4 className="text-lg font-bold text-white mb-3">Item</h4>
+                      <div className="bg-slate-700 rounded-lg p-4">
                         <div className="flex items-start justify-between gap-4">
                           <div>
                             <p className="text-white font-semibold">{survivorLoadout.item.name}</p>
-                            <p className="text-sm text-gray-300 mb-2">{survivorLoadout.item.effect}</p>
-                            <p className="text-xs text-gray-400 mb-2">
+                            <p className="text-sm text-gray-300 leading-relaxed mt-1 mb-2">{survivorLoadout.item.effect}</p>
+                            <p className="text-xs text-gray-400">
                               Rarity: {survivorLoadout.item.rarity}
                             </p>
                           </div>
                           <button
                             onClick={omitAndRerollItem}
-                            className="shrink-0 bg-orange-600 hover:bg-orange-700 text-white text-xs font-semibold py-1 px-2 rounded transition"
+                            className="shrink-0 bg-orange-600 hover:bg-orange-700 text-white text-xs font-semibold py-1.5 px-3 rounded transition"
                             title="Don't have this item unlocked? Omit it and roll another."
                           >
                             Omit
                           </button>
                         </div>
                         {survivorLoadout.addons.length > 0 && (
-                          <div className="border-t border-slate-600 pt-2 mt-2">
-                            <p className="text-xs font-semibold text-yellow-300 mb-1">Add-ons:</p>
+                          <div className="border-t border-slate-600 pt-3 mt-3">
+                            <p className="text-xs font-semibold text-yellow-300 mb-2">Add-ons:</p>
                             <div className="flex flex-wrap gap-2">
                               {survivorLoadout.addons.map((addonId) => {
                                 const addon = getAddonById(addonId);
                                 return (
                                   <span
                                     key={addonId}
-                                    className="bg-slate-600 text-xs px-2 py-1 rounded flex items-center gap-1"
+                                    className="bg-slate-600 text-sm px-3 py-1.5 rounded flex items-center gap-2"
                                     title={addon?.effect}
                                   >
                                     {addon?.name ?? addonId}
@@ -408,18 +408,18 @@ export default function Home() {
 
                   {survivorLoadout.offering && (
                     <div>
-                      <h4 className="text-lg font-bold text-white mb-2">Offering</h4>
-                      <div className="bg-slate-700 rounded p-3 border-l-4 border-yellow-500 flex items-start justify-between gap-4">
+                      <h4 className="text-lg font-bold text-white mb-3">Offering</h4>
+                      <div className="bg-slate-700 rounded-lg p-4 border-l-4 border-yellow-500 flex items-start justify-between gap-4">
                         <div>
                           <p className="text-white font-semibold">{survivorLoadout.offering.name}</p>
-                          <p className="text-sm text-gray-300">{survivorLoadout.offering.effect}</p>
-                          <p className="text-xs text-gray-400 mt-1">
+                          <p className="text-sm text-gray-300 leading-relaxed mt-1">{survivorLoadout.offering.effect}</p>
+                          <p className="text-xs text-gray-400 mt-2">
                             Rarity: {survivorLoadout.offering.rarity}
                           </p>
                         </div>
                         <button
                           onClick={omitAndRerollSurvivorOffering}
-                          className="shrink-0 bg-orange-600 hover:bg-orange-700 text-white text-xs font-semibold py-1 px-2 rounded transition"
+                          className="shrink-0 bg-orange-600 hover:bg-orange-700 text-white text-xs font-semibold py-1.5 px-3 rounded transition"
                           title="Don't have this offering? Omit it and roll another."
                         >
                           Omit
@@ -453,11 +453,11 @@ export default function Home() {
               </div>
 
               {killerLoadout && (
-                <div className="space-y-4">
-                  <div className="bg-slate-700 rounded p-4 flex items-start justify-between gap-4">
+                <div className="space-y-6">
+                  <div className="bg-slate-700 rounded-lg p-4 flex items-start justify-between gap-4">
                     <div>
                       <h3 className="text-xl font-bold text-white mb-2">{killerLoadout.killer.name}</h3>
-                      <p className="text-gray-300 mb-2">{killerLoadout.killer.description}</p>
+                      <p className="text-gray-300 leading-relaxed mb-2">{killerLoadout.killer.description}</p>
                       <p className="text-sm text-gray-400 mb-1">Power: {killerLoadout.killer.power}</p>
                       <p className="text-sm text-gray-400">Difficulty: {killerLoadout.killer.difficulty}</p>
                     </div>
@@ -471,17 +471,17 @@ export default function Home() {
                   </div>
 
                   <div>
-                    <h4 className="text-lg font-bold text-white mb-2">Perks (4)</h4>
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-2">
+                    <h4 className="text-lg font-bold text-white mb-3">Perks (4)</h4>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       {killerLoadout.perks.map((perk, index) => (
-                        <div key={perk.id} className="bg-slate-700 rounded p-3 flex flex-col gap-2">
+                        <div key={perk.id} className="bg-slate-700 rounded-lg p-4 flex flex-col gap-3">
                           <div>
-                            <p className="text-white font-semibold text-sm">{perk.name}</p>
-                            <p className="text-xs text-gray-300">{perk.effect}</p>
+                            <p className="text-white font-semibold">{perk.name}</p>
+                            <p className="text-sm text-gray-300 leading-relaxed mt-1">{perk.effect}</p>
                           </div>
                           <button
                             onClick={() => omitAndRerollKillerPerk(index)}
-                            className="self-start bg-orange-600 hover:bg-orange-700 text-white text-xs font-semibold py-1 px-2 rounded transition"
+                            className="self-start bg-orange-600 hover:bg-orange-700 text-white text-xs font-semibold py-1.5 px-3 rounded transition"
                             title="Don't have this perk unlocked? Omit it and roll another."
                           >
                             Omit
@@ -492,18 +492,18 @@ export default function Home() {
                   </div>
 
                   <div>
-                    <h4 className="text-lg font-bold text-white mb-2">Add-ons</h4>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                    <h4 className="text-lg font-bold text-white mb-3">Add-ons</h4>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       {killerLoadout.addons.map((addon, index) => (
-                        <div key={addon.id} className="bg-slate-700 rounded p-3 flex items-start justify-between gap-2">
+                        <div key={addon.id} className="bg-slate-700 rounded-lg p-4 flex items-start justify-between gap-3">
                           <div>
                             <p className="text-white font-semibold">{addon.name}</p>
-                            <p className="text-sm text-gray-300">{addon.effect}</p>
-                            <p className="text-xs text-gray-400 mt-1">Rarity: {addon.rarity}</p>
+                            <p className="text-sm text-gray-300 leading-relaxed mt-1">{addon.effect}</p>
+                            <p className="text-xs text-gray-400 mt-2">Rarity: {addon.rarity}</p>
                           </div>
                           <button
                             onClick={() => omitAndRerollKillerAddon(index)}
-                            className="shrink-0 bg-orange-600 hover:bg-orange-700 text-white text-xs font-semibold py-1 px-2 rounded transition"
+                            className="shrink-0 bg-orange-600 hover:bg-orange-700 text-white text-xs font-semibold py-1.5 px-3 rounded transition"
                             title="Don't have this add-on unlocked? Omit it and roll another."
                           >
                             Omit
@@ -518,18 +518,18 @@ export default function Home() {
 
                   {killerLoadout.offering && (
                     <div>
-                      <h4 className="text-lg font-bold text-white mb-2">Offering</h4>
-                      <div className="bg-slate-700 rounded p-3 border-l-4 border-red-500 flex items-start justify-between gap-4">
+                      <h4 className="text-lg font-bold text-white mb-3">Offering</h4>
+                      <div className="bg-slate-700 rounded-lg p-4 border-l-4 border-red-500 flex items-start justify-between gap-4">
                         <div>
                           <p className="text-white font-semibold">{killerLoadout.offering.name}</p>
-                          <p className="text-sm text-gray-300">{killerLoadout.offering.effect}</p>
-                          <p className="text-xs text-gray-400 mt-1">
+                          <p className="text-sm text-gray-300 leading-relaxed mt-1">{killerLoadout.offering.effect}</p>
+                          <p className="text-xs text-gray-400 mt-2">
                             Rarity: {killerLoadout.offering.rarity}
                           </p>
                         </div>
                         <button
                           onClick={omitAndRerollKillerOffering}
-                          className="shrink-0 bg-orange-600 hover:bg-orange-700 text-white text-xs font-semibold py-1 px-2 rounded transition"
+                          className="shrink-0 bg-orange-600 hover:bg-orange-700 text-white text-xs font-semibold py-1.5 px-3 rounded transition"
                           title="Don't have this offering? Omit it and roll another."
                         >
                           Omit
