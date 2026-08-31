@@ -7,7 +7,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -37,7 +38,12 @@
     "typescript": "^7.0.2"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
+    "@types/jest": "^30.0.0",
     "@types/node": "26.4.0",
-    "@types/react": "19.2.18"
+    "@types/react": "19.2.18",
+    "jest": "^30.5.0",
+    "jest-environment-jsdom": "^30.5.0"
   }
 }

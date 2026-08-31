@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   getSurvivors,
   getKillers,
@@ -28,6 +28,26 @@ interface KillerLoadout {
   perks: Perk[];
   addons: Addon[];
   offering: Offering | null;
+}
+
+interface SavedPreset {
+  id: string;
+  name: string;
+  savedAt: number;
+  survivor: SurvivorLoadout | null;
+  killer: KillerLoadout | null;
+}
+
+const FAVORITES_STORAGE_KEY = "dbd-randomizer-favorites";
+
+function loadFavorites(): SavedPreset[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const raw = window.localStorage.getItem(FAVORITES_STORAGE_KEY);
+    return raw ? (JSON.parse(raw) as SavedPreset[]) : [];
+  } catch {
+    return [];
+  }
 }
 
 // Tracks ids that have been individually "omitted" (e.g. not unlocked / not owned)
@@ -75,6 +95,40 @@ export default function Home() {
   const [killerLoadout, setKillerLoadout] = useState<KillerLoadout | null>(null);
   const [activeTab, setActiveTab] = useState<"survivor" | "killer" | "both">("both");
   const [omit, setOmit] = useState<OmitSets>(freshOmitSets());
+  const [favorites, setFavorites] = useState<SavedPreset[]>([]);
+  const [showFavorites, setShowFavorites] = useState(false);
+
+  useEffect(() => {
+    setFavorites(loadFavorites());
+  }, []);
+
+  const persistFavorites = (next: SavedPreset[]) => {
+    setFavorites(next);
+    window.localStorage.setItem(FAVORITES_STORAGE_KEY, JSON.stringify(next));
+  };
+
+  const saveCurrentLoadout = () => {
+    if (!survivorLoadout && !killerLoadout) return;
+    const parts = [survivorLoadout?.survivor.name, killerLoadout?.killer.name].filter(Boolean);
+    const preset: SavedPreset = {
+      id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+      name: parts.join(" vs ") || "Saved Loadout",
+      savedAt: Date.now(),
+      survivor: survivorLoadout,
+      killer: killerLoadout,
+    };
+    persistFavorites([preset, ...favorites]);
+  };
+
+  const loadFavorite = (preset: SavedPreset) => {
+    if (preset.survivor) setSurvivorLoadout(preset.survivor);
+    if (preset.killer) setKillerLoadout(preset.killer);
+    setShowFavorites(false);
+  };
+
+  const deleteFavorite = (id: string) => {
+    persistFavorites(favorites.filter((f) => f.id !== id));
+  };
 
   const rollItemAddons = (item: Item | null, excludeAddons: Set<string>): string[] => {
     if (!item?.addons) return [];
@@ -281,6 +335,64 @@ export default function Home() {
             ⚙️ Both
           </button>
         </div>
+
+        <div className="flex justify-center gap-3 mb-8 flex-wrap">
+          <button
+            onClick={saveCurrentLoadout}
+            disabled={!survivorLoadout && !killerLoadout}
+            className="bg-slate-700 hover:bg-slate-600 text-white text-sm font-semibold py-2 px-4 rounded-lg transition disabled:opacity-40"
+            title="Save the current loadout so you can come back to it later."
+          >
+            💾 Save Loadout
+          </button>
+          <button
+            onClick={() => setShowFavorites((v) => !v)}
+            className="bg-slate-700 hover:bg-slate-600 text-white text-sm font-semibold py-2 px-4 rounded-lg transition"
+          >
+            ⭐ Favorites ({favorites.length})
+          </button>
+        </div>
+
+        {showFavorites && (
+          <div className="max-w-5xl mx-auto mb-8 bg-slate-800 rounded-lg p-6 border border-slate-700">
+            <h3 className="text-lg font-bold text-white mb-4">Saved Loadouts</h3>
+            {favorites.length === 0 ? (
+              <p className="text-gray-400 text-sm">
+                No saved loadouts yet. Randomize something, then click &quot;Save Loadout&quot;.
+              </p>
+            ) : (
+              <div className="space-y-2">
+                {favorites.map((preset) => (
+                  <div
+                    key={preset.id}
+                    className="bg-slate-700 rounded-lg p-3 flex items-center justify-between gap-4"
+                  >
+                    <div>
+                      <p className="text-white font-semibold">{preset.name}</p>
+                      <p className="text-xs text-gray-400">
+                        Saved {new Date(preset.savedAt).toLocaleString()}
+                      </p>
+                    </div>
+                    <div className="flex gap-2 shrink-0">
+                      <button
+                        onClick={() => loadFavorite(preset)}
+                        className="bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-1.5 px-3 rounded transition"
+                      >
+                        Load
+                      </button>
+                      <button
+                        onClick={() => deleteFavorite(preset.id)}
+                        className="bg-red-600 hover:bg-red-700 text-white text-xs font-semibold py-1.5 px-3 rounded transition"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
 
         <div className="max-w-5xl mx-auto">
           {activeTab === "both" && (
