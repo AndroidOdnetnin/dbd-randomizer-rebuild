@@ -422,6 +422,10 @@
     visibility: visible;
   }
 
+  .fixed {
+    position: fixed;
+  }
+
   .container {
     width: 100%;
   }

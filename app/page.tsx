@@ -122,6 +122,16 @@ function Badge({ label, styles }: { label: string; styles: Record<string, string
   );
 }
 
+// TODO: expose these as user-configurable settings in the UI. For now they're fixed
+// defaults - each is a target count that randomization tries to hit, falling back to
+// fewer only when omissions have thinned the available pool below the target.
+// (Item and Offering slots are single-slot by nature: the default there is always
+// "1 if the pool isn't fully omitted", handled directly via pickRandomExcluding.)
+const DEFAULT_SURVIVOR_PERK_COUNT = 4;
+const DEFAULT_KILLER_PERK_COUNT = 4;
+const DEFAULT_ITEM_ADDON_COUNT = 2;
+const DEFAULT_KILLER_ADDON_COUNT = 2;
+
 export default function Home() {
   const [survivorLoadout, setSurvivorLoadout] = useState<SurvivorLoadout | null>(null);
   const [killerLoadout, setKillerLoadout] = useState<KillerLoadout | null>(null);
@@ -166,19 +176,17 @@ export default function Home() {
     if (!item?.addons) return [];
     const available = item.addons.filter((a) => !excludeAddons.has(a));
     const shuffled = [...available].sort(() => Math.random() - 0.5);
-    return shuffled.slice(0, Math.min(2, shuffled.length));
+    return shuffled.slice(0, Math.min(DEFAULT_ITEM_ADDON_COUNT, shuffled.length));
   };
 
   const rollSurvivorLoadout = (omitSets: OmitSets): SurvivorLoadout | null => {
     const survivor = pickRandomExcluding(getSurvivors(), omitSets.survivors, (s) => s.id);
     if (!survivor) return null;
     const perkPool = getSurvivorPerks().filter((p) => !omitSets.survivorPerks.has(p.id));
-    const shuffledPerks = [...perkPool].sort(() => Math.random() - 0.5).slice(0, 4);
-    const availableItems = getItems().filter((i) => !omitSets.items.has(i.id));
-    const item =
-      availableItems.length > 0 && Math.random() > 0.3
-        ? availableItems[Math.floor(Math.random() * availableItems.length)]
-        : null;
+    const shuffledPerks = [...perkPool].sort(() => Math.random() - 0.5).slice(0, DEFAULT_SURVIVOR_PERK_COUNT);
+    // Always try to give a survivor their minimum item count (1); only comes up empty
+    // once every item has been omitted.
+    const item = pickRandomExcluding(getItems(), omitSets.items, (i) => i.id);
     const addons = rollItemAddons(item, omitSets.itemAddons);
     const offering = pickRandomExcluding(getSurvivorOfferings(), omitSets.survivorOfferings, (o) => o.id);
     return { survivor, perks: shuffledPerks, item, addons, offering };
@@ -188,9 +196,9 @@ export default function Home() {
     const killer = pickRandomExcluding(getKillers(), omitSets.killers, (k) => k.id);
     if (!killer) return null;
     const perkPool = getKillerPerks().filter((p) => !omitSets.killerPerks.has(p.id));
-    const shuffledPerks = [...perkPool].sort(() => Math.random() - 0.5).slice(0, 4);
+    const shuffledPerks = [...perkPool].sort(() => Math.random() - 0.5).slice(0, DEFAULT_KILLER_PERK_COUNT);
     const addonPool = getKillerAddons(killer.name).filter((a) => !omitSets.killerAddons.has(a.id));
-    const shuffledAddons = [...addonPool].sort(() => Math.random() - 0.5).slice(0, 2);
+    const shuffledAddons = [...addonPool].sort(() => Math.random() - 0.5).slice(0, DEFAULT_KILLER_ADDON_COUNT);
     const offering = pickRandomExcluding(getKillerOfferings(), omitSets.killerOfferings, (o) => o.id);
     return { killer, perks: shuffledPerks, addons: shuffledAddons, offering };
   };
