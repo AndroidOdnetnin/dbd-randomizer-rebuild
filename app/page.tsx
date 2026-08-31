@@ -97,6 +97,31 @@ const OMIT_BTN =
 const OMIT_BTN_LG =
   "shrink-0 border border-orange-500/60 text-orange-300 hover:bg-orange-500/10 text-sm font-semibold py-2 px-3 rounded-lg transition";
 
+// Colors mirror the game's own rarity/difficulty conventions so a glance is enough.
+const RARITY_STYLES: Record<string, string> = {
+  Common: "bg-slate-600/30 text-slate-300 border-slate-500/50",
+  Uncommon: "bg-green-600/20 text-green-300 border-green-500/50",
+  Rare: "bg-blue-600/20 text-blue-300 border-blue-500/50",
+  "Very Rare": "bg-purple-600/20 text-purple-300 border-purple-500/50",
+  "Ultra Rare": "bg-orange-600/20 text-orange-300 border-orange-500/50",
+  "Event Only": "bg-pink-600/20 text-pink-300 border-pink-500/50",
+};
+
+const DIFFICULTY_STYLES: Record<string, string> = {
+  Easy: "bg-green-600/20 text-green-300 border-green-500/50",
+  Medium: "bg-yellow-600/20 text-yellow-300 border-yellow-500/50",
+  Hard: "bg-red-600/20 text-red-300 border-red-500/50",
+};
+
+function Badge({ label, styles }: { label: string; styles: Record<string, string> }) {
+  const className = styles[label] ?? "bg-slate-600/30 text-slate-300 border-slate-500/50";
+  return (
+    <span className={`inline-block text-xs font-semibold px-2.5 py-1 rounded-full border ${className}`}>
+      {label}
+    </span>
+  );
+}
+
 export default function Home() {
   const [survivorLoadout, setSurvivorLoadout] = useState<SurvivorLoadout | null>(null);
   const [killerLoadout, setKillerLoadout] = useState<KillerLoadout | null>(null);
@@ -306,7 +331,9 @@ export default function Home() {
     <main className="min-h-screen bg-gradient-to-b from-slate-900 to-slate-800">
       <div className="container mx-auto px-4 py-12">
         <header className="text-center mb-10">
-          <h1 className="text-5xl font-bold text-white mb-3">DBD Randomizer</h1>
+          <h1 className="text-5xl font-bold mb-3 bg-gradient-to-r from-blue-400 via-purple-400 to-red-400 bg-clip-text text-transparent">
+            DBD Randomizer
+          </h1>
           <p className="text-xl text-gray-300">
             Ad-free, lightweight randomizer for Dead by Daylight
           </p>
@@ -320,8 +347,8 @@ export default function Home() {
           <button
             type="button"
             onClick={() => setActiveTab("survivor")}
-            className={`px-6 py-2 rounded-lg font-bold transition ${
-              activeTab === "survivor" ? "bg-blue-600 text-white" : "bg-slate-700 text-gray-300 hover:bg-slate-600"
+            className={`px-6 py-2 rounded-lg font-bold transition hover:scale-[1.03] active:scale-95 ${
+              activeTab === "survivor" ? "bg-blue-600 text-white shadow-md shadow-blue-900/40" : "bg-slate-700 text-gray-300 hover:bg-slate-600"
             }`}
           >
             🎮 Survivor
@@ -329,8 +356,8 @@ export default function Home() {
           <button
             type="button"
             onClick={() => setActiveTab("killer")}
-            className={`px-6 py-2 rounded-lg font-bold transition ${
-              activeTab === "killer" ? "bg-red-600 text-white" : "bg-slate-700 text-gray-300 hover:bg-slate-600"
+            className={`px-6 py-2 rounded-lg font-bold transition hover:scale-[1.03] active:scale-95 ${
+              activeTab === "killer" ? "bg-red-600 text-white shadow-md shadow-red-900/40" : "bg-slate-700 text-gray-300 hover:bg-slate-600"
             }`}
           >
             🔪 Killer
@@ -338,8 +365,8 @@ export default function Home() {
           <button
             type="button"
             onClick={() => setActiveTab("both")}
-            className={`px-6 py-2 rounded-lg font-bold transition ${
-              activeTab === "both" ? "bg-purple-600 text-white" : "bg-slate-700 text-gray-300 hover:bg-slate-600"
+            className={`px-6 py-2 rounded-lg font-bold transition hover:scale-[1.03] active:scale-95 ${
+              activeTab === "both" ? "bg-purple-600 text-white shadow-md shadow-purple-900/40" : "bg-slate-700 text-gray-300 hover:bg-slate-600"
             }`}
           >
             ⚙️ Both
@@ -351,7 +378,7 @@ export default function Home() {
             type="button"
             onClick={saveCurrentLoadout}
             disabled={!survivorLoadout && !killerLoadout}
-            className="bg-slate-700 hover:bg-slate-600 text-white text-sm font-semibold py-2 px-4 rounded-lg transition disabled:opacity-40"
+            className="bg-slate-700 hover:bg-slate-600 text-white text-sm font-semibold py-2 px-4 rounded-lg transition hover:scale-[1.03] active:scale-95 disabled:opacity-40 disabled:hover:scale-100"
             title="Save the current loadout so you can come back to it later."
           >
             💾 Save Loadout
@@ -359,7 +386,7 @@ export default function Home() {
           <button
             type="button"
             onClick={() => setShowFavorites((v) => !v)}
-            className="bg-slate-700 hover:bg-slate-600 text-white text-sm font-semibold py-2 px-4 rounded-lg transition"
+            className="bg-slate-700 hover:bg-slate-600 text-white text-sm font-semibold py-2 px-4 rounded-lg transition hover:scale-[1.03] active:scale-95"
           >
             ⭐ Favorites ({favorites.length})
           </button>
@@ -422,14 +449,14 @@ export default function Home() {
           )}
 
           {(activeTab === "survivor" || activeTab === "both") && (
-            <div className="bg-slate-800 rounded-lg p-8 mb-8 border border-blue-500/30">
+            <div className="bg-slate-800 rounded-lg p-8 mb-8 border border-blue-500/30 shadow-lg shadow-blue-950/20">
               <h2 className="text-2xl font-bold text-white mb-6">Survivor Randomizer</h2>
 
               <div className="flex gap-2 mb-6 flex-wrap">
                 <button
                   type="button"
                   onClick={handleRandomizeSurvivor}
-                  className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition"
+                  className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-md shadow-blue-900/40 hover:scale-[1.02] active:scale-95 transition"
                 >
                   🎲 Randomize
                 </button>
@@ -437,7 +464,7 @@ export default function Home() {
                   type="button"
                   onClick={handleRespinSurvivor}
                   disabled={!survivorLoadout}
-                  className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg transition disabled:opacity-50"
+                  className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:scale-[1.02] active:scale-95 transition disabled:opacity-50 disabled:hover:scale-100"
                 >
                   ↻ Respin
                 </button>
@@ -451,9 +478,7 @@ export default function Home() {
                         {survivorLoadout.survivor.name}
                       </h3>
                       <p className="text-gray-300 leading-relaxed mb-2">{survivorLoadout.survivor.description}</p>
-                      <p className="text-sm text-gray-400">
-                        Difficulty: {survivorLoadout.survivor.difficulty}
-                      </p>
+                      <Badge label={survivorLoadout.survivor.difficulty} styles={DIFFICULTY_STYLES} />
                     </div>
                     <button
                       type="button"
@@ -495,9 +520,7 @@ export default function Home() {
                           <div>
                             <p className="text-white font-semibold">{survivorLoadout.item.name}</p>
                             <p className="text-sm text-gray-300 leading-relaxed mt-1 mb-2">{survivorLoadout.item.effect}</p>
-                            <p className="text-xs text-gray-400">
-                              Rarity: {survivorLoadout.item.rarity}
-                            </p>
+                            <Badge label={survivorLoadout.item.rarity} styles={RARITY_STYLES} />
                           </div>
                           <button
                             type="button"
@@ -546,8 +569,8 @@ export default function Home() {
                         <div>
                           <p className="text-white font-semibold">{survivorLoadout.offering.name}</p>
                           <p className="text-sm text-gray-300 leading-relaxed mt-1">{survivorLoadout.offering.effect}</p>
-                          <p className="text-xs text-gray-400 mt-2">
-                            Rarity: {survivorLoadout.offering.rarity}
+                          <p className="mt-2">
+                            <Badge label={survivorLoadout.offering.rarity} styles={RARITY_STYLES} />
                           </p>
                         </div>
                         <button
@@ -567,14 +590,14 @@ export default function Home() {
           )}
 
           {(activeTab === "killer" || activeTab === "both") && (
-            <div className="bg-slate-800 rounded-lg p-8 mb-8 border border-red-500/30">
+            <div className="bg-slate-800 rounded-lg p-8 mb-8 border border-red-500/30 shadow-lg shadow-red-950/20">
               <h2 className="text-2xl font-bold text-white mb-6">Killer Randomizer</h2>
 
               <div className="flex gap-2 mb-6 flex-wrap">
                 <button
                   type="button"
                   onClick={handleRandomizeKiller}
-                  className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg transition"
+                  className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg shadow-md shadow-red-900/40 hover:scale-[1.02] active:scale-95 transition"
                 >
                   🎲 Randomize
                 </button>
@@ -582,7 +605,7 @@ export default function Home() {
                   type="button"
                   onClick={handleRespinKiller}
                   disabled={!killerLoadout}
-                  className="bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-lg transition disabled:opacity-50"
+                  className="bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-lg hover:scale-[1.02] active:scale-95 transition disabled:opacity-50 disabled:hover:scale-100"
                 >
                   ↻ Respin
                 </button>
@@ -594,8 +617,8 @@ export default function Home() {
                     <div>
                       <h3 className="text-xl font-bold text-white mb-2">{killerLoadout.killer.name}</h3>
                       <p className="text-gray-300 leading-relaxed mb-2">{killerLoadout.killer.description}</p>
-                      <p className="text-sm text-gray-400 mb-1">Power: {killerLoadout.killer.power}</p>
-                      <p className="text-sm text-gray-400">Difficulty: {killerLoadout.killer.difficulty}</p>
+                      <p className="text-sm text-gray-400 mb-2">Power: {killerLoadout.killer.power}</p>
+                      <Badge label={killerLoadout.killer.difficulty} styles={DIFFICULTY_STYLES} />
                     </div>
                     <button
                       type="button"
@@ -637,7 +660,9 @@ export default function Home() {
                           <div>
                             <p className="text-white font-semibold">{addon.name}</p>
                             <p className="text-sm text-gray-300 leading-relaxed mt-1">{addon.effect}</p>
-                            <p className="text-xs text-gray-400 mt-2">Rarity: {addon.rarity}</p>
+                            <p className="mt-2">
+                              <Badge label={addon.rarity} styles={RARITY_STYLES} />
+                            </p>
                           </div>
                           <button
                             type="button"
@@ -662,8 +687,8 @@ export default function Home() {
                         <div>
                           <p className="text-white font-semibold">{killerLoadout.offering.name}</p>
                           <p className="text-sm text-gray-300 leading-relaxed mt-1">{killerLoadout.offering.effect}</p>
-                          <p className="text-xs text-gray-400 mt-2">
-                            Rarity: {killerLoadout.offering.rarity}
+                          <p className="mt-2">
+                            <Badge label={killerLoadout.offering.rarity} styles={RARITY_STYLES} />
                           </p>
                         </div>
                         <button
