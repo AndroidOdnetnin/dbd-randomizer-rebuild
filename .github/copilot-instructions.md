@@ -17,15 +17,15 @@
   - Added global Tailwind CSS configuration
   - Set up project structure for future components
   
-- [ ] Install Required Extensions
+- [x] Install Required Extensions
   - TypeScript Vue Plugin (Volar)
   - ESLint
   - Tailwind CSS IntelliSense
   
-- [ ] Compile the Project
-- [ ] Create and Run Task
-- [ ] Launch the Project
-- [ ] Ensure Documentation is Complete
+- [x] Compile the Project
+- [x] Create and Run Task
+- [x] Launch the Project
+- [x] Ensure Documentation is Complete
 
 ## Project Details
 - Framework: Next.js (App Router)
@@ -48,7 +48,6 @@
 - Git Identity: Personal (AndroidOdnetnin)
 
 ## Next Steps
-1. Verify the project builds without errors
-2. Install recommended VS Code extensions
-3. Test the development server
-4. Begin implementing survivor/killer randomizer features
+- Core app is built, populated with real game data, and deployed to GitHub (see below)
+- Optional future work: deepen killer/item add-on coverage toward full in-game parity,
+  add automated tests, add a "favorites"/preset save feature if desired
