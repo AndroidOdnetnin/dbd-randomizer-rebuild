@@ -1,122 +1,46 @@
 [
-  {
-    "id": "strode_house_basement_key",
-    "name": "Strode House Basement Key",
-    "type": "Survivor Offering",
-    "rarity": "Uncommon",
-    "effect": "Increase chance of being sent to Haddonfield",
-    "description": "An old key from Laurie's house. Use this offering to increase the likelihood of spawning on Haddonfield."
-  },
-  {
-    "id": "saltwood_dinner_set",
-    "name": "Saltwood Dinner Set",
-    "type": "Survivor Offering",
-    "rarity": "Common",
-    "effect": "Increase bloodpoints from repairs",
-    "description": "A fine china set. Grants +25% bonus Objective bloodpoints."
-  },
-  {
-    "id": "the_last_will",
-    "name": "The Last Will",
-    "type": "Survivor Offering",
-    "rarity": "Rare",
-    "effect": "Protect survivors at the end game",
-    "description": "A final testament. Survivors who haven't been hooked receive additional protection during end game collapse."
-  },
-  {
-    "id": "escape_cake",
-    "name": "Escape Cake",
-    "type": "Survivor Offering",
-    "rarity": "Uncommon",
-    "effect": "Increase all bloodpoints",
-    "description": "A delicious cake. Grants +25% bonus bloodpoints for all categories."
-  },
-  {
-    "id": "bloody_party_streamers",
-    "name": "Bloody Party Streamers",
-    "type": "Killer Offering",
-    "rarity": "Uncommon",
-    "effect": "Increase bloodpoints for all players",
-    "description": "Festive decorations. All players earn +25% bonus bloodpoints."
-  },
-  {
-    "id": "ebony_mori",
-    "name": "Ebony Mori",
-    "type": "Killer Offering",
-    "rarity": "Very Rare",
-    "effect": "Eliminate survivors without the hatch",
-    "description": "A black candle. Grants the ability to sacrifice any survivor."
-  },
-  {
-    "id": "ivory_mori",
-    "name": "Ivory Mori",
-    "type": "Killer Offering",
-    "rarity": "Rare",
-    "effect": "Sacrifice dying survivors",
-    "description": "A white candle. Grants the ability to sacrifice survivors who are in a dying state."
-  },
-  {
-    "id": "realm_beyond_offering",
-    "name": "The Realm Beyond",
-    "type": "Survivor Offering",
-    "rarity": "Very Rare",
-    "effect": "Transcendence",
-    "description": "A mysterious offering. Grants the ability to see beyond death."
-  },
-  {
-    "id": "nectar_of_the_fog",
-    "name": "Nectar of the Fog",
-    "type": "Killer Offering",
-    "rarity": "Common",
-    "effect": "Increase killer speed",
-    "description": "A strange substance. Grants +5% movement speed."
-  },
-  {
-    "id": "old_coin",
-    "name": "Old Coin",
-    "type": "Survivor Offering",
-    "rarity": "Common",
-    "effect": "Luck-based bonus",
-    "description": "An antique coin. Grants a random bonus bloodpoint boost."
-  },
-  {
-    "id": "picture_of_the_twins",
-    "name": "Picture of the Twins",
-    "type": "Survivor Offering",
-    "rarity": "Rare",
-    "effect": "Family reunion",
-    "description": "A photograph of siblings. Grants enhanced perception of nearby survivors."
-  },
-  {
-    "id": "scourge_hook_offering",
-    "name": "Hex: Scourge Hook",
-    "type": "Killer Offering",
-    "rarity": "Rare",
-    "effect": "Cursed hooks",
-    "description": "Corruption spreads to the hooks. Hooked survivors suffer from afflictions."
-  },
-  {
-    "id": "survivor_pudding",
-    "name": "Survivor Pudding",
-    "type": "Survivor Offering",
-    "rarity": "Uncommon",
-    "effect": "Reveal killer",
-    "description": "A sweet treat. Survivors see the killer's aura periodically."
-  },
-  {
-    "id": "killer_pudding",
-    "name": "Killer Pudding",
-    "type": "Killer Offering",
-    "rarity": "Uncommon",
-    "effect": "Find survivors",
-    "description": "A bitter brew. See survivor auras for the first 30 seconds."
-  },
-  {
-    "id": "resilience_offering",
-    "name": "Offering of Resilience",
-    "type": "Survivor Offering",
-    "rarity": "Common",
-    "effect": "Stealth bonus",
-    "description": "A token of perseverance. Grants increased stealth for the trial."
-  }
+  {"id":"bloody_party_streamers","name":"Bloody Party Streamers","type":"Survivor Offering","rarity":"Very Rare","effect":"Grants +100% bonus bloodpoints in all categories to every player, up to a cap.","description":"Festive decorations soaked in blood."},
+  {"id":"escape_cake","name":"Escape! Cake","type":"Survivor Offering","rarity":"Very Rare","effect":"Grants +100% bonus bloodpoints in all categories after escaping.","description":"A cake baked to celebrate a narrow escape."},
+  {"id":"survivor_pudding","name":"Survivor Pudding","type":"Survivor Offering","rarity":"Very Rare","effect":"Grants +100% bonus bloodpoints in all categories after escaping.","description":"A comforting treat shared among survivors."},
+  {"id":"bound_envelope","name":"Bound Envelope","type":"Survivor Offering","rarity":"Uncommon","effect":"Grants +25% bonus bloodpoints in all categories.","description":"A sealed envelope containing a modest bonus."},
+  {"id":"sealed_envelope","name":"Sealed Envelope","type":"Survivor Offering","rarity":"Uncommon","effect":"Grants +25% bonus bloodpoints in all categories.","description":"An envelope sealed with wax, promising a reward."},
+  {"id":"primrose_blossom_sachet","name":"Primrose Blossom Sachet","type":"Survivor Offering","rarity":"Common","effect":"Grants +50% bonus bloodpoints in the Altruism category.","description":"A dried flower sachet with a faint, sweet scent."},
+  {"id":"fresh_primrose_blossom","name":"Fresh Primrose Blossom","type":"Survivor Offering","rarity":"Uncommon","effect":"Grants +75% bonus bloodpoints in the Altruism category.","description":"A freshly picked primrose blossom."},
+  {"id":"fragrant_primrose_blossom","name":"Fragrant Primrose Blossom","type":"Survivor Offering","rarity":"Rare","effect":"Grants +100% bonus bloodpoints in the Altruism category.","description":"A vividly fragrant primrose blossom."},
+  {"id":"sweet_william_sachet","name":"Sweet William Sachet","type":"Survivor Offering","rarity":"Common","effect":"Grants +50% bonus bloodpoints in the Boldness category.","description":"A dried flower sachet favoured by daring Survivors."},
+  {"id":"fresh_sweet_william","name":"Fresh Sweet William","type":"Survivor Offering","rarity":"Uncommon","effect":"Grants +75% bonus bloodpoints in the Boldness category.","description":"A freshly picked Sweet William flower."},
+  {"id":"fragrant_sweet_william","name":"Fragrant Sweet William","type":"Survivor Offering","rarity":"Rare","effect":"Grants +100% bonus bloodpoints in the Boldness category.","description":"A vividly fragrant Sweet William flower."},
+  {"id":"bog_laurel_sachet","name":"Bog Laurel Sachet","type":"Survivor Offering","rarity":"Common","effect":"Grants +50% bonus bloodpoints in the Objective category.","description":"A dried flower sachet tied to hard work."},
+  {"id":"fresh_bog_laurel","name":"Fresh Bog Laurel","type":"Survivor Offering","rarity":"Uncommon","effect":"Grants +75% bonus bloodpoints in the Objective category.","description":"A freshly picked bog laurel flower."},
+  {"id":"fragrant_bog_laurel","name":"Fragrant Bog Laurel","type":"Survivor Offering","rarity":"Rare","effect":"Grants +100% bonus bloodpoints in the Objective category.","description":"A vividly fragrant bog laurel flower."},
+  {"id":"crispleaf_amaranth_sachet","name":"Crispleaf Amaranth Sachet","type":"Survivor Offering","rarity":"Common","effect":"Grants +50% bonus bloodpoints in the Survival category.","description":"A dried flower sachet tied to endurance."},
+  {"id":"fresh_crispleaf_amaranth","name":"Fresh Crispleaf Amaranth","type":"Survivor Offering","rarity":"Uncommon","effect":"Grants +75% bonus bloodpoints in the Survival category.","description":"A freshly picked crispleaf amaranth flower."},
+  {"id":"fragrant_crispleaf_amaranth","name":"Fragrant Crispleaf Amaranth","type":"Survivor Offering","rarity":"Rare","effect":"Grants +100% bonus bloodpoints in the Survival category.","description":"A vividly fragrant crispleaf amaranth flower."},
+  {"id":"salt_pouch","name":"Salt Pouch","type":"Survivor Offering","rarity":"Common","effect":"Grants +1% Luck to all Survivors for Self-Unhook attempts.","description":"A small pouch of coarse salt for warding off bad luck."},
+  {"id":"black_salt_statuette","name":"Black Salt Statuette","type":"Survivor Offering","rarity":"Uncommon","effect":"Grants +2% Luck to all Survivors for Self-Unhook attempts.","description":"A carved statuette said to bring fortune."},
+  {"id":"vigos_jar_of_salty_lips","name":"Vigo's Jar of Salty Lips","type":"Survivor Offering","rarity":"Rare","effect":"Grants +3% Luck to all Survivors for Self-Unhook attempts.","description":"A curious jar rumoured to hold Vigo's own luck."},
+  {"id":"shroud_of_union","name":"Shroud of Union","type":"Survivor Offering","rarity":"Uncommon","effect":"Guarantees you start the Trial with at least one other Survivor.","description":"A shroud that binds two fates together."},
+  {"id":"shroud_of_separation","name":"Shroud of Separation","type":"Survivor Offering","rarity":"Uncommon","effect":"All Survivors start the Trial separated from one another.","description":"A shroud that scatters those who wear it."},
+  {"id":"vigos_shroud","name":"Vigo's Shroud","type":"Survivor Offering","rarity":"Uncommon","effect":"Spawns you as far from the Killer as possible.","description":"A shroud said to have hidden Vigo from the Entity itself."},
+  {"id":"white_ward","name":"White Ward","type":"Survivor Offering","rarity":"Uncommon","effect":"Protects your held Item and its Add-ons from being lost on death or sacrifice.","description":"A protective ward carved from pale wood."},
+  {"id":"ardent_tanager_wreath","name":"Ardent Tanager Wreath","type":"Killer Offering","rarity":"Rare","effect":"Grants +100% bonus bloodpoints in the Brutality category.","description":"A vividly coloured wreath of tanager feathers."},
+  {"id":"devout_tanager_wreath","name":"Devout Tanager Wreath","type":"Killer Offering","rarity":"Uncommon","effect":"Grants +75% bonus bloodpoints in the Brutality category.","description":"A wreath of tanager feathers, still bright with colour."},
+  {"id":"tanager_wreath","name":"Tanager Wreath","type":"Killer Offering","rarity":"Common","effect":"Grants +50% bonus bloodpoints in the Brutality category.","description":"A simple wreath woven from tanager feathers."},
+  {"id":"ardent_raven_wreath","name":"Ardent Raven Wreath","type":"Killer Offering","rarity":"Rare","effect":"Grants +100% bonus bloodpoints in the Deviousness category.","description":"A vividly dark wreath of raven feathers."},
+  {"id":"devout_raven_wreath","name":"Devout Raven Wreath","type":"Killer Offering","rarity":"Uncommon","effect":"Grants +75% bonus bloodpoints in the Deviousness category.","description":"A wreath of glossy raven feathers."},
+  {"id":"raven_wreath","name":"Raven Wreath","type":"Killer Offering","rarity":"Common","effect":"Grants +50% bonus bloodpoints in the Deviousness category.","description":"A simple wreath woven from raven feathers."},
+  {"id":"ardent_spotted_owl_wreath","name":"Ardent Spotted Owl Wreath","type":"Killer Offering","rarity":"Rare","effect":"Grants +100% bonus bloodpoints in the Hunter category.","description":"A vividly patterned wreath of owl feathers."},
+  {"id":"devout_spotted_owl_wreath","name":"Devout Spotted Owl Wreath","type":"Killer Offering","rarity":"Uncommon","effect":"Grants +75% bonus bloodpoints in the Hunter category.","description":"A wreath of speckled owl feathers."},
+  {"id":"spotted_owl_wreath","name":"Spotted Owl Wreath","type":"Killer Offering","rarity":"Common","effect":"Grants +50% bonus bloodpoints in the Hunter category.","description":"A simple wreath woven from owl feathers."},
+  {"id":"ardent_shrike_wreath","name":"Ardent Shrike Wreath","type":"Killer Offering","rarity":"Rare","effect":"Grants +100% bonus bloodpoints in the Sacrifice category.","description":"A vividly coloured wreath of shrike feathers."},
+  {"id":"devout_shrike_wreath","name":"Devout Shrike Wreath","type":"Killer Offering","rarity":"Uncommon","effect":"Grants +75% bonus bloodpoints in the Sacrifice category.","description":"A wreath of shrike feathers, still sharp with colour."},
+  {"id":"shrike_wreath","name":"Shrike Wreath","type":"Killer Offering","rarity":"Common","effect":"Grants +50% bonus bloodpoints in the Sacrifice category.","description":"A simple wreath woven from shrike feathers."},
+  {"id":"ebony_memento_mori","name":"Ebony Memento Mori","type":"Killer Offering","rarity":"Very Rare","effect":"Grants the ability to kill any Survivor by your own hand once they reach the second Hook Stage.","description":"A black-bound tome bound in memory of the dead."},
+  {"id":"ivory_memento_mori","name":"Ivory Memento Mori","type":"Killer Offering","rarity":"Rare","effect":"Grants the ability to kill one Survivor by your own hand once they reach the second Hook Stage.","description":"A pale tome that marks a single soul for the Entity."},
+  {"id":"black_ward","name":"Black Ward","type":"Killer Offering","rarity":"Uncommon","effect":"Preserves your Add-ons after the Trial ends, win or lose.","description":"A protective ward carved from blackened wood."},
+  {"id":"sacrificial_ward","name":"Sacrificial Ward","type":"Killer Offering","rarity":"Rare","effect":"Cancels all Realm and Map offerings burned by other players.","description":"A grim ward that rejects the will of others."},
+  {"id":"bloodied_blueprint","name":"Bloodied Blueprint","type":"Killer Offering","rarity":"Uncommon","effect":"Guarantees the Basement spawns inside the Killer Shack.","description":"A blueprint stained with old blood."},
+  {"id":"torn_blueprint","name":"Torn Blueprint","type":"Killer Offering","rarity":"Uncommon","effect":"Guarantees the Basement spawns inside a landmark building.","description":"A tattered blueprint of a well-known structure."},
+  {"id":"annotated_blueprint","name":"Annotated Blueprint","type":"Killer Offering","rarity":"Uncommon","effect":"Increases the odds of the Hatch spawning near the Killer Shack.","description":"A blueprint marked up with careful notes."},
+  {"id":"vigos_blueprint","name":"Vigo's Blueprint","type":"Killer Offering","rarity":"Uncommon","effect":"Increases the odds of the Hatch spawning near a landmark building.","description":"A blueprint said to have belonged to Vigo himself."}
 ]

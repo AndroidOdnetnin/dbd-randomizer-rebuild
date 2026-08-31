@@ -8,6 +8,7 @@ import {
   getKillerPerks,
   getItems,
   getKillerAddons,
+  getAddonById,
   getSurvivorOfferings,
   getKillerOfferings,
   pickRandomExcluding,
@@ -378,22 +379,26 @@ export default function Home() {
                         {survivorLoadout.addons.length > 0 && (
                           <div className="border-t border-slate-600 pt-2 mt-2">
                             <p className="text-xs font-semibold text-yellow-300 mb-1">Add-ons:</p>
-                            <div className="flex flex-wrap gap-1">
-                              {survivorLoadout.addons.map((addon) => (
-                                <span
-                                  key={addon}
-                                  className="bg-slate-600 text-xs px-2 py-1 rounded flex items-center gap-1"
-                                >
-                                  {addon}
-                                  <button
-                                    onClick={() => omitAndRerollAddon(addon)}
-                                    className="text-orange-300 hover:text-orange-100 font-bold"
-                                    title="Don't have this add-on? Omit it and roll another."
+                            <div className="flex flex-wrap gap-2">
+                              {survivorLoadout.addons.map((addonId) => {
+                                const addon = getAddonById(addonId);
+                                return (
+                                  <span
+                                    key={addonId}
+                                    className="bg-slate-600 text-xs px-2 py-1 rounded flex items-center gap-1"
+                                    title={addon?.effect}
                                   >
-                                    ×
-                                  </button>
-                                </span>
-                              ))}
+                                    {addon?.name ?? addonId}
+                                    <button
+                                      onClick={() => omitAndRerollAddon(addonId)}
+                                      className="text-orange-300 hover:text-orange-100 font-bold"
+                                      title="Don't have this add-on? Omit it and roll another."
+                                    >
+                                      ×
+                                    </button>
+                                  </span>
+                                );
+                              })}
                             </div>
                           </div>
                         )}

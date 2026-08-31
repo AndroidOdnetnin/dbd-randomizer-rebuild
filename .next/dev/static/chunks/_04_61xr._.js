@@ -287,7 +287,7 @@ function Home() {
                             children: "DBD Randomizer"
                         }, void 0, false, {
                             fileName: "[project]/app/page.tsx",
-                            lineNumber: 247,
+                            lineNumber: 248,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -295,7 +295,7 @@ function Home() {
                             children: "Ad-free, lightweight randomizer for Dead by Daylight"
                         }, void 0, false, {
                             fileName: "[project]/app/page.tsx",
-                            lineNumber: 248,
+                            lineNumber: 249,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -303,13 +303,13 @@ function Home() {
                             children: 'Don\'t have something unlocked? Click "Omit" next to it to exclude it and roll a replacement. Omissions clear the next time you hit Randomize.'
                         }, void 0, false, {
                             fileName: "[project]/app/page.tsx",
-                            lineNumber: 251,
+                            lineNumber: 252,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/app/page.tsx",
-                    lineNumber: 246,
+                    lineNumber: 247,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -321,7 +321,7 @@ function Home() {
                             children: "🎮 Survivor"
                         }, void 0, false, {
                             fileName: "[project]/app/page.tsx",
-                            lineNumber: 258,
+                            lineNumber: 259,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -330,7 +330,7 @@ function Home() {
                             children: "🔪 Killer"
                         }, void 0, false, {
                             fileName: "[project]/app/page.tsx",
-                            lineNumber: 266,
+                            lineNumber: 267,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -339,13 +339,13 @@ function Home() {
                             children: "⚙️ Both"
                         }, void 0, false, {
                             fileName: "[project]/app/page.tsx",
-                            lineNumber: 274,
+                            lineNumber: 275,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/app/page.tsx",
-                    lineNumber: 257,
+                    lineNumber: 258,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -359,12 +359,12 @@ function Home() {
                                 children: "🎲 Randomize Full Game"
                             }, void 0, false, {
                                 fileName: "[project]/app/page.tsx",
-                                lineNumber: 287,
+                                lineNumber: 288,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/app/page.tsx",
-                            lineNumber: 286,
+                            lineNumber: 287,
                             columnNumber: 13
                         }, this),
                         (activeTab === "survivor" || activeTab === "both") && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -375,7 +375,7 @@ function Home() {
                                     children: "Survivor Randomizer"
                                 }, void 0, false, {
                                     fileName: "[project]/app/page.tsx",
-                                    lineNumber: 298,
+                                    lineNumber: 299,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -387,7 +387,7 @@ function Home() {
                                             children: "🎲 Randomize"
                                         }, void 0, false, {
                                             fileName: "[project]/app/page.tsx",
-                                            lineNumber: 301,
+                                            lineNumber: 302,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -397,13 +397,13 @@ function Home() {
                                             children: "↻ Respin"
                                         }, void 0, false, {
                                             fileName: "[project]/app/page.tsx",
-                                            lineNumber: 307,
+                                            lineNumber: 308,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/page.tsx",
-                                    lineNumber: 300,
+                                    lineNumber: 301,
                                     columnNumber: 15
                                 }, this),
                                 survivorLoadout && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -419,7 +419,7 @@ function Home() {
                                                             children: survivorLoadout.survivor.name
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/page.tsx",
-                                                            lineNumber: 320,
+                                                            lineNumber: 321,
                                                             columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -427,7 +427,7 @@ function Home() {
                                                             children: survivorLoadout.survivor.description
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/page.tsx",
-                                                            lineNumber: 323,
+                                                            lineNumber: 324,
                                                             columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -438,13 +438,13 @@ function Home() {
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/app/page.tsx",
-                                                            lineNumber: 324,
+                                                            lineNumber: 325,
                                                             columnNumber: 23
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/page.tsx",
-                                                    lineNumber: 319,
+                                                    lineNumber: 320,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -454,13 +454,13 @@ function Home() {
                                                     children: "Omit & Reroll"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/page.tsx",
-                                                    lineNumber: 328,
+                                                    lineNumber: 329,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/page.tsx",
-                                            lineNumber: 318,
+                                            lineNumber: 319,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -470,7 +470,7 @@ function Home() {
                                                     children: "Perks (4)"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/page.tsx",
-                                                    lineNumber: 338,
+                                                    lineNumber: 339,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -485,7 +485,7 @@ function Home() {
                                                                             children: perk.name
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/page.tsx",
-                                                                            lineNumber: 343,
+                                                                            lineNumber: 344,
                                                                             columnNumber: 29
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -493,13 +493,13 @@ function Home() {
                                                                             children: perk.effect
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/page.tsx",
-                                                                            lineNumber: 344,
+                                                                            lineNumber: 345,
                                                                             columnNumber: 29
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/app/page.tsx",
-                                                                    lineNumber: 342,
+                                                                    lineNumber: 343,
                                                                     columnNumber: 27
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -509,24 +509,24 @@ function Home() {
                                                                     children: "Omit"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/page.tsx",
-                                                                    lineNumber: 346,
+                                                                    lineNumber: 347,
                                                                     columnNumber: 27
                                                                 }, this)
                                                             ]
                                                         }, perk.id, true, {
                                                             fileName: "[project]/app/page.tsx",
-                                                            lineNumber: 341,
+                                                            lineNumber: 342,
                                                             columnNumber: 25
                                                         }, this))
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/page.tsx",
-                                                    lineNumber: 339,
+                                                    lineNumber: 340,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/page.tsx",
-                                            lineNumber: 337,
+                                            lineNumber: 338,
                                             columnNumber: 19
                                         }, this),
                                         survivorLoadout.item && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -536,7 +536,7 @@ function Home() {
                                                     children: "Item"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/page.tsx",
-                                                    lineNumber: 360,
+                                                    lineNumber: 361,
                                                     columnNumber: 23
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -552,7 +552,7 @@ function Home() {
                                                                             children: survivorLoadout.item.name
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/page.tsx",
-                                                                            lineNumber: 364,
+                                                                            lineNumber: 365,
                                                                             columnNumber: 29
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -560,7 +560,7 @@ function Home() {
                                                                             children: survivorLoadout.item.effect
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/page.tsx",
-                                                                            lineNumber: 365,
+                                                                            lineNumber: 366,
                                                                             columnNumber: 29
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -571,13 +571,13 @@ function Home() {
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/app/page.tsx",
-                                                                            lineNumber: 366,
+                                                                            lineNumber: 367,
                                                                             columnNumber: 29
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/app/page.tsx",
-                                                                    lineNumber: 363,
+                                                                    lineNumber: 364,
                                                                     columnNumber: 27
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -587,13 +587,13 @@ function Home() {
                                                                     children: "Omit"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/page.tsx",
-                                                                    lineNumber: 370,
+                                                                    lineNumber: 371,
                                                                     columnNumber: 27
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/app/page.tsx",
-                                                            lineNumber: 362,
+                                                            lineNumber: 363,
                                                             columnNumber: 25
                                                         }, this),
                                                         survivorLoadout.addons.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -604,52 +604,56 @@ function Home() {
                                                                     children: "Add-ons:"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/page.tsx",
-                                                                    lineNumber: 380,
+                                                                    lineNumber: 381,
                                                                     columnNumber: 29
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                    className: "flex flex-wrap gap-1",
-                                                                    children: survivorLoadout.addons.map((addon)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                    className: "flex flex-wrap gap-2",
+                                                                    children: survivorLoadout.addons.map((addonId)=>{
+                                                                        const addon = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2f$randomizer$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getAddonById"])(addonId);
+                                                                        return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                             className: "bg-slate-600 text-xs px-2 py-1 rounded flex items-center gap-1",
+                                                                            title: addon?.effect,
                                                                             children: [
-                                                                                addon,
+                                                                                addon?.name ?? addonId,
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                                                                    onClick: ()=>omitAndRerollAddon(addon),
+                                                                                    onClick: ()=>omitAndRerollAddon(addonId),
                                                                                     className: "text-orange-300 hover:text-orange-100 font-bold",
                                                                                     title: "Don't have this add-on? Omit it and roll another.",
                                                                                     children: "×"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/app/page.tsx",
-                                                                                    lineNumber: 388,
-                                                                                    columnNumber: 35
+                                                                                    lineNumber: 392,
+                                                                                    columnNumber: 37
                                                                                 }, this)
                                                                             ]
-                                                                        }, addon, true, {
+                                                                        }, addonId, true, {
                                                                             fileName: "[project]/app/page.tsx",
-                                                                            lineNumber: 383,
-                                                                            columnNumber: 33
-                                                                        }, this))
+                                                                            lineNumber: 386,
+                                                                            columnNumber: 35
+                                                                        }, this);
+                                                                    })
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/page.tsx",
-                                                                    lineNumber: 381,
+                                                                    lineNumber: 382,
                                                                     columnNumber: 29
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/app/page.tsx",
-                                                            lineNumber: 379,
+                                                            lineNumber: 380,
                                                             columnNumber: 27
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/page.tsx",
-                                                    lineNumber: 361,
+                                                    lineNumber: 362,
                                                     columnNumber: 23
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/page.tsx",
-                                            lineNumber: 359,
+                                            lineNumber: 360,
                                             columnNumber: 21
                                         }, this),
                                         survivorLoadout.offering && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -659,7 +663,7 @@ function Home() {
                                                     children: "Offering"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/page.tsx",
-                                                    lineNumber: 406,
+                                                    lineNumber: 411,
                                                     columnNumber: 23
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -672,7 +676,7 @@ function Home() {
                                                                     children: survivorLoadout.offering.name
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/page.tsx",
-                                                                    lineNumber: 409,
+                                                                    lineNumber: 414,
                                                                     columnNumber: 27
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -680,7 +684,7 @@ function Home() {
                                                                     children: survivorLoadout.offering.effect
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/page.tsx",
-                                                                    lineNumber: 410,
+                                                                    lineNumber: 415,
                                                                     columnNumber: 27
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -691,13 +695,13 @@ function Home() {
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/app/page.tsx",
-                                                                    lineNumber: 411,
+                                                                    lineNumber: 416,
                                                                     columnNumber: 27
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/app/page.tsx",
-                                                            lineNumber: 408,
+                                                            lineNumber: 413,
                                                             columnNumber: 25
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -707,31 +711,31 @@ function Home() {
                                                             children: "Omit"
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/page.tsx",
-                                                            lineNumber: 415,
+                                                            lineNumber: 420,
                                                             columnNumber: 25
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/page.tsx",
-                                                    lineNumber: 407,
+                                                    lineNumber: 412,
                                                     columnNumber: 23
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/page.tsx",
-                                            lineNumber: 405,
+                                            lineNumber: 410,
                                             columnNumber: 21
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/page.tsx",
-                                    lineNumber: 317,
+                                    lineNumber: 318,
                                     columnNumber: 17
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/app/page.tsx",
-                            lineNumber: 297,
+                            lineNumber: 298,
                             columnNumber: 13
                         }, this),
                         (activeTab === "killer" || activeTab === "both") && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -742,7 +746,7 @@ function Home() {
                                     children: "Killer Randomizer"
                                 }, void 0, false, {
                                     fileName: "[project]/app/page.tsx",
-                                    lineNumber: 432,
+                                    lineNumber: 437,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -754,7 +758,7 @@ function Home() {
                                             children: "🎲 Randomize"
                                         }, void 0, false, {
                                             fileName: "[project]/app/page.tsx",
-                                            lineNumber: 435,
+                                            lineNumber: 440,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -764,13 +768,13 @@ function Home() {
                                             children: "↻ Respin"
                                         }, void 0, false, {
                                             fileName: "[project]/app/page.tsx",
-                                            lineNumber: 441,
+                                            lineNumber: 446,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/page.tsx",
-                                    lineNumber: 434,
+                                    lineNumber: 439,
                                     columnNumber: 15
                                 }, this),
                                 killerLoadout && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -786,7 +790,7 @@ function Home() {
                                                             children: killerLoadout.killer.name
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/page.tsx",
-                                                            lineNumber: 454,
+                                                            lineNumber: 459,
                                                             columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -794,7 +798,7 @@ function Home() {
                                                             children: killerLoadout.killer.description
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/page.tsx",
-                                                            lineNumber: 455,
+                                                            lineNumber: 460,
                                                             columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -805,7 +809,7 @@ function Home() {
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/app/page.tsx",
-                                                            lineNumber: 456,
+                                                            lineNumber: 461,
                                                             columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -816,13 +820,13 @@ function Home() {
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/app/page.tsx",
-                                                            lineNumber: 457,
+                                                            lineNumber: 462,
                                                             columnNumber: 23
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/page.tsx",
-                                                    lineNumber: 453,
+                                                    lineNumber: 458,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -832,13 +836,13 @@ function Home() {
                                                     children: "Omit & Reroll"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/page.tsx",
-                                                    lineNumber: 459,
+                                                    lineNumber: 464,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/page.tsx",
-                                            lineNumber: 452,
+                                            lineNumber: 457,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -848,7 +852,7 @@ function Home() {
                                                     children: "Perks (4)"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/page.tsx",
-                                                    lineNumber: 469,
+                                                    lineNumber: 474,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -863,7 +867,7 @@ function Home() {
                                                                             children: perk.name
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/page.tsx",
-                                                                            lineNumber: 474,
+                                                                            lineNumber: 479,
                                                                             columnNumber: 29
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -871,13 +875,13 @@ function Home() {
                                                                             children: perk.effect
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/app/page.tsx",
-                                                                            lineNumber: 475,
+                                                                            lineNumber: 480,
                                                                             columnNumber: 29
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/app/page.tsx",
-                                                                    lineNumber: 473,
+                                                                    lineNumber: 478,
                                                                     columnNumber: 27
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -887,24 +891,24 @@ function Home() {
                                                                     children: "Omit"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/page.tsx",
-                                                                    lineNumber: 477,
+                                                                    lineNumber: 482,
                                                                     columnNumber: 27
                                                                 }, this)
                                                             ]
                                                         }, perk.id, true, {
                                                             fileName: "[project]/app/page.tsx",
-                                                            lineNumber: 472,
+                                                            lineNumber: 477,
                                                             columnNumber: 25
                                                         }, this))
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/page.tsx",
-                                                    lineNumber: 470,
+                                                    lineNumber: 475,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/page.tsx",
-                                            lineNumber: 468,
+                                            lineNumber: 473,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -914,7 +918,7 @@ function Home() {
                                                     children: "Add-ons"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/page.tsx",
-                                                    lineNumber: 490,
+                                                    lineNumber: 495,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -930,7 +934,7 @@ function Home() {
                                                                                 children: addon.name
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/app/page.tsx",
-                                                                                lineNumber: 495,
+                                                                                lineNumber: 500,
                                                                                 columnNumber: 29
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -938,7 +942,7 @@ function Home() {
                                                                                 children: addon.effect
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/app/page.tsx",
-                                                                                lineNumber: 496,
+                                                                                lineNumber: 501,
                                                                                 columnNumber: 29
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -949,13 +953,13 @@ function Home() {
                                                                                 ]
                                                                             }, void 0, true, {
                                                                                 fileName: "[project]/app/page.tsx",
-                                                                                lineNumber: 497,
+                                                                                lineNumber: 502,
                                                                                 columnNumber: 29
                                                                             }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/app/page.tsx",
-                                                                        lineNumber: 494,
+                                                                        lineNumber: 499,
                                                                         columnNumber: 27
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -965,13 +969,13 @@ function Home() {
                                                                         children: "Omit"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/app/page.tsx",
-                                                                        lineNumber: 499,
+                                                                        lineNumber: 504,
                                                                         columnNumber: 27
                                                                     }, this)
                                                                 ]
                                                             }, addon.id, true, {
                                                                 fileName: "[project]/app/page.tsx",
-                                                                lineNumber: 493,
+                                                                lineNumber: 498,
                                                                 columnNumber: 25
                                                             }, this)),
                                                         killerLoadout.addons.length === 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -979,19 +983,19 @@ function Home() {
                                                             children: "No add-ons available for this killer."
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/page.tsx",
-                                                            lineNumber: 509,
+                                                            lineNumber: 514,
                                                             columnNumber: 25
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/page.tsx",
-                                                    lineNumber: 491,
+                                                    lineNumber: 496,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/page.tsx",
-                                            lineNumber: 489,
+                                            lineNumber: 494,
                                             columnNumber: 19
                                         }, this),
                                         killerLoadout.offering && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1001,7 +1005,7 @@ function Home() {
                                                     children: "Offering"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/page.tsx",
-                                                    lineNumber: 516,
+                                                    lineNumber: 521,
                                                     columnNumber: 23
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1014,7 +1018,7 @@ function Home() {
                                                                     children: killerLoadout.offering.name
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/page.tsx",
-                                                                    lineNumber: 519,
+                                                                    lineNumber: 524,
                                                                     columnNumber: 27
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1022,7 +1026,7 @@ function Home() {
                                                                     children: killerLoadout.offering.effect
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/page.tsx",
-                                                                    lineNumber: 520,
+                                                                    lineNumber: 525,
                                                                     columnNumber: 27
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1033,13 +1037,13 @@ function Home() {
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/app/page.tsx",
-                                                                    lineNumber: 521,
+                                                                    lineNumber: 526,
                                                                     columnNumber: 27
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/app/page.tsx",
-                                                            lineNumber: 518,
+                                                            lineNumber: 523,
                                                             columnNumber: 25
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1049,31 +1053,31 @@ function Home() {
                                                             children: "Omit"
                                                         }, void 0, false, {
                                                             fileName: "[project]/app/page.tsx",
-                                                            lineNumber: 525,
+                                                            lineNumber: 530,
                                                             columnNumber: 25
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/page.tsx",
-                                                    lineNumber: 517,
+                                                    lineNumber: 522,
                                                     columnNumber: 23
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/page.tsx",
-                                            lineNumber: 515,
+                                            lineNumber: 520,
                                             columnNumber: 21
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/page.tsx",
-                                    lineNumber: 451,
+                                    lineNumber: 456,
                                     columnNumber: 17
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/app/page.tsx",
-                            lineNumber: 431,
+                            lineNumber: 436,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1084,7 +1088,7 @@ function Home() {
                                     children: "Database Stats"
                                 }, void 0, false, {
                                     fileName: "[project]/app/page.tsx",
-                                    lineNumber: 541,
+                                    lineNumber: 546,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1097,7 +1101,7 @@ function Home() {
                                                     children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2f$randomizer$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getSurvivors"])().length
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/page.tsx",
-                                                    lineNumber: 544,
+                                                    lineNumber: 549,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1105,13 +1109,13 @@ function Home() {
                                                     children: "Survivors"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/page.tsx",
-                                                    lineNumber: 545,
+                                                    lineNumber: 550,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/page.tsx",
-                                            lineNumber: 543,
+                                            lineNumber: 548,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1121,7 +1125,7 @@ function Home() {
                                                     children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2f$randomizer$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getKillers"])().length
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/page.tsx",
-                                                    lineNumber: 548,
+                                                    lineNumber: 553,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1129,13 +1133,13 @@ function Home() {
                                                     children: "Killers"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/page.tsx",
-                                                    lineNumber: 549,
+                                                    lineNumber: 554,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/page.tsx",
-                                            lineNumber: 547,
+                                            lineNumber: 552,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1145,7 +1149,7 @@ function Home() {
                                                     children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2f$randomizer$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getSurvivorPerks"])().length + (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2f$randomizer$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getKillerPerks"])().length
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/page.tsx",
-                                                    lineNumber: 552,
+                                                    lineNumber: 557,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1153,13 +1157,13 @@ function Home() {
                                                     children: "Perks"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/page.tsx",
-                                                    lineNumber: 555,
+                                                    lineNumber: 560,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/page.tsx",
-                                            lineNumber: 551,
+                                            lineNumber: 556,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1169,7 +1173,7 @@ function Home() {
                                                     children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2f$randomizer$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getItems"])().length
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/page.tsx",
-                                                    lineNumber: 558,
+                                                    lineNumber: 563,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1177,13 +1181,13 @@ function Home() {
                                                     children: "Items"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/page.tsx",
-                                                    lineNumber: 559,
+                                                    lineNumber: 564,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/page.tsx",
-                                            lineNumber: 557,
+                                            lineNumber: 562,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1193,7 +1197,7 @@ function Home() {
                                                     children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2f$randomizer$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getSurvivorOfferings"])().length + (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2f$randomizer$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getKillerOfferings"])().length
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/page.tsx",
-                                                    lineNumber: 562,
+                                                    lineNumber: 567,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1201,42 +1205,42 @@ function Home() {
                                                     children: "Offerings"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/page.tsx",
-                                                    lineNumber: 565,
+                                                    lineNumber: 570,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/page.tsx",
-                                            lineNumber: 561,
+                                            lineNumber: 566,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/page.tsx",
-                                    lineNumber: 542,
+                                    lineNumber: 547,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/app/page.tsx",
-                            lineNumber: 540,
+                            lineNumber: 545,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/app/page.tsx",
-                    lineNumber: 284,
+                    lineNumber: 285,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/app/page.tsx",
-            lineNumber: 245,
+            lineNumber: 246,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/app/page.tsx",
-        lineNumber: 244,
+        lineNumber: 245,
         columnNumber: 5
     }, this);
 }
@@ -1250,170 +1254,7 @@ if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelper
 }),
 "[project]/lib/data/addons.json.[json].cjs [app-client] (ecmascript)", ((__turbopack_context__, module, exports) => {
 
-module.exports = [
-    {
-        "id": "scratched_mirror",
-        "name": "Scratched Mirror",
-        "type": "Power Add-on",
-        "killer": "The Wraith",
-        "rarity": "Ultra Rare",
-        "effect": "See survivors while cloaked",
-        "description": "While cloaked, you can see the auras of survivors within 16 meters."
-    },
-    {
-        "id": "bone_clapper",
-        "name": "Bone Clapper",
-        "type": "Power Add-on",
-        "killer": "The Wraith",
-        "rarity": "Common",
-        "effect": "Loosen bell",
-        "description": "The Wailing Bell causes 0% terror radius reduction to your uncloak."
-    },
-    {
-        "id": "carburetor_tuning_kit",
-        "name": "Carburetor Tuning Kit",
-        "type": "Power Add-on",
-        "killer": "The Hillbilly",
-        "rarity": "Uncommon",
-        "effect": "Faster chainsaw rev",
-        "description": "Reduce the charge time of the Chainsaw by 10%."
-    },
-    {
-        "id": "iridescent_stone",
-        "name": "Iridescent Stone",
-        "type": "Power Add-on",
-        "killer": "The Hillbilly",
-        "rarity": "Ultra Rare",
-        "effect": "Cross-map chainsaw",
-        "description": "Increase the speed of the Chainsaw sprint by 15% and grant the ability to boost farther."
-    },
-    {
-        "id": "queen_walkers_emblem",
-        "name": "Queen Walker's Emblem",
-        "type": "Power Add-on",
-        "killer": "The Nurse",
-        "rarity": "Uncommon",
-        "effect": "Faster blink",
-        "description": "Reduce the blink action duration by 10%."
-    },
-    {
-        "id": "amangeaux_ward",
-        "name": "Amangeaux Ward",
-        "type": "Power Add-on",
-        "killer": "The Nurse",
-        "rarity": "Rare",
-        "effect": "See during blinks",
-        "description": "Reveal survivor auras within 24 meters while blinking."
-    },
-    {
-        "id": "iridescent_head",
-        "name": "Iridescent Head",
-        "type": "Power Add-on",
-        "killer": "The Huntress",
-        "rarity": "Ultra Rare",
-        "effect": "One-shot hatchets",
-        "description": "Thrown hatchets down survivors in a single hit but caps your hatchet count at 1."
-    },
-    {
-        "id": "shattered_piece_of_mirrors",
-        "name": "Shattered Piece of Mirrors",
-        "type": "Power Add-on",
-        "killer": "Michael Myers",
-        "rarity": "Rare",
-        "effect": "Extend Evil Within range",
-        "description": "Increase the range of the Evil Within by 6 meters."
-    },
-    {
-        "id": "memorial_flower",
-        "name": "Memorial Flower",
-        "type": "Power Add-on",
-        "killer": "The Spirit",
-        "rarity": "Uncommon",
-        "effect": "Faster phasing",
-        "description": "Reduce the phase duration cooldown by 10%."
-    },
-    {
-        "id": "prayer_beads_bracelet",
-        "name": "Prayer Beads Bracelet",
-        "type": "Power Add-on",
-        "killer": "The Spirit",
-        "rarity": "Rare",
-        "effect": "Silent phasing",
-        "description": "Survivors receive no audio notification when you start phasing."
-    },
-    {
-        "id": "blood_amber",
-        "name": "Blood Amber",
-        "type": "Power Add-on",
-        "killer": "The Blight",
-        "rarity": "Uncommon",
-        "effect": "Faster rush",
-        "description": "Increase the movement speed of the Lethal Dash by 5%."
-    },
-    {
-        "id": "blight_core",
-        "name": "Blight Core",
-        "type": "Power Add-on",
-        "killer": "The Blight",
-        "rarity": "Ultra Rare",
-        "effect": "Double dash charges",
-        "description": "Grant an additional charge to the Lethal Dash (maximum of 4)."
-    },
-    {
-        "id": "rotting_pumpkin",
-        "name": "Rotting Pumpkin",
-        "type": "Power Add-on",
-        "killer": "The Plague",
-        "rarity": "Uncommon",
-        "effect": "Enhanced putrification",
-        "description": "Increase the range of Vile Purge projectiles by 2 meters."
-    },
-    {
-        "id": "medical_practice_exam",
-        "name": "Medical Practice Exam",
-        "type": "Power Add-on",
-        "killer": "Nemesis",
-        "rarity": "Uncommon",
-        "effect": "Faster mutation",
-        "description": "Reduce the time required to mutate to the next tier by 15%."
-    },
-    {
-        "id": "special_serum",
-        "name": "Special Serum",
-        "type": "Power Add-on",
-        "killer": "Nemesis",
-        "rarity": "Rare",
-        "effect": "Increased mutation strength",
-        "description": "Gain +1 to mutation progression speed per nearby survivor."
-    },
-    {
-        "id": "bandages",
-        "name": "Bandages",
-        "type": "Add-on",
-        "item": "Med-Kit",
-        "rarity": "Common",
-        "effect": "Healing efficiency",
-        "description": "Increase healing efficiency by 5%."
-    },
-    {
-        "id": "medical_tape",
-        "name": "Medical Tape",
-        "type": "Add-on",
-        "item": "Med-Kit",
-        "rarity": "Uncommon",
-        "effect": "Faster healing",
-        "description": "Reduce healing time by 10%."
-    },
-    {
-        "id": "first_aid_spray",
-        "name": "First Aid Spray",
-        "type": "Add-on",
-        "item": "Med-Kit",
-        "rarity": "Uncommon",
-        "effect": "Portable healing",
-        "description": "Healing with this kit generates 0% exhaustion."
-    }
-];
+module.exports = JSON.parse("[{\"id\":\"scratched_mirror\",\"name\":\"Scratched Mirror\",\"type\":\"Power Add-on\",\"killer\":\"The Wraith\",\"rarity\":\"Ultra Rare\",\"effect\":\"See survivors while cloaked\",\"description\":\"While cloaked, you can see the auras of survivors within 16 meters.\"},{\"id\":\"bone_clapper\",\"name\":\"Bone Clapper\",\"type\":\"Power Add-on\",\"killer\":\"The Wraith\",\"rarity\":\"Common\",\"effect\":\"Loosen bell\",\"description\":\"The Wailing Bell causes 0% terror radius reduction to your uncloak.\"},{\"id\":\"blink_reduction_charm\",\"name\":\"Coil Charm\",\"type\":\"Power Add-on\",\"killer\":\"The Wraith\",\"rarity\":\"Uncommon\",\"effect\":\"Faster cloak\",\"description\":\"Reduce the time required to become cloaked by 10%.\"},{\"id\":\"carburetor_tuning_kit\",\"name\":\"Carburetor Tuning Guide\",\"type\":\"Power Add-on\",\"killer\":\"The Hillbilly\",\"rarity\":\"Uncommon\",\"effect\":\"Faster chainsaw rev\",\"description\":\"Reduce the charge time of the Chainsaw by 10%.\"},{\"id\":\"iridescent_stone\",\"name\":\"Iridescent Brick\",\"type\":\"Power Add-on\",\"killer\":\"The Hillbilly\",\"rarity\":\"Ultra Rare\",\"effect\":\"Cross-map chainsaw\",\"description\":\"Increase the speed of the Chainsaw sprint by 15% and grant the ability to boost farther.\"},{\"id\":\"queen_walkers_emblem\",\"name\":\"Matchbox\",\"type\":\"Power Add-on\",\"killer\":\"The Nurse\",\"rarity\":\"Uncommon\",\"effect\":\"Extra blink charge\",\"description\":\"Grant an additional Blink charge.\"},{\"id\":\"amangeaux_ward\",\"name\":\"Torn Bookmark\",\"type\":\"Power Add-on\",\"killer\":\"The Nurse\",\"rarity\":\"Rare\",\"effect\":\"Faster fatigue recovery\",\"description\":\"Reduce the duration of post-Blink Fatigue.\"},{\"id\":\"iridescent_head\",\"name\":\"Iridescent Head\",\"type\":\"Power Add-on\",\"killer\":\"The Huntress\",\"rarity\":\"Ultra Rare\",\"effect\":\"One-shot hatchets\",\"description\":\"Thrown hatchets down survivors in a single hit but caps your hatchet count at 1.\"},{\"id\":\"shattered_piece_of_mirrors\",\"name\":\"Vanity Mirror\",\"type\":\"Power Add-on\",\"killer\":\"The Shape\",\"rarity\":\"Rare\",\"effect\":\"Stalk from farther away\",\"description\":\"Increase the range at which you can stalk Survivors.\"},{\"id\":\"memorial_flower\",\"name\":\"Memorial Flower\",\"type\":\"Power Add-on\",\"killer\":\"The Spirit\",\"rarity\":\"Uncommon\",\"effect\":\"Faster phasing\",\"description\":\"Reduce the phase duration cooldown by 10%.\"},{\"id\":\"prayer_beads_bracelet\",\"name\":\"Prayer Beads Bracelet\",\"type\":\"Power Add-on\",\"killer\":\"The Spirit\",\"rarity\":\"Rare\",\"effect\":\"Silent phasing\",\"description\":\"Survivors receive no audio notification when you start phasing.\"},{\"id\":\"blood_amber\",\"name\":\"Blood Amber\",\"type\":\"Power Add-on\",\"killer\":\"The Blight\",\"rarity\":\"Uncommon\",\"effect\":\"Faster rush\",\"description\":\"Increase the movement speed of the Lethal Rush by 5%.\"},{\"id\":\"blight_core\",\"name\":\"Compound 33\",\"type\":\"Power Add-on\",\"killer\":\"The Blight\",\"rarity\":\"Ultra Rare\",\"effect\":\"Extra dash charge\",\"description\":\"Grant an additional charge to the Lethal Rush.\"},{\"id\":\"rotting_pumpkin\",\"name\":\"Rotten Pumpkin\",\"type\":\"Power Add-on\",\"killer\":\"The Plague\",\"rarity\":\"Uncommon\",\"effect\":\"Enhanced vomit range\",\"description\":\"Increase the range of Vile Purge projectiles.\"},{\"id\":\"medical_practice_exam\",\"name\":\"Zombie Handler's Journal\",\"type\":\"Power Add-on\",\"killer\":\"The Nemesis\",\"rarity\":\"Uncommon\",\"effect\":\"Faster mutation\",\"description\":\"Reduce the time required to mutate the T-Virus to the next tier.\"},{\"id\":\"special_serum\",\"name\":\"Licker Tongue\",\"type\":\"Power Add-on\",\"killer\":\"The Nemesis\",\"rarity\":\"Rare\",\"effect\":\"Increased mutation strength\",\"description\":\"Gain increased mutation progression per nearby infected Survivor.\"},{\"id\":\"bandages\",\"name\":\"Bandages\",\"type\":\"Item Add-on\",\"item\":\"Med-Kit\",\"rarity\":\"Common\",\"effect\":\"+8 healing charges.\",\"description\":\"A roll of gauze bandages that adds extra charges to any Med-Kit.\"},{\"id\":\"gauze_roll\",\"name\":\"Gauze Roll\",\"type\":\"Item Add-on\",\"item\":\"Med-Kit\",\"rarity\":\"Uncommon\",\"effect\":\"+10 healing charges.\",\"description\":\"A thick roll of medical gauze.\"},{\"id\":\"butterfly_tape\",\"name\":\"Butterfly Tape\",\"type\":\"Item Add-on\",\"item\":\"Med-Kit\",\"rarity\":\"Common\",\"effect\":\"+5% healing speed.\",\"description\":\"Adhesive tape used to close small wounds.\"},{\"id\":\"rubber_gloves\",\"name\":\"Rubber Gloves\",\"type\":\"Item Add-on\",\"item\":\"Med-Kit\",\"rarity\":\"Uncommon\",\"effect\":\"Increases the Great Skill Check success zone for healing.\",\"description\":\"Sterile gloves for a more precise treatment.\"},{\"id\":\"gel_dressings\",\"name\":\"Gel Dressings\",\"type\":\"Item Add-on\",\"item\":\"Med-Kit\",\"rarity\":\"Uncommon\",\"effect\":\"+16 healing charges.\",\"description\":\"A gel-infused dressing that extends the Med-Kit's supply.\"},{\"id\":\"medical_scissors\",\"name\":\"Medical Scissors\",\"type\":\"Item Add-on\",\"item\":\"Med-Kit\",\"rarity\":\"Uncommon\",\"effect\":\"+10% healing speed.\",\"description\":\"Sharp scissors for cutting bandages quickly.\"},{\"id\":\"self_adherent_wrap\",\"name\":\"Self-Adherent Wrap\",\"type\":\"Item Add-on\",\"item\":\"Med-Kit\",\"rarity\":\"Uncommon\",\"effect\":\"+5% healing speed and +8 charges.\",\"description\":\"A wrap that sticks to itself without pins or tape.\"},{\"id\":\"sponge\",\"name\":\"Sponge\",\"type\":\"Item Add-on\",\"item\":\"Med-Kit\",\"rarity\":\"Uncommon\",\"effect\":\"Increases the Great Skill Check success zone for healing.\",\"description\":\"A soft sponge used to clean wounds.\"},{\"id\":\"needle_and_thread\",\"name\":\"Needle and Thread\",\"type\":\"Item Add-on\",\"item\":\"Med-Kit\",\"rarity\":\"Rare\",\"effect\":\"Increases Skill Check trigger odds and progression bonus while healing.\",\"description\":\"A sterile needle and thread for stitching deep cuts.\"},{\"id\":\"abdominal_dressing\",\"name\":\"Abdominal Dressing\",\"type\":\"Item Add-on\",\"item\":\"Med-Kit\",\"rarity\":\"Rare\",\"effect\":\"+15% Med-Kit healing speed.\",\"description\":\"A large dressing meant for serious wounds.\"},{\"id\":\"surgical_suture\",\"name\":\"Surgical Suture\",\"type\":\"Item Add-on\",\"item\":\"Med-Kit\",\"rarity\":\"Rare\",\"effect\":\"Increases Skill Check odds and progression bonus while healing.\",\"description\":\"Fine sutures for a professional field surgeon.\"},{\"id\":\"styptic_agent\",\"name\":\"Styptic Agent\",\"type\":\"Item Add-on\",\"item\":\"Med-Kit\",\"rarity\":\"Rare\",\"effect\":\"+15% personal healing efficiency.\",\"description\":\"A powder that helps stop bleeding quickly.\"},{\"id\":\"anti_hemorrhagic_syringe\",\"name\":\"Antihemorrhagic Syringe\",\"type\":\"Item Add-on\",\"item\":\"Med-Kit\",\"rarity\":\"Very Rare\",\"effect\":\"Instantly recovers from the Injured State once, consuming the Med-Kit.\",\"description\":\"A syringe filled with a powerful clotting agent.\"},{\"id\":\"wire_spool\",\"name\":\"Wire Spool\",\"type\":\"Item Add-on\",\"item\":\"Toolbox\",\"rarity\":\"Common\",\"effect\":\"Reduces repair noise range.\",\"description\":\"Spare wiring for quieter repair work.\"},{\"id\":\"scrap_metal\",\"name\":\"Scrap Metal\",\"type\":\"Item Add-on\",\"item\":\"Toolbox\",\"rarity\":\"Common\",\"effect\":\"+10% sabotage efficiency.\",\"description\":\"Bits of metal salvaged for makeshift repairs.\"},{\"id\":\"spark_plug\",\"name\":\"Spark Plug\",\"type\":\"Item Add-on\",\"item\":\"Toolbox\",\"rarity\":\"Common\",\"effect\":\"+5% repair speed.\",\"description\":\"A spare part that keeps machinery running.\"},{\"id\":\"amber_handle\",\"name\":\"Amber Handle\",\"type\":\"Item Add-on\",\"item\":\"Toolbox\",\"rarity\":\"Uncommon\",\"effect\":\"+15% tool efficiency.\",\"description\":\"A sturdy handle that improves grip and control.\"},{\"id\":\"socket_swivel\",\"name\":\"Socket Swivel\",\"type\":\"Item Add-on\",\"item\":\"Toolbox\",\"rarity\":\"Uncommon\",\"effect\":\"+10% repair speed.\",\"description\":\"A rotating socket for faster fastening.\"},{\"id\":\"oil_can\",\"name\":\"Oil Can\",\"type\":\"Item Add-on\",\"item\":\"Toolbox\",\"rarity\":\"Uncommon\",\"effect\":\"Repairs become quieter.\",\"description\":\"Machine oil that keeps parts from squeaking.\"},{\"id\":\"scraps\",\"name\":\"Scraps\",\"type\":\"Item Add-on\",\"item\":\"Toolbox\",\"rarity\":\"Uncommon\",\"effect\":\"+5% sabotage speed.\",\"description\":\"Assorted scraps useful for a quick sabotage.\"},{\"id\":\"leather_grip\",\"name\":\"Leather Grip\",\"type\":\"Item Add-on\",\"item\":\"Toolbox\",\"rarity\":\"Rare\",\"effect\":\"+25% tool handling efficiency.\",\"description\":\"A leather-wrapped grip for precise tool control.\"},{\"id\":\"hacksaw\",\"name\":\"Hacksaw\",\"type\":\"Item Add-on\",\"item\":\"Toolbox\",\"rarity\":\"Rare\",\"effect\":\"+50% sabotage speed.\",\"description\":\"A saw with fine teeth suited for cutting through chains.\"},{\"id\":\"sea_blueprints\",\"name\":\"Sea Blueprints\",\"type\":\"Item Add-on\",\"item\":\"Flashlight\",\"rarity\":\"Common\",\"effect\":\"+10% flashlight brightness.\",\"description\":\"Blueprints for improving lens focus.\"},{\"id\":\"metal_handle\",\"name\":\"Metal Handle\",\"type\":\"Item Add-on\",\"item\":\"Flashlight\",\"rarity\":\"Uncommon\",\"effect\":\"+15% flashlight durability.\",\"description\":\"A reinforced handle that resists wear.\"},{\"id\":\"battery_pack\",\"name\":\"Battery Pack\",\"type\":\"Item Add-on\",\"item\":\"Flashlight\",\"rarity\":\"Uncommon\",\"effect\":\"-10% power consumption.\",\"description\":\"A high-capacity battery pack for longer use.\"},{\"id\":\"fresh_batteries\",\"name\":\"Fresh Batteries\",\"type\":\"Item Add-on\",\"item\":\"Flashlight\",\"rarity\":\"Common\",\"effect\":\"+50% flashlight charges.\",\"description\":\"Unused batteries with a full charge.\"},{\"id\":\"high_flux_battery\",\"name\":\"High-Flux Battery\",\"type\":\"Item Add-on\",\"item\":\"Flashlight\",\"rarity\":\"Rare\",\"effect\":\"+30% flashlight brightness.\",\"description\":\"A powerful battery that boosts beam intensity.\"},{\"id\":\"glass_lens\",\"name\":\"Glass Lens\",\"type\":\"Item Add-on\",\"item\":\"Flashlight\",\"rarity\":\"Rare\",\"effect\":\"+20% brightness and accuracy.\",\"description\":\"A precision-ground lens for a sharper beam.\"},{\"id\":\"thick_filament_bulb\",\"name\":\"Thick Filament Bulb\",\"type\":\"Item Add-on\",\"item\":\"Flashlight\",\"rarity\":\"Rare\",\"effect\":\"+25% blindness duration on the Killer.\",\"description\":\"A specialized bulb that produces an intense flash.\"},{\"id\":\"tampered_ballast\",\"name\":\"Tampered Ballast\",\"type\":\"Item Add-on\",\"item\":\"Flashlight\",\"rarity\":\"Very Rare\",\"effect\":\"Removes flicker, allowing continuous use without overheating.\",\"description\":\"A modified ballast that prevents the bulb from dimming.\"},{\"id\":\"bloody_tissue\",\"name\":\"Bloody Tissue\",\"type\":\"Item Add-on\",\"item\":\"Map\",\"rarity\":\"Common\",\"effect\":\"Reveals a small aura around your location.\",\"description\":\"A blood-stained scrap that faintly reveals nearby danger.\"},{\"id\":\"vigos_journal\",\"name\":\"Vigo's Journal\",\"type\":\"Item Add-on\",\"item\":\"Map\",\"rarity\":\"Uncommon\",\"effect\":\"+10% aura reveal range.\",\"description\":\"Notes from a survivor who mapped every trial ground.\"},{\"id\":\"survivors_leather\",\"name\":\"Survivor's Leather\",\"type\":\"Item Add-on\",\"item\":\"Map\",\"rarity\":\"Uncommon\",\"effect\":\"+15% map effectiveness.\",\"description\":\"A leather satchel that keeps the map protected and legible.\"},{\"id\":\"old_map\",\"name\":\"Old Map\",\"type\":\"Item Add-on\",\"item\":\"Map\",\"rarity\":\"Common\",\"effect\":\"+2 charges.\",\"description\":\"A worn map with faded but still useful markings.\"},{\"id\":\"black_grease_pencil\",\"name\":\"Black Grease Pencil\",\"type\":\"Item Add-on\",\"item\":\"Map\",\"rarity\":\"Rare\",\"effect\":\"Extends the beam of light duration by 5 seconds.\",\"description\":\"A pencil used to mark points of interest on the map.\"},{\"id\":\"blood_stained_note\",\"name\":\"Blood-Stained Note\",\"type\":\"Item Add-on\",\"item\":\"Map\",\"rarity\":\"Uncommon\",\"effect\":\"Reveals the Killer's terror radius Aura briefly when reading the map.\",\"description\":\"A note scrawled in haste and stained with blood.\"},{\"id\":\"bloody_coil\",\"name\":\"Bloody Coil\",\"type\":\"Item Add-on\",\"item\":\"Key\",\"rarity\":\"Common\",\"effect\":\"+1 charge.\",\"description\":\"A coil of wire stained with old blood.\"},{\"id\":\"silver_locket\",\"name\":\"Silver Locket\",\"type\":\"Item Add-on\",\"item\":\"Key\",\"rarity\":\"Uncommon\",\"effect\":\"+2% Aura-reading range.\",\"description\":\"A locket that hums faintly with the Entity's power.\"},{\"id\":\"ornate_key_guard\",\"name\":\"Ornate Key Guard\",\"type\":\"Item Add-on\",\"item\":\"Key\",\"rarity\":\"Rare\",\"effect\":\"+10% Chest-opening speed.\",\"description\":\"An ornate fitting that protects the key's teeth.\"},{\"id\":\"dull_key_fragment\",\"name\":\"Dull Key Fragment\",\"type\":\"Item Add-on\",\"item\":\"Key\",\"rarity\":\"Common\",\"effect\":\"+1 charge.\",\"description\":\"A broken-off piece of a key that still holds some use.\"},{\"id\":\"crystal_bead\",\"name\":\"Crystal Bead\",\"type\":\"Item Add-on\",\"item\":\"Key\",\"rarity\":\"Rare\",\"effect\":\"+16m Hatch Aura-reading range.\",\"description\":\"A crystal bead said to resonate near the Hatch.\"}]");
 if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
     __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
 }
@@ -1422,127 +1263,448 @@ if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelper
 
 module.exports = [
     {
-        "id": "med_kit",
-        "name": "Med-Kit",
+        "id": "camping_aid_kit",
+        "name": "Camping Aid Kit",
         "type": "Item",
+        "category": "Med-Kit",
         "rarity": "Common",
-        "effect": "Heal yourself and teammates",
-        "description": "A medical kit containing healing supplies. Use it to heal yourself or teammates faster.",
+        "effect": "A basic emergency healing kit.",
+        "description": "Basic supplies for treating minor injuries in the field.",
         "addons": [
             "bandages",
-            "medical_tape",
-            "first_aid_spray",
-            "gel_accelerant",
-            "styptic_agent"
+            "gauze_roll",
+            "butterfly_tape",
+            "rubber_gloves",
+            "gel_dressings",
+            "medical_scissors",
+            "self_adherent_wrap",
+            "sponge",
+            "needle_and_thread",
+            "abdominal_dressing",
+            "surgical_suture",
+            "styptic_agent",
+            "anti_hemorrhagic_syringe"
         ]
     },
     {
-        "id": "flashlight",
-        "name": "Flashlight",
+        "id": "first_aid_kit",
+        "name": "First Aid Kit",
         "type": "Item",
+        "category": "Med-Kit",
         "rarity": "Common",
-        "effect": "Blind the killer",
-        "description": "A hand-held flashlight that can blind the Killer momentarily.",
+        "effect": "A standard healing kit with a moderate charge pool.",
+        "description": "A well-stocked kit for treating wounds during a Trial.",
         "addons": [
-            "fresh_batteries",
-            "high_flux_battery",
-            "thick_filament_bulb"
+            "bandages",
+            "gauze_roll",
+            "butterfly_tape",
+            "rubber_gloves",
+            "gel_dressings",
+            "medical_scissors",
+            "self_adherent_wrap",
+            "sponge",
+            "needle_and_thread",
+            "abdominal_dressing",
+            "surgical_suture",
+            "styptic_agent",
+            "anti_hemorrhagic_syringe"
+        ]
+    },
+    {
+        "id": "ranger_med_kit",
+        "name": "Ranger Med-Kit",
+        "type": "Item",
+        "category": "Med-Kit",
+        "rarity": "Uncommon",
+        "effect": "A larger kit meant for rescue operations.",
+        "description": "A rugged medical box built for field rescues.",
+        "addons": [
+            "bandages",
+            "gauze_roll",
+            "butterfly_tape",
+            "rubber_gloves",
+            "gel_dressings",
+            "medical_scissors",
+            "self_adherent_wrap",
+            "sponge",
+            "needle_and_thread",
+            "abdominal_dressing",
+            "surgical_suture",
+            "styptic_agent",
+            "anti_hemorrhagic_syringe"
+        ]
+    },
+    {
+        "id": "emergency_med_kit",
+        "name": "Emergency Med-Kit",
+        "type": "Item",
+        "category": "Med-Kit",
+        "rarity": "Rare",
+        "effect": "A well-organized kit with premium supplies.",
+        "description": "A professional-grade emergency kit with top-tier supplies.",
+        "addons": [
+            "bandages",
+            "gauze_roll",
+            "butterfly_tape",
+            "rubber_gloves",
+            "gel_dressings",
+            "medical_scissors",
+            "self_adherent_wrap",
+            "sponge",
+            "needle_and_thread",
+            "abdominal_dressing",
+            "surgical_suture",
+            "styptic_agent",
+            "anti_hemorrhagic_syringe"
+        ]
+    },
+    {
+        "id": "worn_out_tools",
+        "name": "Worn-Out Tools",
+        "type": "Item",
+        "category": "Toolbox",
+        "rarity": "Common",
+        "effect": "A well-used set of basic tools.",
+        "description": "Out of condition tools with limited charges remaining.",
+        "addons": [
+            "wire_spool",
+            "scrap_metal",
+            "spark_plug",
+            "amber_handle",
+            "socket_swivel",
+            "oil_can",
+            "scraps",
+            "leather_grip",
+            "hacksaw"
         ]
     },
     {
         "id": "toolbox",
         "name": "Toolbox",
         "type": "Item",
-        "rarity": "Uncommon",
-        "effect": "Repair generators faster",
-        "description": "A toolbox containing various tools to repair generators quickly.",
-        "addons": [
-            "filing_cabinet",
-            "hacksaw",
-            "yellow_lockpick"
-        ]
-    },
-    {
-        "id": "key",
-        "name": "Key",
-        "type": "Item",
-        "rarity": "Rare",
-        "effect": "Opens chests and hatch",
-        "description": "A mysterious key that can open treasure chests and the hatch.",
-        "addons": [
-            "skeleton_key",
-            "rusted_key",
-            "ornate_key"
-        ]
-    },
-    {
-        "id": "map",
-        "name": "Map",
-        "type": "Item",
+        "category": "Toolbox",
         "rarity": "Common",
-        "effect": "Reveals the trial ground layout",
-        "description": "A map of the trial ground showing generators, chests, and other locations.",
+        "effect": "A basic set of tools for repairs or sabotage.",
+        "description": "A standard toolbox carried by many Survivors.",
         "addons": [
+            "wire_spool",
+            "scrap_metal",
+            "spark_plug",
+            "amber_handle",
+            "socket_swivel",
+            "oil_can",
+            "scraps",
+            "leather_grip",
+            "hacksaw"
+        ]
+    },
+    {
+        "id": "commodious_toolbox",
+        "name": "Commodious Toolbox",
+        "type": "Item",
+        "category": "Toolbox",
+        "rarity": "Uncommon",
+        "effect": "A large toolbox with extra spare parts.",
+        "description": "A roomy toolbox that holds more charges than the basic model.",
+        "addons": [
+            "wire_spool",
+            "scrap_metal",
+            "spark_plug",
+            "amber_handle",
+            "socket_swivel",
+            "oil_can",
+            "scraps",
+            "leather_grip",
+            "hacksaw"
+        ]
+    },
+    {
+        "id": "mechanics_toolbox",
+        "name": "Mechanic's Toolbox",
+        "type": "Item",
+        "category": "Toolbox",
+        "rarity": "Rare",
+        "effect": "Specialized tools favoring repair speed.",
+        "description": "A mechanic's own set of tools, optimized for quick repairs.",
+        "addons": [
+            "wire_spool",
+            "scrap_metal",
+            "spark_plug",
+            "amber_handle",
+            "socket_swivel",
+            "oil_can",
+            "scraps",
+            "leather_grip",
+            "hacksaw"
+        ]
+    },
+    {
+        "id": "alexs_toolbox",
+        "name": "Alex's Toolbox",
+        "type": "Item",
+        "category": "Toolbox",
+        "rarity": "Very Rare",
+        "effect": "A toolbox favoring sabotage over repairs.",
+        "description": "A specialized toolbox built for tearing Hooks apart quickly.",
+        "addons": [
+            "wire_spool",
+            "scrap_metal",
+            "spark_plug",
+            "amber_handle",
+            "socket_swivel",
+            "oil_can",
+            "scraps",
+            "leather_grip",
+            "hacksaw"
+        ]
+    },
+    {
+        "id": "engineers_toolbox",
+        "name": "Engineer's Toolbox",
+        "type": "Item",
+        "category": "Toolbox",
+        "rarity": "Ultra Rare",
+        "effect": "Highly specialized engineering tools favoring repair speed.",
+        "description": "A rare toolbox built by a meticulous engineer.",
+        "addons": [
+            "wire_spool",
+            "scrap_metal",
+            "spark_plug",
+            "amber_handle",
+            "socket_swivel",
+            "oil_can",
+            "scraps",
+            "leather_grip",
+            "hacksaw"
+        ]
+    },
+    {
+        "id": "flashlight",
+        "name": "Flashlight",
+        "type": "Item",
+        "category": "Flashlight",
+        "rarity": "Common",
+        "effect": "A standard hand-held flashlight.",
+        "description": "A basic flashlight that can blind the Killer momentarily.",
+        "addons": [
+            "sea_blueprints",
+            "metal_handle",
+            "battery_pack",
+            "fresh_batteries",
+            "high_flux_battery",
+            "glass_lens",
+            "thick_filament_bulb",
+            "tampered_ballast"
+        ]
+    },
+    {
+        "id": "sport_flashlight",
+        "name": "Sport Flashlight",
+        "type": "Item",
+        "category": "Flashlight",
+        "rarity": "Uncommon",
+        "effect": "An efficient, lightweight flashlight.",
+        "description": "A portable flashlight with improved aim and battery life.",
+        "addons": [
+            "sea_blueprints",
+            "metal_handle",
+            "battery_pack",
+            "fresh_batteries",
+            "high_flux_battery",
+            "glass_lens",
+            "thick_filament_bulb",
+            "tampered_ballast"
+        ]
+    },
+    {
+        "id": "utility_flashlight",
+        "name": "Utility Flashlight",
+        "type": "Item",
+        "category": "Flashlight",
+        "rarity": "Rare",
+        "effect": "A sturdy, powerful flashlight.",
+        "description": "A heavy-duty flashlight with an intense beam.",
+        "addons": [
+            "sea_blueprints",
+            "metal_handle",
+            "battery_pack",
+            "fresh_batteries",
+            "high_flux_battery",
+            "glass_lens",
+            "thick_filament_bulb",
+            "tampered_ballast"
+        ]
+    },
+    {
+        "id": "utility_flashlight_mk2",
+        "name": "High-End Flashlight",
+        "type": "Item",
+        "category": "Flashlight",
+        "rarity": "Very Rare",
+        "effect": "A premium flashlight with an exceptionally bright beam.",
+        "description": "A top-of-the-line flashlight favored by seasoned Survivors.",
+        "addons": [
+            "sea_blueprints",
+            "metal_handle",
+            "battery_pack",
+            "fresh_batteries",
+            "high_flux_battery",
+            "glass_lens",
+            "thick_filament_bulb",
+            "tampered_ballast"
+        ]
+    },
+    {
+        "id": "cryptic_map",
+        "name": "Cryptic Map",
+        "type": "Item",
+        "category": "Map",
+        "rarity": "Common",
+        "effect": "Reveals nearby Pallets and Windows.",
+        "description": "A hand-drawn map revealing nearby obstacles.",
+        "addons": [
+            "bloody_tissue",
+            "vigos_journal",
+            "survivors_leather",
             "old_map",
-            "worn_notebook",
+            "black_grease_pencil",
             "blood_stained_note"
         ]
     },
     {
-        "id": "rope",
-        "name": "Rope",
+        "id": "scribbled_map",
+        "name": "Scribbled Map",
         "type": "Item",
+        "category": "Map",
         "rarity": "Uncommon",
-        "effect": "Opens chests",
-        "description": "A coil of rope used to open chests and retrieve items.",
+        "effect": "Reveals the general location of trial objectives.",
+        "description": "A hastily scribbled map of the surrounding area.",
         "addons": [
-            "hemp_rope",
-            "leather_cord",
-            "twin_rope"
+            "bloody_tissue",
+            "vigos_journal",
+            "survivors_leather",
+            "old_map",
+            "black_grease_pencil",
+            "blood_stained_note"
         ]
     },
     {
-        "id": "pebble",
-        "name": "Pebble",
+        "id": "annotated_map",
+        "name": "Annotated Map",
         "type": "Item",
-        "rarity": "Common",
-        "effect": "Distract the killer",
-        "description": "A small pebble that can be thrown to distract the Killer.",
-        "addons": []
+        "category": "Map",
+        "rarity": "Rare",
+        "effect": "Reveals nearby Generator Auras.",
+        "description": "A detailed sketch annotated with key locations.",
+        "addons": [
+            "bloody_tissue",
+            "vigos_journal",
+            "survivors_leather",
+            "old_map",
+            "black_grease_pencil",
+            "blood_stained_note"
+        ]
+    },
+    {
+        "id": "bloodsense_map",
+        "name": "Bloodsense Map",
+        "type": "Item",
+        "category": "Map",
+        "rarity": "Very Rare",
+        "effect": "Reveals injured Survivor Auras nearby.",
+        "description": "A blood-stained parchment that resonates with pain.",
+        "addons": [
+            "bloody_tissue",
+            "vigos_journal",
+            "survivors_leather",
+            "old_map",
+            "black_grease_pencil",
+            "blood_stained_note"
+        ]
     },
     {
         "id": "broken_key",
         "name": "Broken Key",
         "type": "Item",
-        "rarity": "Rare",
-        "effect": "Limited hatch opening",
-        "description": "A damaged key with limited charges to open the hatch.",
-        "addons": [
-            "shiny_fragment",
-            "crystal_fragment",
-            "dull_fragment"
-        ]
-    },
-    {
-        "id": "garden_rake",
-        "name": "Garden Rake",
-        "type": "Item",
+        "category": "Key",
         "rarity": "Common",
-        "effect": "Scratch marks effect",
-        "description": "A garden tool that slightly reduces scratch mark clarity.",
-        "addons": []
+        "effect": "Reveals Survivor Auras within a modest range.",
+        "description": "A damaged key with a handful of charges remaining.",
+        "addons": [
+            "bloody_coil",
+            "silver_locket",
+            "ornate_key_guard",
+            "dull_key_fragment",
+            "crystal_bead"
+        ]
     },
     {
-        "id": "lockpick",
-        "name": "Lockpick",
+        "id": "dull_key",
+        "name": "Dull Key",
         "type": "Item",
+        "category": "Key",
         "rarity": "Uncommon",
-        "effect": "Unlock chests",
-        "description": "A lockpick set for opening chests and locks.",
+        "effect": "Opens Chests and can re-open the Hatch.",
+        "description": "A bent and dull key that still turns a lock.",
         "addons": [
-            "skeleton_key",
-            "rusted_lockpick"
+            "bloody_coil",
+            "silver_locket",
+            "ornate_key_guard",
+            "dull_key_fragment",
+            "crystal_bead"
         ]
+    },
+    {
+        "id": "skeleton_key",
+        "name": "Skeleton Key",
+        "type": "Item",
+        "category": "Key",
+        "rarity": "Rare",
+        "effect": "Opens Chests and the Hatch with an extended Aura range.",
+        "description": "A tarnished, crooked key that opens almost anything.",
+        "addons": [
+            "bloody_coil",
+            "silver_locket",
+            "ornate_key_guard",
+            "dull_key_fragment",
+            "crystal_bead"
+        ]
+    },
+    {
+        "id": "apprentices_fog_vial",
+        "name": "Apprentice's Fog Vial",
+        "type": "Item",
+        "category": "Fog Vial",
+        "rarity": "Common",
+        "effect": "Creates a small cloud that suppresses Scratch Marks.",
+        "description": "A timid novice's attempt at bottling the fog."
+    },
+    {
+        "id": "artisans_fog_vial",
+        "name": "Artisan's Fog Vial",
+        "type": "Item",
+        "category": "Fog Vial",
+        "rarity": "Uncommon",
+        "effect": "Creates a longer-lasting fog cloud.",
+        "description": "A more refined fog vial crafted by an experienced hand."
+    },
+    {
+        "id": "vigos_fog_vial",
+        "name": "Vigo's Fog Vial",
+        "type": "Item",
+        "category": "Fog Vial",
+        "rarity": "Rare",
+        "effect": "Creates a fog cloud with the fastest recharge.",
+        "description": "A master craftsman's fog vial, prized among Survivors."
+    },
+    {
+        "id": "chinese_firecracker",
+        "name": "Chinese Firecracker",
+        "type": "Item",
+        "category": "Firecracker",
+        "rarity": "Event Only",
+        "effect": "Blinds and deafens anyone nearby on detonation.",
+        "description": "A small explosive device consumed on use."
     }
 ];
 if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
@@ -1558,128 +1720,7 @@ if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelper
 }),
 "[project]/lib/data/offerings.json.[json].cjs [app-client] (ecmascript)", ((__turbopack_context__, module, exports) => {
 
-module.exports = [
-    {
-        "id": "strode_house_basement_key",
-        "name": "Strode House Basement Key",
-        "type": "Survivor Offering",
-        "rarity": "Uncommon",
-        "effect": "Increase chance of being sent to Haddonfield",
-        "description": "An old key from Laurie's house. Use this offering to increase the likelihood of spawning on Haddonfield."
-    },
-    {
-        "id": "saltwood_dinner_set",
-        "name": "Saltwood Dinner Set",
-        "type": "Survivor Offering",
-        "rarity": "Common",
-        "effect": "Increase bloodpoints from repairs",
-        "description": "A fine china set. Grants +25% bonus Objective bloodpoints."
-    },
-    {
-        "id": "the_last_will",
-        "name": "The Last Will",
-        "type": "Survivor Offering",
-        "rarity": "Rare",
-        "effect": "Protect survivors at the end game",
-        "description": "A final testament. Survivors who haven't been hooked receive additional protection during end game collapse."
-    },
-    {
-        "id": "escape_cake",
-        "name": "Escape Cake",
-        "type": "Survivor Offering",
-        "rarity": "Uncommon",
-        "effect": "Increase all bloodpoints",
-        "description": "A delicious cake. Grants +25% bonus bloodpoints for all categories."
-    },
-    {
-        "id": "bloody_party_streamers",
-        "name": "Bloody Party Streamers",
-        "type": "Killer Offering",
-        "rarity": "Uncommon",
-        "effect": "Increase bloodpoints for all players",
-        "description": "Festive decorations. All players earn +25% bonus bloodpoints."
-    },
-    {
-        "id": "ebony_mori",
-        "name": "Ebony Mori",
-        "type": "Killer Offering",
-        "rarity": "Very Rare",
-        "effect": "Eliminate survivors without the hatch",
-        "description": "A black candle. Grants the ability to sacrifice any survivor."
-    },
-    {
-        "id": "ivory_mori",
-        "name": "Ivory Mori",
-        "type": "Killer Offering",
-        "rarity": "Rare",
-        "effect": "Sacrifice dying survivors",
-        "description": "A white candle. Grants the ability to sacrifice survivors who are in a dying state."
-    },
-    {
-        "id": "realm_beyond_offering",
-        "name": "The Realm Beyond",
-        "type": "Survivor Offering",
-        "rarity": "Very Rare",
-        "effect": "Transcendence",
-        "description": "A mysterious offering. Grants the ability to see beyond death."
-    },
-    {
-        "id": "nectar_of_the_fog",
-        "name": "Nectar of the Fog",
-        "type": "Killer Offering",
-        "rarity": "Common",
-        "effect": "Increase killer speed",
-        "description": "A strange substance. Grants +5% movement speed."
-    },
-    {
-        "id": "old_coin",
-        "name": "Old Coin",
-        "type": "Survivor Offering",
-        "rarity": "Common",
-        "effect": "Luck-based bonus",
-        "description": "An antique coin. Grants a random bonus bloodpoint boost."
-    },
-    {
-        "id": "picture_of_the_twins",
-        "name": "Picture of the Twins",
-        "type": "Survivor Offering",
-        "rarity": "Rare",
-        "effect": "Family reunion",
-        "description": "A photograph of siblings. Grants enhanced perception of nearby survivors."
-    },
-    {
-        "id": "scourge_hook_offering",
-        "name": "Hex: Scourge Hook",
-        "type": "Killer Offering",
-        "rarity": "Rare",
-        "effect": "Cursed hooks",
-        "description": "Corruption spreads to the hooks. Hooked survivors suffer from afflictions."
-    },
-    {
-        "id": "survivor_pudding",
-        "name": "Survivor Pudding",
-        "type": "Survivor Offering",
-        "rarity": "Uncommon",
-        "effect": "Reveal killer",
-        "description": "A sweet treat. Survivors see the killer's aura periodically."
-    },
-    {
-        "id": "killer_pudding",
-        "name": "Killer Pudding",
-        "type": "Killer Offering",
-        "rarity": "Uncommon",
-        "effect": "Find survivors",
-        "description": "A bitter brew. See survivor auras for the first 30 seconds."
-    },
-    {
-        "id": "resilience_offering",
-        "name": "Offering of Resilience",
-        "type": "Survivor Offering",
-        "rarity": "Common",
-        "effect": "Stealth bonus",
-        "description": "A token of perseverance. Grants increased stealth for the trial."
-    }
-];
+module.exports = JSON.parse("[{\"id\":\"bloody_party_streamers\",\"name\":\"Bloody Party Streamers\",\"type\":\"Survivor Offering\",\"rarity\":\"Very Rare\",\"effect\":\"Grants +100% bonus bloodpoints in all categories to every player, up to a cap.\",\"description\":\"Festive decorations soaked in blood.\"},{\"id\":\"escape_cake\",\"name\":\"Escape! Cake\",\"type\":\"Survivor Offering\",\"rarity\":\"Very Rare\",\"effect\":\"Grants +100% bonus bloodpoints in all categories after escaping.\",\"description\":\"A cake baked to celebrate a narrow escape.\"},{\"id\":\"survivor_pudding\",\"name\":\"Survivor Pudding\",\"type\":\"Survivor Offering\",\"rarity\":\"Very Rare\",\"effect\":\"Grants +100% bonus bloodpoints in all categories after escaping.\",\"description\":\"A comforting treat shared among survivors.\"},{\"id\":\"bound_envelope\",\"name\":\"Bound Envelope\",\"type\":\"Survivor Offering\",\"rarity\":\"Uncommon\",\"effect\":\"Grants +25% bonus bloodpoints in all categories.\",\"description\":\"A sealed envelope containing a modest bonus.\"},{\"id\":\"sealed_envelope\",\"name\":\"Sealed Envelope\",\"type\":\"Survivor Offering\",\"rarity\":\"Uncommon\",\"effect\":\"Grants +25% bonus bloodpoints in all categories.\",\"description\":\"An envelope sealed with wax, promising a reward.\"},{\"id\":\"primrose_blossom_sachet\",\"name\":\"Primrose Blossom Sachet\",\"type\":\"Survivor Offering\",\"rarity\":\"Common\",\"effect\":\"Grants +50% bonus bloodpoints in the Altruism category.\",\"description\":\"A dried flower sachet with a faint, sweet scent.\"},{\"id\":\"fresh_primrose_blossom\",\"name\":\"Fresh Primrose Blossom\",\"type\":\"Survivor Offering\",\"rarity\":\"Uncommon\",\"effect\":\"Grants +75% bonus bloodpoints in the Altruism category.\",\"description\":\"A freshly picked primrose blossom.\"},{\"id\":\"fragrant_primrose_blossom\",\"name\":\"Fragrant Primrose Blossom\",\"type\":\"Survivor Offering\",\"rarity\":\"Rare\",\"effect\":\"Grants +100% bonus bloodpoints in the Altruism category.\",\"description\":\"A vividly fragrant primrose blossom.\"},{\"id\":\"sweet_william_sachet\",\"name\":\"Sweet William Sachet\",\"type\":\"Survivor Offering\",\"rarity\":\"Common\",\"effect\":\"Grants +50% bonus bloodpoints in the Boldness category.\",\"description\":\"A dried flower sachet favoured by daring Survivors.\"},{\"id\":\"fresh_sweet_william\",\"name\":\"Fresh Sweet William\",\"type\":\"Survivor Offering\",\"rarity\":\"Uncommon\",\"effect\":\"Grants +75% bonus bloodpoints in the Boldness category.\",\"description\":\"A freshly picked Sweet William flower.\"},{\"id\":\"fragrant_sweet_william\",\"name\":\"Fragrant Sweet William\",\"type\":\"Survivor Offering\",\"rarity\":\"Rare\",\"effect\":\"Grants +100% bonus bloodpoints in the Boldness category.\",\"description\":\"A vividly fragrant Sweet William flower.\"},{\"id\":\"bog_laurel_sachet\",\"name\":\"Bog Laurel Sachet\",\"type\":\"Survivor Offering\",\"rarity\":\"Common\",\"effect\":\"Grants +50% bonus bloodpoints in the Objective category.\",\"description\":\"A dried flower sachet tied to hard work.\"},{\"id\":\"fresh_bog_laurel\",\"name\":\"Fresh Bog Laurel\",\"type\":\"Survivor Offering\",\"rarity\":\"Uncommon\",\"effect\":\"Grants +75% bonus bloodpoints in the Objective category.\",\"description\":\"A freshly picked bog laurel flower.\"},{\"id\":\"fragrant_bog_laurel\",\"name\":\"Fragrant Bog Laurel\",\"type\":\"Survivor Offering\",\"rarity\":\"Rare\",\"effect\":\"Grants +100% bonus bloodpoints in the Objective category.\",\"description\":\"A vividly fragrant bog laurel flower.\"},{\"id\":\"crispleaf_amaranth_sachet\",\"name\":\"Crispleaf Amaranth Sachet\",\"type\":\"Survivor Offering\",\"rarity\":\"Common\",\"effect\":\"Grants +50% bonus bloodpoints in the Survival category.\",\"description\":\"A dried flower sachet tied to endurance.\"},{\"id\":\"fresh_crispleaf_amaranth\",\"name\":\"Fresh Crispleaf Amaranth\",\"type\":\"Survivor Offering\",\"rarity\":\"Uncommon\",\"effect\":\"Grants +75% bonus bloodpoints in the Survival category.\",\"description\":\"A freshly picked crispleaf amaranth flower.\"},{\"id\":\"fragrant_crispleaf_amaranth\",\"name\":\"Fragrant Crispleaf Amaranth\",\"type\":\"Survivor Offering\",\"rarity\":\"Rare\",\"effect\":\"Grants +100% bonus bloodpoints in the Survival category.\",\"description\":\"A vividly fragrant crispleaf amaranth flower.\"},{\"id\":\"salt_pouch\",\"name\":\"Salt Pouch\",\"type\":\"Survivor Offering\",\"rarity\":\"Common\",\"effect\":\"Grants +1% Luck to all Survivors for Self-Unhook attempts.\",\"description\":\"A small pouch of coarse salt for warding off bad luck.\"},{\"id\":\"black_salt_statuette\",\"name\":\"Black Salt Statuette\",\"type\":\"Survivor Offering\",\"rarity\":\"Uncommon\",\"effect\":\"Grants +2% Luck to all Survivors for Self-Unhook attempts.\",\"description\":\"A carved statuette said to bring fortune.\"},{\"id\":\"vigos_jar_of_salty_lips\",\"name\":\"Vigo's Jar of Salty Lips\",\"type\":\"Survivor Offering\",\"rarity\":\"Rare\",\"effect\":\"Grants +3% Luck to all Survivors for Self-Unhook attempts.\",\"description\":\"A curious jar rumoured to hold Vigo's own luck.\"},{\"id\":\"shroud_of_union\",\"name\":\"Shroud of Union\",\"type\":\"Survivor Offering\",\"rarity\":\"Uncommon\",\"effect\":\"Guarantees you start the Trial with at least one other Survivor.\",\"description\":\"A shroud that binds two fates together.\"},{\"id\":\"shroud_of_separation\",\"name\":\"Shroud of Separation\",\"type\":\"Survivor Offering\",\"rarity\":\"Uncommon\",\"effect\":\"All Survivors start the Trial separated from one another.\",\"description\":\"A shroud that scatters those who wear it.\"},{\"id\":\"vigos_shroud\",\"name\":\"Vigo's Shroud\",\"type\":\"Survivor Offering\",\"rarity\":\"Uncommon\",\"effect\":\"Spawns you as far from the Killer as possible.\",\"description\":\"A shroud said to have hidden Vigo from the Entity itself.\"},{\"id\":\"white_ward\",\"name\":\"White Ward\",\"type\":\"Survivor Offering\",\"rarity\":\"Uncommon\",\"effect\":\"Protects your held Item and its Add-ons from being lost on death or sacrifice.\",\"description\":\"A protective ward carved from pale wood.\"},{\"id\":\"ardent_tanager_wreath\",\"name\":\"Ardent Tanager Wreath\",\"type\":\"Killer Offering\",\"rarity\":\"Rare\",\"effect\":\"Grants +100% bonus bloodpoints in the Brutality category.\",\"description\":\"A vividly coloured wreath of tanager feathers.\"},{\"id\":\"devout_tanager_wreath\",\"name\":\"Devout Tanager Wreath\",\"type\":\"Killer Offering\",\"rarity\":\"Uncommon\",\"effect\":\"Grants +75% bonus bloodpoints in the Brutality category.\",\"description\":\"A wreath of tanager feathers, still bright with colour.\"},{\"id\":\"tanager_wreath\",\"name\":\"Tanager Wreath\",\"type\":\"Killer Offering\",\"rarity\":\"Common\",\"effect\":\"Grants +50% bonus bloodpoints in the Brutality category.\",\"description\":\"A simple wreath woven from tanager feathers.\"},{\"id\":\"ardent_raven_wreath\",\"name\":\"Ardent Raven Wreath\",\"type\":\"Killer Offering\",\"rarity\":\"Rare\",\"effect\":\"Grants +100% bonus bloodpoints in the Deviousness category.\",\"description\":\"A vividly dark wreath of raven feathers.\"},{\"id\":\"devout_raven_wreath\",\"name\":\"Devout Raven Wreath\",\"type\":\"Killer Offering\",\"rarity\":\"Uncommon\",\"effect\":\"Grants +75% bonus bloodpoints in the Deviousness category.\",\"description\":\"A wreath of glossy raven feathers.\"},{\"id\":\"raven_wreath\",\"name\":\"Raven Wreath\",\"type\":\"Killer Offering\",\"rarity\":\"Common\",\"effect\":\"Grants +50% bonus bloodpoints in the Deviousness category.\",\"description\":\"A simple wreath woven from raven feathers.\"},{\"id\":\"ardent_spotted_owl_wreath\",\"name\":\"Ardent Spotted Owl Wreath\",\"type\":\"Killer Offering\",\"rarity\":\"Rare\",\"effect\":\"Grants +100% bonus bloodpoints in the Hunter category.\",\"description\":\"A vividly patterned wreath of owl feathers.\"},{\"id\":\"devout_spotted_owl_wreath\",\"name\":\"Devout Spotted Owl Wreath\",\"type\":\"Killer Offering\",\"rarity\":\"Uncommon\",\"effect\":\"Grants +75% bonus bloodpoints in the Hunter category.\",\"description\":\"A wreath of speckled owl feathers.\"},{\"id\":\"spotted_owl_wreath\",\"name\":\"Spotted Owl Wreath\",\"type\":\"Killer Offering\",\"rarity\":\"Common\",\"effect\":\"Grants +50% bonus bloodpoints in the Hunter category.\",\"description\":\"A simple wreath woven from owl feathers.\"},{\"id\":\"ardent_shrike_wreath\",\"name\":\"Ardent Shrike Wreath\",\"type\":\"Killer Offering\",\"rarity\":\"Rare\",\"effect\":\"Grants +100% bonus bloodpoints in the Sacrifice category.\",\"description\":\"A vividly coloured wreath of shrike feathers.\"},{\"id\":\"devout_shrike_wreath\",\"name\":\"Devout Shrike Wreath\",\"type\":\"Killer Offering\",\"rarity\":\"Uncommon\",\"effect\":\"Grants +75% bonus bloodpoints in the Sacrifice category.\",\"description\":\"A wreath of shrike feathers, still sharp with colour.\"},{\"id\":\"shrike_wreath\",\"name\":\"Shrike Wreath\",\"type\":\"Killer Offering\",\"rarity\":\"Common\",\"effect\":\"Grants +50% bonus bloodpoints in the Sacrifice category.\",\"description\":\"A simple wreath woven from shrike feathers.\"},{\"id\":\"ebony_memento_mori\",\"name\":\"Ebony Memento Mori\",\"type\":\"Killer Offering\",\"rarity\":\"Very Rare\",\"effect\":\"Grants the ability to kill any Survivor by your own hand once they reach the second Hook Stage.\",\"description\":\"A black-bound tome bound in memory of the dead.\"},{\"id\":\"ivory_memento_mori\",\"name\":\"Ivory Memento Mori\",\"type\":\"Killer Offering\",\"rarity\":\"Rare\",\"effect\":\"Grants the ability to kill one Survivor by your own hand once they reach the second Hook Stage.\",\"description\":\"A pale tome that marks a single soul for the Entity.\"},{\"id\":\"black_ward\",\"name\":\"Black Ward\",\"type\":\"Killer Offering\",\"rarity\":\"Uncommon\",\"effect\":\"Preserves your Add-ons after the Trial ends, win or lose.\",\"description\":\"A protective ward carved from blackened wood.\"},{\"id\":\"sacrificial_ward\",\"name\":\"Sacrificial Ward\",\"type\":\"Killer Offering\",\"rarity\":\"Rare\",\"effect\":\"Cancels all Realm and Map offerings burned by other players.\",\"description\":\"A grim ward that rejects the will of others.\"},{\"id\":\"bloodied_blueprint\",\"name\":\"Bloodied Blueprint\",\"type\":\"Killer Offering\",\"rarity\":\"Uncommon\",\"effect\":\"Guarantees the Basement spawns inside the Killer Shack.\",\"description\":\"A blueprint stained with old blood.\"},{\"id\":\"torn_blueprint\",\"name\":\"Torn Blueprint\",\"type\":\"Killer Offering\",\"rarity\":\"Uncommon\",\"effect\":\"Guarantees the Basement spawns inside a landmark building.\",\"description\":\"A tattered blueprint of a well-known structure.\"},{\"id\":\"annotated_blueprint\",\"name\":\"Annotated Blueprint\",\"type\":\"Killer Offering\",\"rarity\":\"Uncommon\",\"effect\":\"Increases the odds of the Hatch spawning near the Killer Shack.\",\"description\":\"A blueprint marked up with careful notes.\"},{\"id\":\"vigos_blueprint\",\"name\":\"Vigo's Blueprint\",\"type\":\"Killer Offering\",\"rarity\":\"Uncommon\",\"effect\":\"Increases the odds of the Hatch spawning near a landmark building.\",\"description\":\"A blueprint said to have belonged to Vigo himself.\"}]");
 if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
     __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
 }
@@ -1702,10 +1743,14 @@ if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelper
 "use strict";
 
 __turbopack_context__.s([
+    "getAddonById",
+    ()=>getAddonById,
     "getAddons",
     ()=>getAddons,
     "getCharacterPerks",
     ()=>getCharacterPerks,
+    "getItemAddons",
+    ()=>getItemAddons,
     "getItems",
     ()=>getItems,
     "getKillerAddons",
@@ -1775,6 +1820,12 @@ function getKillerPerks() {
 }
 function getKillerAddons(killerName) {
     return __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$data$2f$addons$2e$json$2e5b$json$5d2e$cjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].filter((a)=>a.killer === killerName);
+}
+function getItemAddons(category) {
+    return __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$data$2f$addons$2e$json$2e5b$json$5d2e$cjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].filter((a)=>a.item === category);
+}
+function getAddonById(id) {
+    return __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$data$2f$addons$2e$json$2e5b$json$5d2e$cjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].find((a)=>a.id === id);
 }
 /**
  * Random utility function

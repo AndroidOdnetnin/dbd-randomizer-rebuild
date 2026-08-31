@@ -37,8 +37,9 @@ export interface Perk {
 export interface Addon {
   id: string;
   name: string;
-  type: "Power Add-on";
-  killer: string;
+  type: "Power Add-on" | "Item Add-on";
+  killer?: string;
+  item?: string;
   rarity: "Common" | "Uncommon" | "Rare" | "Very Rare" | "Ultra Rare";
   effect: string;
   description: string;
@@ -48,7 +49,8 @@ export interface Item {
   id: string;
   name: string;
   type: "Item";
-  rarity: "Common" | "Uncommon" | "Rare" | "Very Rare";
+  category: string;
+  rarity: "Common" | "Uncommon" | "Rare" | "Very Rare" | "Event Only";
   effect: string;
   description: string;
   addons?: string[];

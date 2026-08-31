@@ -76,6 +76,20 @@ export function getKillerAddons(killerName: string): Addon[] {
 }
 
 /**
+ * Get add-ons for a specific item category (e.g. "Med-Kit", "Toolbox")
+ */
+export function getItemAddons(category: string): Addon[] {
+  return addons.filter((a) => a.item === category) as Addon[];
+}
+
+/**
+ * Look up a single add-on by id (used to resolve item add-on ids into names/effects)
+ */
+export function getAddonById(id: string): Addon | undefined {
+  return addons.find((a) => a.id === id) as Addon | undefined;
+}
+
+/**
  * Random utility function
  */
 function getRandomElement<T>(array: T[]): T {
