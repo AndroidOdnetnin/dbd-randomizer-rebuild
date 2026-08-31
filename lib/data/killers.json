@@ -1,0 +1,167 @@
+[
+  {
+    "id": "pyramid_head",
+    "name": "Pyramid Head",
+    "realName": "James Sunderland's Executioner",
+    "chapter": "Silent Hill",
+    "releaseDate": "2021-06-16",
+    "power": "Rites of Judgement",
+    "difficulty": "Hard",
+    "perks": ["deathbound", "ashlyn_cross", "trail_of_torment"],
+    "description": "An executioner born from guilt and suffering, wielding ancient judgment powers. His presence marks survivors with the Mark of Torment."
+  },
+  {
+    "id": "nemesis",
+    "name": "Nemesis",
+    "realName": "Nemesis T-Type",
+    "chapter": "Resident Evil",
+    "releaseDate": "2021-04-14",
+    "power": "T-Virus",
+    "difficulty": "Hard",
+    "perks": ["lethal_pursuer", "hysteria", "superior_anatomy"],
+    "description": "A bioweapon of terrible power, relentlessly pursuing its prey with superhuman strength and resilience."
+  },
+  {
+    "id": "wesker",
+    "name": "Albert Wesker",
+    "realName": "Albert Wesker",
+    "chapter": "Resident Evil",
+    "releaseDate": "2024-10-02",
+    "power": "Virulent Bound",
+    "difficulty": "Hard",
+    "perks": ["awakening", "superior_anatomy", "virulent_bound"],
+    "description": "A brilliant scientist turned monster, wielding superhuman abilities and tactical intelligence."
+  },
+  {
+    "id": "michael_myers",
+    "name": "Michael Myers",
+    "realName": "Michael Myers",
+    "chapter": "Halloween",
+    "releaseDate": "2018-09-05",
+    "power": "Evil Within",
+    "difficulty": "Hard",
+    "perks": ["hex_ruin", "hex_devour_hope", "dying_light"],
+    "description": "The Shape. An unstoppable killer driven by pure evil, growing stronger as he takes victims."
+  },
+  {
+    "id": "freddy_krueger",
+    "name": "Freddy Krueger",
+    "realName": "Fredrick Krueger",
+    "chapter": "A Nightmare on Elm Street",
+    "releaseDate": "2017-11-08",
+    "power": "Dream World",
+    "difficulty": "Hard",
+    "perks": ["remember_me", "blood_warden", "fire_up"],
+    "description": "A dream demon who pulls survivors into the nightmare realm where he reigns supreme."
+  },
+  {
+    "id": "spirit",
+    "name": "The Spirit",
+    "realName": "Rin Yamaoka",
+    "chapter": "Curtain Call",
+    "releaseDate": "2017-12-13",
+    "power": "Yamaoka's Haunting",
+    "difficulty": "Hard",
+    "perks": ["hex_haunted_ground", "rancor", "play_with_your_food"],
+    "description": "A vengeful spirit torn between worlds, capable of phasing through reality itself."
+  },
+  {
+    "id": "blight",
+    "name": "The Blight",
+    "realName": "Talbot Grady",
+    "chapter": "Chains of Hate",
+    "releaseDate": "2020-07-07",
+    "power": "Compound 21",
+    "difficulty": "Hard",
+    "perks": ["hex_undying", "blood_echo", "corrupted_intervention"],
+    "description": "A corrupted scientist enhanced by his own serum, capable of swift, erratic movement."
+  },
+  {
+    "id": "wraith",
+    "name": "The Wraith",
+    "realName": "Philip Ojomo",
+    "chapter": "Dead by Daylight",
+    "releaseDate": "2016-06-14",
+    "power": "Wailing Bell",
+    "difficulty": "Easy",
+    "perks": ["bloodhound", "shadowborn", "predator"],
+    "description": "A former vigilante who has learned to hide in plain sight, becoming nearly invisible."
+  },
+  {
+    "id": "hillbilly",
+    "name": "The Hillbilly",
+    "realName": "Max Thompson Jr.",
+    "chapter": "Dead by Daylight",
+    "releaseDate": "2016-06-14",
+    "power": "Chainsaw",
+    "difficulty": "Medium",
+    "perks": ["hex_make_your_choice", "enduring", "tinkerer"],
+    "description": "A deformed killer who has embraced a tool of destruction as his instrument of death."
+  },
+  {
+    "id": "nurse",
+    "name": "The Nurse",
+    "realName": "Sally Smithson",
+    "chapter": "Dead by Daylight",
+    "releaseDate": "2016-06-14",
+    "power": "Spencer's Last Breath",
+    "difficulty": "Hard",
+    "perks": ["hex_ruin", "stridor", "thanatophobia"],
+    "description": "A deranged nurse with the ability to blink between locations, appearing anywhere she wishes."
+  },
+  {
+    "id": "oni",
+    "name": "The Oni",
+    "realName": "Kazan Yamaoka",
+    "chapter": "Cursed Legacy",
+    "releaseDate": "2019-11-19",
+    "power": "Yamaoka's Wrath",
+    "difficulty": "Hard",
+    "perks": ["zanshin_tactic", "kanjiro_fujita", "blood_security"],
+    "description": "A demon of vengeance and rage, growing stronger as he hunts survivors."
+  },
+  {
+    "id": "victor",
+    "name": "Victor",
+    "realName": "Victor & Charlotte Deshayes",
+    "chapter": "Resident Evil",
+    "releaseDate": "2021-04-14",
+    "power": "Entombed",
+    "difficulty": "Hard",
+    "perks": ["twins", "incapacitate"],
+    "description": "Conjoined twins with horrifying origins, able to separate and attack from unexpected angles."
+  },
+  {
+    "id": "deathslinger",
+    "name": "The Deathslinger",
+    "realName": "Caleb Quinn",
+    "chapter": "Special Delivery",
+    "releaseDate": "2020-04-14",
+    "power": "Redeemer",
+    "difficulty": "Hard",
+    "perks": ["hex_retribution", "dead_man_switch"],
+    "description": "A gunslinger who has adapted his harpoon gun for a new kind of hunt."
+  },
+  {
+    "id": "trapper",
+    "name": "The Trapper",
+    "realName": "Evan MacMillan",
+    "chapter": "Dead by Daylight",
+    "releaseDate": "2016-06-14",
+    "power": "Bear Traps",
+    "difficulty": "Medium",
+    "perks": ["unnerving_presence", "hex_the_third_seal", "agitation"],
+    "description": "A hunter turned killer, using elaborate traps to ensnare his prey."
+  },
+  {
+    "id": "plague",
+    "name": "The Plague",
+    "realName": "Adiris",
+    "chapter": "Plague",
+    "releaseDate": "2019-03-19",
+    "power": "Vile Purge",
+    "difficulty": "Medium",
+    "perks": ["infectious_fright", "corrupt_intervention", "dark_devotion"],
+    "description": "A corrupted priestess who spreads pestilence and sickness wherever she goes."
+  }
+]

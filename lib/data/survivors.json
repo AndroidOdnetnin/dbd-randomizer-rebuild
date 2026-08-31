@@ -1,0 +1,152 @@
+[
+  {
+    "id": "cheryl_mason",
+    "name": "Cheryl Mason",
+    "realName": "Cheryl Mason",
+    "chapter": "Silent Hill",
+    "releaseDate": "2021-06-16",
+    "difficulty": "Hard",
+    "perks": ["red_herring", "cherish", "soul_guard"],
+    "description": "A young woman who has endured unimaginable horrors. She knows the twisted realities of Silent Hill and possesses an inner strength forged by adversity."
+  },
+  {
+    "id": "claire_redfield",
+    "name": "Claire Redfield",
+    "realName": "Claire Redfield",
+    "chapter": "Resident Evil",
+    "releaseDate": "2021-04-14",
+    "difficulty": "Medium",
+    "perks": ["lucky_break", "inner_healing", "protective_hit"],
+    "description": "A skilled explorer and survivor known for her resourcefulness and adaptability in dangerous situations."
+  },
+  {
+    "id": "jill_valentine",
+    "name": "Jill Valentine",
+    "realName": "Jill Valentine",
+    "chapter": "Resident Evil",
+    "releaseDate": "2021-04-14",
+    "difficulty": "Hard",
+    "perks": ["blast_mine", "counterforce"],
+    "description": "An expert in espionage and combat, Jill brings tactical knowledge and combat prowess to survival."
+  },
+  {
+    "id": "rebecca_chambers",
+    "name": "Rebecca Chambers",
+    "realName": "Rebecca Chambers",
+    "chapter": "Resident Evil",
+    "releaseDate": "2021-04-14",
+    "difficulty": "Medium",
+    "perks": ["self_aware", "finesse"],
+    "description": "A brilliant medic and scientist whose knowledge and medical skills help her overcome obstacles."
+  },
+  {
+    "id": "chris_redfield",
+    "name": "Chris Redfield",
+    "realName": "Chris Redfield",
+    "chapter": "Resident Evil",
+    "releaseDate": "2021-04-14",
+    "difficulty": "Easy",
+    "perks": ["quick_gambit", "reassurance"],
+    "description": "A veteran soldier and leader whose combat experience and tactical thinking aid his survival."
+  },
+  {
+    "id": "ada_wong",
+    "name": "Ada Wong",
+    "realName": "Ada Wong",
+    "chapter": "Resident Evil",
+    "releaseDate": "2024-10-02",
+    "difficulty": "Medium",
+    "perks": ["rookie_spirit", "wiretap"],
+    "description": "A mysterious spy with exceptional hacking skills and a talent for uncovering secrets."
+  },
+  {
+    "id": "laurie_strode",
+    "name": "Laurie Strode",
+    "realName": "Laurie Strode",
+    "chapter": "Halloween",
+    "releaseDate": "2018-09-05",
+    "difficulty": "Medium",
+    "perks": ["halloween_event", "decisive_strike", "tenacity"],
+    "description": "A survivor who has endured the worst horror imaginable and lived to tell about it."
+  },
+  {
+    "id": "quentin_smith",
+    "name": "Quentin Smith",
+    "realName": "Quentin Smith",
+    "chapter": "A Nightmare on Elm Street",
+    "releaseDate": "2017-11-08",
+    "difficulty": "Hard",
+    "perks": ["pharmacy", "vigil", "wake_up"],
+    "description": "A student pulled into a nightmare world, he discovered hidden truths and developed the resilience to resist even in his darkest hours."
+  },
+  {
+    "id": "bill_overbeck",
+    "name": "Bill Overbeck",
+    "realName": "Bill Overbeck",
+    "chapter": "Left 4 Dead",
+    "releaseDate": "2015-02-25",
+    "difficulty": "Easy",
+    "perks": ["left_for_dead", "borrowed_time", "unbreakable"],
+    "description": "A hardened soldier and leader who thinks of the group before himself and will not go down easily."
+  },
+  {
+    "id": "ace_visconti",
+    "name": "Ace Visconti",
+    "realName": "Ace Visconti",
+    "chapter": "Curtain Call",
+    "releaseDate": "2017-12-13",
+    "difficulty": "Easy",
+    "perks": ["up_the_ante", "open_handed", "deliverance"],
+    "description": "A reckless gambler and con artist, Ace has always trusted in his luck to get through the day."
+  },
+  {
+    "id": "feng_min",
+    "name": "Feng Min",
+    "realName": "Feng Min",
+    "chapter": "Out of Sight",
+    "releaseDate": "2016-07-13",
+    "difficulty": "Medium",
+    "perks": ["alert", "technician", "balanced_landing"],
+    "description": "A highly skilled esports player whose reflexes and tactical awareness translate well to survival situations."
+  },
+  {
+    "id": "jane_romero",
+    "name": "Jane Romero",
+    "realName": "Jane Romero",
+    "chapter": "Demise of the Faithful",
+    "releaseDate": "2018-08-01",
+    "difficulty": "Hard",
+    "perks": ["poised", "sacrifice", "nemesis"],
+    "description": "An investigative journalist who has uncovered dark secrets and knows how to think on her feet."
+  },
+  {
+    "id": "nancy_wheeler",
+    "name": "Nancy Wheeler",
+    "realName": "Nancy Wheeler",
+    "chapter": "Stranger Things",
+    "releaseDate": "2019-11-06",
+    "difficulty": "Medium",
+    "perks": ["better_together", "inner_strength", "fixated"],
+    "description": "A determined teen who has faced supernatural horrors and learned to stand up against them."
+  },
+  {
+    "id": "steve_harrington",
+    "name": "Steve Harrington",
+    "realName": "Steve Harrington",
+    "chapter": "Stranger Things",
+    "releaseDate": "2019-11-06",
+    "difficulty": "Easy",
+    "perks": ["babysitter", "camaraderie", "second_wind"],
+    "description": "A charismatic leader who looks out for his friends and knows how to navigate dangerous situations."
+  },
+  {
+    "id": "pyramid_head_survivor",
+    "name": "Cheryl Mason",
+    "realName": "Cheryl Mason",
+    "chapter": "Silent Hill",
+    "releaseDate": "2021-06-16",
+    "difficulty": "Hard",
+    "perks": ["red_herring", "cherish", "soul_guard"],
+    "description": "A young woman shaped by the horrors of Silent Hill, bearing scars from facing her deepest fears."
+  }
+]

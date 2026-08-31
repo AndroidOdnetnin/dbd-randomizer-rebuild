@@ -1,0 +1,183 @@
+[
+  {
+    "id": "decisive_strike",
+    "name": "Decisive Strike",
+    "type": "Survivor",
+    "character": "Laurie Strode",
+    "rarity": "Rare",
+    "effect": "Escape the Killer's grasp",
+    "cooldown": 60,
+    "description": "When being carried by the Killer, press the Active Ability button when at the right moment to escape their grasp. Causes 5% exhaustion of your Sprint Burst."
+  },
+  {
+    "id": "self_care",
+    "name": "Self-Care",
+    "type": "Survivor",
+    "character": "Cheryl Mason",
+    "rarity": "Uncommon",
+    "effect": "Heal yourself",
+    "description": "Unlock the ability to heal yourself without needing a Med-Kit, but at a reduced rate."
+  },
+  {
+    "id": "spine_chill",
+    "name": "Spine Chill",
+    "type": "Survivor",
+    "character": "Bill Overbeck",
+    "rarity": "Uncommon",
+    "effect": "Alerts you when Killer is nearby",
+    "description": "When the Killer comes within 12 meters, the Perk activates, revealing their presence."
+  },
+  {
+    "id": "bond",
+    "name": "Bond",
+    "type": "Survivor",
+    "character": "Quentin Smith",
+    "rarity": "Uncommon",
+    "effect": "Reveal teammates",
+    "description": "Reveals the location of teammates within 28 meters of you."
+  },
+  {
+    "id": "unbreakable",
+    "name": "Unbreakable",
+    "type": "Survivor",
+    "character": "Bill Overbeck",
+    "rarity": "Rare",
+    "effect": "Recover from broken status",
+    "description": "Recover from the Broken status effect without needing external intervention."
+  },
+  {
+    "id": "borrowed_time",
+    "name": "Borrowed Time",
+    "type": "Survivor",
+    "character": "Bill Overbeck",
+    "rarity": "Rare",
+    "effect": "Protect teammates from being hit",
+    "description": "After unhooking a teammate, they are protected from being damaged for 12 seconds."
+  },
+  {
+    "id": "inner_strength",
+    "name": "Inner Strength",
+    "type": "Survivor",
+    "character": "Nancy Wheeler",
+    "rarity": "Rare",
+    "effect": "Heal inside lockers",
+    "description": "While in a locker, you can enter a meditative state and heal yourself without a Med-Kit."
+  },
+  {
+    "id": "lucky_break",
+    "name": "Lucky Break",
+    "type": "Survivor",
+    "character": "Claire Redfield",
+    "rarity": "Rare",
+    "effect": "Hide scratch marks",
+    "description": "Scratch marks you leave are hidden for 80 seconds after entering the injured state."
+  },
+  {
+    "id": "blast_mine",
+    "name": "Blast Mine",
+    "type": "Survivor",
+    "character": "Jill Valentine",
+    "rarity": "Rare",
+    "effect": "Trigger explosions",
+    "description": "After repairing a generator for a total of 3 seconds, press the activate ability button to set a trap."
+  },
+  {
+    "id": "hex_ruin",
+    "name": "Hex: Ruin",
+    "type": "Killer",
+    "character": "Rin Yamaoka",
+    "rarity": "Rare",
+    "effect": "Slows generator repairs",
+    "description": "Causes all generators to regress at 150% speed when not being repaired."
+  },
+  {
+    "id": "hex_devour_hope",
+    "name": "Hex: Devour Hope",
+    "type": "Killer",
+    "character": "Michael Myers",
+    "rarity": "Rare",
+    "effect": "Gain power from hooks",
+    "description": "Each time a survivor is hooked, gain a token and gain effects based on token count."
+  },
+  {
+    "id": "dying_light",
+    "name": "Dying Light",
+    "type": "Killer",
+    "character": "Michael Myers",
+    "rarity": "Rare",
+    "effect": "Slow survivor repair speed",
+    "description": "When a survivor is in a dying state, all other survivors suffer from a stack of -3% repair speed."
+  },
+  {
+    "id": "hex_haunted_ground",
+    "name": "Hex: Haunted Ground",
+    "type": "Killer",
+    "character": "The Spirit",
+    "rarity": "Uncommon",
+    "effect": "Curse unhooking survivors",
+    "description": "When a survivor unhooks another survivor, both are exposed for 60 seconds."
+  },
+  {
+    "id": "stridor",
+    "name": "Stridor",
+    "type": "Killer",
+    "character": "Sally Smithson",
+    "rarity": "Uncommon",
+    "effect": "Hear survivor breathing",
+    "description": "The breathing sounds of survivors are 25% louder to you."
+  },
+  {
+    "id": "thanatophobia",
+    "name": "Thanatophobia",
+    "type": "Killer",
+    "character": "Sally Smithson",
+    "rarity": "Rare",
+    "effect": "Slow repairs when injured",
+    "description": "For each survivor in an injured state, all generators repair 4% slower."
+  },
+  {
+    "id": "bbq_chili",
+    "name": "BBQ & Chili",
+    "type": "Killer",
+    "character": "Leatherface",
+    "rarity": "Rare",
+    "effect": "Reveal survivors after hook",
+    "description": "After hooking a survivor, all survivors auras are revealed for 4 seconds."
+  },
+  {
+    "id": "iron_grasp",
+    "name": "Iron Grasp",
+    "type": "Killer",
+    "character": "Evan MacMillan",
+    "rarity": "Uncommon",
+    "effect": "Slow escape attempts",
+    "description": "Reduce the struggle effect that causes you to lose time when carrying a survivor by 10%."
+  },
+  {
+    "id": "agitation",
+    "name": "Agitation",
+    "type": "Killer",
+    "character": "Evan MacMillan",
+    "rarity": "Uncommon",
+    "effect": "Faster carrying",
+    "description": "Increase the movement speed of the Killer by 10% while carrying a survivor."
+  },
+  {
+    "id": "enduring",
+    "name": "Enduring",
+    "type": "Killer",
+    "character": "Max Thompson Jr.",
+    "rarity": "Uncommon",
+    "effect": "Reduce stun duration",
+    "description": "Reduce the duration of time the Killer is stunned by 25%."
+  },
+  {
+    "id": "tinkerer",
+    "name": "Tinkerer",
+    "type": "Killer",
+    "character": "Max Thompson Jr.",
+    "rarity": "Rare",
+    "effect": "See generator alerts",
+    "description": "When a survivor starts repairing a generator for the first time, you receive a notification and see the generator's aura."
+  }
+]

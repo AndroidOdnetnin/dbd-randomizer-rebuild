@@ -1,0 +1,137 @@
+[
+  {
+    "id": "scratched_mirror",
+    "name": "Scratched Mirror",
+    "type": "Power Add-on",
+    "killer": "The Wraith",
+    "rarity": "Ultra Rare",
+    "effect": "See survivors while cloaked",
+    "description": "While cloaked, you can see the auras of survivors within 16 meters."
+  },
+  {
+    "id": "bone_clapper",
+    "name": "Bone Clapper",
+    "type": "Power Add-on",
+    "killer": "The Wraith",
+    "rarity": "Common",
+    "effect": "Loosen bell",
+    "description": "The Wailing Bell causes 0% terror radius reduction to your uncloak."
+  },
+  {
+    "id": "carburetor_tuning_kit",
+    "name": "Carburetor Tuning Kit",
+    "type": "Power Add-on",
+    "killer": "The Hillbilly",
+    "rarity": "Uncommon",
+    "effect": "Faster chainsaw rev",
+    "description": "Reduce the charge time of the Chainsaw by 10%."
+  },
+  {
+    "id": "iridescent_stone",
+    "name": "Iridescent Stone",
+    "type": "Power Add-on",
+    "killer": "The Hillbilly",
+    "rarity": "Ultra Rare",
+    "effect": "Cross-map chainsaw",
+    "description": "Increase the speed of the Chainsaw sprint by 15% and grant the ability to boost farther."
+  },
+  {
+    "id": "queen_walkers_emblem",
+    "name": "Queen Walker's Emblem",
+    "type": "Power Add-on",
+    "killer": "The Nurse",
+    "rarity": "Uncommon",
+    "effect": "Faster blink",
+    "description": "Reduce the blink action duration by 10%."
+  },
+  {
+    "id": "amangeaux_ward",
+    "name": "Amangeaux Ward",
+    "type": "Power Add-on",
+    "killer": "The Nurse",
+    "rarity": "Rare",
+    "effect": "See during blinks",
+    "description": "Reveal survivor auras within 24 meters while blinking."
+  },
+  {
+    "id": "iridescent_head",
+    "name": "Iridescent Head",
+    "type": "Power Add-on",
+    "killer": "The Huntress",
+    "rarity": "Ultra Rare",
+    "effect": "One-shot hatchets",
+    "description": "Thrown hatchets down survivors in a single hit but caps your hatchet count at 1."
+  },
+  {
+    "id": "shattered_piece_of_mirrors",
+    "name": "Shattered Piece of Mirrors",
+    "type": "Power Add-on",
+    "killer": "Michael Myers",
+    "rarity": "Rare",
+    "effect": "Extend Evil Within range",
+    "description": "Increase the range of the Evil Within by 6 meters."
+  },
+  {
+    "id": "memorial_flower",
+    "name": "Memorial Flower",
+    "type": "Power Add-on",
+    "killer": "The Spirit",
+    "rarity": "Uncommon",
+    "effect": "Faster phasing",
+    "description": "Reduce the phase duration cooldown by 10%."
+  },
+  {
+    "id": "prayer_beads_bracelet",
+    "name": "Prayer Beads Bracelet",
+    "type": "Power Add-on",
+    "killer": "The Spirit",
+    "rarity": "Rare",
+    "effect": "Silent phasing",
+    "description": "Survivors receive no audio notification when you start phasing."
+  },
+  {
+    "id": "blood_amber",
+    "name": "Blood Amber",
+    "type": "Power Add-on",
+    "killer": "The Blight",
+    "rarity": "Uncommon",
+    "effect": "Faster rush",
+    "description": "Increase the movement speed of the Lethal Dash by 5%."
+  },
+  {
+    "id": "blight_core",
+    "name": "Blight Core",
+    "type": "Power Add-on",
+    "killer": "The Blight",
+    "rarity": "Ultra Rare",
+    "effect": "Double dash charges",
+    "description": "Grant an additional charge to the Lethal Dash (maximum of 4)."
+  },
+  {
+    "id": "rotting_pumpkin",
+    "name": "Rotting Pumpkin",
+    "type": "Power Add-on",
+    "killer": "The Plague",
+    "rarity": "Uncommon",
+    "effect": "Enhanced putrification",
+    "description": "Increase the range of Vile Purge projectiles by 2 meters."
+  },
+  {
+    "id": "medical_practice_exam",
+    "name": "Medical Practice Exam",
+    "type": "Power Add-on",
+    "killer": "Nemesis",
+    "rarity": "Uncommon",
+    "effect": "Faster mutation",
+    "description": "Reduce the time required to mutate to the next tier by 15%."
+  },
+  {
+    "id": "special_serum",
+    "name": "Special Serum",
+    "type": "Power Add-on",
+    "killer": "Nemesis",
+    "rarity": "Rare",
+    "effect": "Increased mutation strength",
+    "description": "Gain +1 to mutation progression speed per nearby survivor."
+  }
+]

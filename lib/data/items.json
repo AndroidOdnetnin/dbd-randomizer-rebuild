@@ -1,0 +1,92 @@
+[
+  {
+    "id": "med_kit",
+    "name": "Med-Kit",
+    "type": "Item",
+    "rarity": "Common",
+    "effect": "Heal yourself and teammates",
+    "description": "A medical kit containing healing supplies. Use it to heal yourself or teammates faster.",
+    "addons": ["bandages", "medical_tape", "first_aid_spray"]
+  },
+  {
+    "id": "flashlight",
+    "name": "Flashlight",
+    "type": "Item",
+    "rarity": "Common",
+    "effect": "Blind the killer",
+    "description": "A hand-held flashlight that can blind the Killer momentarily.",
+    "addons": ["fresh_batteries", "high_flux_battery", "thick_filament_bulb"]
+  },
+  {
+    "id": "toolbox",
+    "name": "Toolbox",
+    "type": "Item",
+    "rarity": "Uncommon",
+    "effect": "Repair generators faster",
+    "description": "A toolbox containing various tools to repair generators quickly.",
+    "addons": ["filing_cabinet", "hacksaw", "yellow_lockpick"]
+  },
+  {
+    "id": "key",
+    "name": "Key",
+    "type": "Item",
+    "rarity": "Rare",
+    "effect": "Opens chests and hatch",
+    "description": "A mysterious key that can open treasure chests and the hatch.",
+    "addons": ["skeleton_key", "rusted_key", "ornate_key"]
+  },
+  {
+    "id": "map",
+    "name": "Map",
+    "type": "Item",
+    "rarity": "Common",
+    "effect": "Reveals the trial ground layout",
+    "description": "A map of the trial ground showing generators, chests, and other locations.",
+    "addons": ["old_map", "worn_notebook", "blood_stained_note"]
+  },
+  {
+    "id": "rope",
+    "name": "Rope",
+    "type": "Item",
+    "rarity": "Uncommon",
+    "effect": "Opens chests",
+    "description": "A coil of rope used to open chests and retrieve items.",
+    "addons": ["hemp_rope", "leather_cord", "twin_rope"]
+  },
+  {
+    "id": "pebble",
+    "name": "Pebble",
+    "type": "Item",
+    "rarity": "Common",
+    "effect": "Distract the killer",
+    "description": "A small pebble that can be thrown to distract the Killer.",
+    "addons": []
+  },
+  {
+    "id": "broken_key",
+    "name": "Broken Key",
+    "type": "Item",
+    "rarity": "Rare",
+    "effect": "Limited hatch opening",
+    "description": "A damaged key with limited charges to open the hatch.",
+    "addons": ["shiny_fragment", "crystal_fragment", "dull_fragment"]
+  },
+  {
+    "id": "garden_rake",
+    "name": "Garden Rake",
+    "type": "Item",
+    "rarity": "Common",
+    "effect": "Scratch marks effect",
+    "description": "A garden tool that slightly reduces scratch mark clarity.",
+    "addons": []
+  },
+  {
+    "id": "lockpick",
+    "name": "Lockpick",
+    "type": "Item",
+    "rarity": "Uncommon",
+    "effect": "Unlock chests",
+    "description": "A lockpick set for opening chests and locks.",
+    "addons": ["skeleton_key", "rusted_lockpick"]
+  }
+]
