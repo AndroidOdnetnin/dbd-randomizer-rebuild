@@ -1,0 +1,43 @@
+{
+  "name": "dbd-randomizer-rebuild",
+  "version": "0.1.0",
+  "description": "A lightweight, ad-free Dead by Daylight randomizer website",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AndroidOdnetnin/dbd-randomizer-rebuild.git"
+  },
+  "keywords": [
+    "dbd",
+    "dead-by-daylight",
+    "randomizer"
+  ],
+  "author": "AndroidOdnetnin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AndroidOdnetnin/dbd-randomizer-rebuild/issues"
+  },
+  "homepage": "https://github.com/AndroidOdnetnin/dbd-randomizer-rebuild#readme",
+  "dependencies": {
+    "@tailwindcss/postcss": "^4.3.3",
+    "autoprefixer": "^10.5.4",
+    "eslint": "^10.9.1",
+    "eslint-config-next": "^16.3.3",
+    "next": "^16.3.3",
+    "postcss": "^8.5.26",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^7.0.2"
+  },
+  "devDependencies": {
+    "@types/node": "26.4.0",
+    "@types/react": "19.2.18"
+  }
+}
