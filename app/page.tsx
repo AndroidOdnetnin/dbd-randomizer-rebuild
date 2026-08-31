@@ -90,6 +90,13 @@ function freshKillerOmitSets(prev: OmitSets): OmitSets {
   return { ...fresh, survivors: prev.survivors, survivorPerks: prev.survivorPerks, items: prev.items, itemAddons: prev.itemAddons, survivorOfferings: prev.survivorOfferings };
 }
 
+// Shared button styles: Omit uses a quiet outline so it never competes visually
+// with the primary Randomize/Respin actions.
+const OMIT_BTN =
+  "shrink-0 border border-orange-500/60 text-orange-300 hover:bg-orange-500/10 text-xs font-semibold py-1.5 px-3 rounded transition";
+const OMIT_BTN_LG =
+  "shrink-0 border border-orange-500/60 text-orange-300 hover:bg-orange-500/10 text-sm font-semibold py-2 px-3 rounded-lg transition";
+
 export default function Home() {
   const [survivorLoadout, setSurvivorLoadout] = useState<SurvivorLoadout | null>(null);
   const [killerLoadout, setKillerLoadout] = useState<KillerLoadout | null>(null);
@@ -311,6 +318,7 @@ export default function Home() {
 
         <div className="flex justify-center gap-4 mb-8 flex-wrap">
           <button
+            type="button"
             onClick={() => setActiveTab("survivor")}
             className={`px-6 py-2 rounded-lg font-bold transition ${
               activeTab === "survivor" ? "bg-blue-600 text-white" : "bg-slate-700 text-gray-300 hover:bg-slate-600"
@@ -319,6 +327,7 @@ export default function Home() {
             🎮 Survivor
           </button>
           <button
+            type="button"
             onClick={() => setActiveTab("killer")}
             className={`px-6 py-2 rounded-lg font-bold transition ${
               activeTab === "killer" ? "bg-red-600 text-white" : "bg-slate-700 text-gray-300 hover:bg-slate-600"
@@ -327,6 +336,7 @@ export default function Home() {
             🔪 Killer
           </button>
           <button
+            type="button"
             onClick={() => setActiveTab("both")}
             className={`px-6 py-2 rounded-lg font-bold transition ${
               activeTab === "both" ? "bg-purple-600 text-white" : "bg-slate-700 text-gray-300 hover:bg-slate-600"
@@ -338,6 +348,7 @@ export default function Home() {
 
         <div className="flex justify-center gap-3 mb-8 flex-wrap">
           <button
+            type="button"
             onClick={saveCurrentLoadout}
             disabled={!survivorLoadout && !killerLoadout}
             className="bg-slate-700 hover:bg-slate-600 text-white text-sm font-semibold py-2 px-4 rounded-lg transition disabled:opacity-40"
@@ -346,6 +357,7 @@ export default function Home() {
             💾 Save Loadout
           </button>
           <button
+            type="button"
             onClick={() => setShowFavorites((v) => !v)}
             className="bg-slate-700 hover:bg-slate-600 text-white text-sm font-semibold py-2 px-4 rounded-lg transition"
           >
@@ -375,12 +387,14 @@ export default function Home() {
                     </div>
                     <div className="flex gap-2 shrink-0">
                       <button
+                        type="button"
                         onClick={() => loadFavorite(preset)}
                         className="bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-1.5 px-3 rounded transition"
                       >
                         Load
                       </button>
                       <button
+                        type="button"
                         onClick={() => deleteFavorite(preset.id)}
                         className="bg-red-600 hover:bg-red-700 text-white text-xs font-semibold py-1.5 px-3 rounded transition"
                       >
@@ -398,6 +412,7 @@ export default function Home() {
           {activeTab === "both" && (
             <div className="text-center mb-8">
               <button
+                type="button"
                 onClick={handleRandomizeAll}
                 className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-4 px-8 rounded-lg text-lg transition"
               >
@@ -412,12 +427,14 @@ export default function Home() {
 
               <div className="flex gap-2 mb-6 flex-wrap">
                 <button
+                  type="button"
                   onClick={handleRandomizeSurvivor}
                   className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition"
                 >
                   🎲 Randomize
                 </button>
                 <button
+                  type="button"
                   onClick={handleRespinSurvivor}
                   disabled={!survivorLoadout}
                   className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg transition disabled:opacity-50"
@@ -439,8 +456,9 @@ export default function Home() {
                       </p>
                     </div>
                     <button
+                      type="button"
                       onClick={omitAndRerollSurvivor}
-                      className="shrink-0 bg-orange-600 hover:bg-orange-700 text-white text-sm font-semibold py-2 px-3 rounded-lg transition"
+                      className={OMIT_BTN_LG}
                       title="Don't have this survivor unlocked? Omit them and roll another."
                     >
                       Omit & Reroll
@@ -457,8 +475,9 @@ export default function Home() {
                             <p className="text-sm text-gray-300 leading-relaxed mt-1">{perk.effect}</p>
                           </div>
                           <button
+                            type="button"
                             onClick={() => omitAndRerollSurvivorPerk(index)}
-                            className="self-start bg-orange-600 hover:bg-orange-700 text-white text-xs font-semibold py-1.5 px-3 rounded transition"
+                            className={`${OMIT_BTN} self-start`}
                             title="Don't have this perk unlocked? Omit it and roll another."
                           >
                             Omit
@@ -481,8 +500,9 @@ export default function Home() {
                             </p>
                           </div>
                           <button
+                            type="button"
                             onClick={omitAndRerollItem}
-                            className="shrink-0 bg-orange-600 hover:bg-orange-700 text-white text-xs font-semibold py-1.5 px-3 rounded transition"
+                            className={OMIT_BTN}
                             title="Don't have this item unlocked? Omit it and roll another."
                           >
                             Omit
@@ -502,6 +522,7 @@ export default function Home() {
                                   >
                                     {addon?.name ?? addonId}
                                     <button
+                                      type="button"
                                       onClick={() => omitAndRerollAddon(addonId)}
                                       className="text-orange-300 hover:text-orange-100 font-bold"
                                       title="Don't have this add-on? Omit it and roll another."
@@ -530,8 +551,9 @@ export default function Home() {
                           </p>
                         </div>
                         <button
+                          type="button"
                           onClick={omitAndRerollSurvivorOffering}
-                          className="shrink-0 bg-orange-600 hover:bg-orange-700 text-white text-xs font-semibold py-1.5 px-3 rounded transition"
+                          className={OMIT_BTN}
                           title="Don't have this offering? Omit it and roll another."
                         >
                           Omit
@@ -550,12 +572,14 @@ export default function Home() {
 
               <div className="flex gap-2 mb-6 flex-wrap">
                 <button
+                  type="button"
                   onClick={handleRandomizeKiller}
                   className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg transition"
                 >
                   🎲 Randomize
                 </button>
                 <button
+                  type="button"
                   onClick={handleRespinKiller}
                   disabled={!killerLoadout}
                   className="bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-lg transition disabled:opacity-50"
@@ -574,8 +598,9 @@ export default function Home() {
                       <p className="text-sm text-gray-400">Difficulty: {killerLoadout.killer.difficulty}</p>
                     </div>
                     <button
+                      type="button"
                       onClick={omitAndRerollKiller}
-                      className="shrink-0 bg-orange-600 hover:bg-orange-700 text-white text-sm font-semibold py-2 px-3 rounded-lg transition"
+                      className={OMIT_BTN_LG}
                       title="Don't have this killer unlocked? Omit them and roll another."
                     >
                       Omit & Reroll
@@ -592,8 +617,9 @@ export default function Home() {
                             <p className="text-sm text-gray-300 leading-relaxed mt-1">{perk.effect}</p>
                           </div>
                           <button
+                            type="button"
                             onClick={() => omitAndRerollKillerPerk(index)}
-                            className="self-start bg-orange-600 hover:bg-orange-700 text-white text-xs font-semibold py-1.5 px-3 rounded transition"
+                            className={`${OMIT_BTN} self-start`}
                             title="Don't have this perk unlocked? Omit it and roll another."
                           >
                             Omit
@@ -614,8 +640,9 @@ export default function Home() {
                             <p className="text-xs text-gray-400 mt-2">Rarity: {addon.rarity}</p>
                           </div>
                           <button
+                            type="button"
                             onClick={() => omitAndRerollKillerAddon(index)}
-                            className="shrink-0 bg-orange-600 hover:bg-orange-700 text-white text-xs font-semibold py-1.5 px-3 rounded transition"
+                            className={OMIT_BTN}
                             title="Don't have this add-on unlocked? Omit it and roll another."
                           >
                             Omit
@@ -640,8 +667,9 @@ export default function Home() {
                           </p>
                         </div>
                         <button
+                          type="button"
                           onClick={omitAndRerollKillerOffering}
-                          className="shrink-0 bg-orange-600 hover:bg-orange-700 text-white text-xs font-semibold py-1.5 px-3 rounded transition"
+                          className={OMIT_BTN}
                           title="Don't have this offering? Omit it and roll another."
                         >
                           Omit
