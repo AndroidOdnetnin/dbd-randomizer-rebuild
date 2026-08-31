@@ -1,0 +1,122 @@
+[
+  {
+    "id": "strode_house_basement_key",
+    "name": "Strode House Basement Key",
+    "type": "Survivor Offering",
+    "rarity": "Uncommon",
+    "effect": "Increase chance of being sent to Haddonfield",
+    "description": "An old key from Laurie's house. Use this offering to increase the likelihood of spawning on Haddonfield."
+  },
+  {
+    "id": "saltwood_dinner_set",
+    "name": "Saltwood Dinner Set",
+    "type": "Survivor Offering",
+    "rarity": "Common",
+    "effect": "Increase bloodpoints from repairs",
+    "description": "A fine china set. Grants +25% bonus Objective bloodpoints."
+  },
+  {
+    "id": "the_last_will",
+    "name": "The Last Will",
+    "type": "Survivor Offering",
+    "rarity": "Rare",
+    "effect": "Protect survivors at the end game",
+    "description": "A final testament. Survivors who haven't been hooked receive additional protection during end game collapse."
+  },
+  {
+    "id": "escape_cake",
+    "name": "Escape Cake",
+    "type": "Survivor Offering",
+    "rarity": "Uncommon",
+    "effect": "Increase all bloodpoints",
+    "description": "A delicious cake. Grants +25% bonus bloodpoints for all categories."
+  },
+  {
+    "id": "bloody_party_streamers",
+    "name": "Bloody Party Streamers",
+    "type": "Killer Offering",
+    "rarity": "Uncommon",
+    "effect": "Increase bloodpoints for all players",
+    "description": "Festive decorations. All players earn +25% bonus bloodpoints."
+  },
+  {
+    "id": "ebony_mori",
+    "name": "Ebony Mori",
+    "type": "Killer Offering",
+    "rarity": "Very Rare",
+    "effect": "Eliminate survivors without the hatch",
+    "description": "A black candle. Grants the ability to sacrifice any survivor."
+  },
+  {
+    "id": "ivory_mori",
+    "name": "Ivory Mori",
+    "type": "Killer Offering",
+    "rarity": "Rare",
+    "effect": "Sacrifice dying survivors",
+    "description": "A white candle. Grants the ability to sacrifice survivors who are in a dying state."
+  },
+  {
+    "id": "realm_beyond_offering",
+    "name": "The Realm Beyond",
+    "type": "Survivor Offering",
+    "rarity": "Very Rare",
+    "effect": "Transcendence",
+    "description": "A mysterious offering. Grants the ability to see beyond death."
+  },
+  {
+    "id": "nectar_of_the_fog",
+    "name": "Nectar of the Fog",
+    "type": "Killer Offering",
+    "rarity": "Common",
+    "effect": "Increase killer speed",
+    "description": "A strange substance. Grants +5% movement speed."
+  },
+  {
+    "id": "old_coin",
+    "name": "Old Coin",
+    "type": "Survivor Offering",
+    "rarity": "Common",
+    "effect": "Luck-based bonus",
+    "description": "An antique coin. Grants a random bonus bloodpoint boost."
+  },
+  {
+    "id": "picture_of_the_twins",
+    "name": "Picture of the Twins",
+    "type": "Survivor Offering",
+    "rarity": "Rare",
+    "effect": "Family reunion",
+    "description": "A photograph of siblings. Grants enhanced perception of nearby survivors."
+  },
+  {
+    "id": "scourge_hook_offering",
+    "name": "Hex: Scourge Hook",
+    "type": "Killer Offering",
+    "rarity": "Rare",
+    "effect": "Cursed hooks",
+    "description": "Corruption spreads to the hooks. Hooked survivors suffer from afflictions."
+  },
+  {
+    "id": "survivor_pudding",
+    "name": "Survivor Pudding",
+    "type": "Survivor Offering",
+    "rarity": "Uncommon",
+    "effect": "Reveal killer",
+    "description": "A sweet treat. Survivors see the killer's aura periodically."
+  },
+  {
+    "id": "killer_pudding",
+    "name": "Killer Pudding",
+    "type": "Killer Offering",
+    "rarity": "Uncommon",
+    "effect": "Find survivors",
+    "description": "A bitter brew. See survivor auras for the first 30 seconds."
+  },
+  {
+    "id": "resilience_offering",
+    "name": "Offering of Resilience",
+    "type": "Survivor Offering",
+    "rarity": "Common",
+    "effect": "Stealth bonus",
+    "description": "A token of perseverance. Grants increased stealth for the trial."
+  }
+]

@@ -6,7 +6,7 @@
     "rarity": "Common",
     "effect": "Heal yourself and teammates",
     "description": "A medical kit containing healing supplies. Use it to heal yourself or teammates faster.",
-    "addons": ["bandages", "medical_tape", "first_aid_spray"]
+    "addons": ["bandages", "medical_tape", "first_aid_spray", "gel_accelerant", "styptic_agent"]
   },
   {
     "id": "flashlight",

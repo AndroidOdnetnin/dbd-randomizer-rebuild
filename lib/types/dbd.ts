@@ -54,6 +54,15 @@ export interface Item {
   addons?: string[];
 }
 
+export interface Offering {
+  id: string;
+  name: string;
+  type: string;
+  rarity: "Common" | "Uncommon" | "Rare" | "Very Rare";
+  effect: string;
+  description: string;
+}
+
 export interface RandomizerLoadout {
   survivor?: {
     character: Survivor;

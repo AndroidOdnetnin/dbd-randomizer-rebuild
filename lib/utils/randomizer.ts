@@ -3,6 +3,7 @@ import killers from "@/lib/data/killers.json";
 import perks from "@/lib/data/perks.json";
 import addons from "@/lib/data/addons.json";
 import items from "@/lib/data/items.json";
+import offerings from "@/lib/data/offerings.json";
 import type {
   Survivor,
   Killer,
@@ -90,37 +91,57 @@ function getRandomElements<T>(array: T[], count: number): T[] {
 }
 
 /**
- * Randomize a survivor loadout
+ * Randomize a survivor loadout with omit support
  */
-export function randomizeSurvivor(): {
-  survivor: Survivor;
-  perks: Perk[];
-  item: Item | null;
-} {
-  const survivor = getRandomElement(getSurvivors());
-  const survivorPerks = getSurvivorPerks();
-  const selectedPerks = getRandomElements(survivorPerks, 3);
-  const randomItem = Math.random() > 0.3 ? getRandomElement(getItems()) : null;
+export function randomizeSurvivor(omitIds?: string[]) {
+  const availableSurvivors = survivors.filter(
+    (s) => !omitIds?.includes(s.id)
+  ) as Survivor[];
+  if (availableSurvivors.length === 0) return null;
+
+  const survivor = getRandomElement(availableSurvivors);
+  const survivorPerks = getSurvivorPerks().filter(
+    (p) => !omitIds?.includes(p.id)
+  );
+  const selectedPerks = getRandomElements(survivorPerks, 4);
+  const availableItems = getItems().filter((i) => !omitIds?.includes(i.id));
+  const randomItem =
+    availableItems.length > 0 && Math.random() > 0.3
+      ? getRandomElement(availableItems)
+      : null;
+
+  // Get random add-ons for the item
+  let selectedAddons: any[] = [];
+  if (randomItem?.addons) {
+    const availableAddons = randomItem.addons.filter(
+      (a: string) => !omitIds?.includes(a)
+    );
+    selectedAddons = getRandomElements(availableAddons, Math.min(2, availableAddons.length));
+  }
 
   return {
     survivor,
     perks: selectedPerks,
     item: randomItem,
+    addons: selectedAddons,
   };
 }
 
 /**
- * Randomize a killer loadout
+ * Randomize a killer loadout with omit support
  */
-export function randomizeKiller(): {
-  killer: Killer;
-  perks: Perk[];
-  addons: Addon[];
-} {
-  const killer = getRandomElement(getKillers());
-  const killerPerks = getKillerPerks();
-  const selectedPerks = getRandomElements(killerPerks, 3);
-  const killerAddons = getKillerAddons(killer.name);
+export function randomizeKiller(omitIds?: string[]) {
+  const availableKillers = killers.filter(
+    (k) => !omitIds?.includes(k.id)
+  ) as Killer[];
+  if (availableKillers.length === 0) return null;
+
+  const killer = getRandomElement(availableKillers);
+  const killerPerks = getKillerPerks().filter((p) => !omitIds?.includes(p.id));
+  const selectedPerks = getRandomElements(killerPerks, 4);
+  const killerAddons = getKillerAddons(killer.name).filter(
+    (a) => !omitIds?.includes(a.id)
+  );
   const selectedAddons = getRandomElements(killerAddons, 2);
 
   return {
@@ -131,13 +152,43 @@ export function randomizeKiller(): {
 }
 
 /**
- * Randomize both survivor and killer loadouts
+ * Randomize both survivor and killer loadouts with omit support
  */
-export function randomizeFullGame() {
+export function randomizeFullGame(omitIds?: string[]) {
   return {
-    survivor: randomizeSurvivor(),
-    killer: randomizeKiller(),
+    survivor: randomizeSurvivor(omitIds),
+    killer: randomizeKiller(omitIds),
   };
+}
+
+/**
+ * Get all offerings
+ */
+export function getOfferings() {
+  return offerings as any[];
+}
+
+/**
+ * Get survivor offerings
+ */
+export function getSurvivorOfferings() {
+  return offerings.filter((o: any) => o.type.includes("Survivor")) as any[];
+}
+
+/**
+ * Get killer offerings
+ */
+export function getKillerOfferings() {
+  return offerings.filter((o: any) => o.type.includes("Killer")) as any[];
+}
+
+/**
+ * Get random offering
+ */
+export function getRandomOffering(type: "survivor" | "killer") {
+  const offeringList =
+    type === "survivor" ? getSurvivorOfferings() : getKillerOfferings();
+  return offeringList.length > 0 ? getRandomElement(offeringList) : null;
 }
 
 /**

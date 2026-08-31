@@ -133,5 +133,32 @@
     "rarity": "Rare",
     "effect": "Increased mutation strength",
     "description": "Gain +1 to mutation progression speed per nearby survivor."
+  },
+  {
+    "id": "bandages",
+    "name": "Bandages",
+    "type": "Add-on",
+    "item": "Med-Kit",
+    "rarity": "Common",
+    "effect": "Healing efficiency",
+    "description": "Increase healing efficiency by 5%."
+  },
+  {
+    "id": "medical_tape",
+    "name": "Medical Tape",
+    "type": "Add-on",
+    "item": "Med-Kit",
+    "rarity": "Uncommon",
+    "effect": "Faster healing",
+    "description": "Reduce healing time by 10%."
+  },
+  {
+    "id": "first_aid_spray",
+    "name": "First Aid Spray",
+    "type": "Add-on",
+    "item": "Med-Kit",
+    "rarity": "Uncommon",
+    "effect": "Portable healing",
+    "description": "Healing with this kit generates 0% exhaustion."
   }
 ]
