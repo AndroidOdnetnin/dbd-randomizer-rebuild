@@ -16,3 +16,23 @@
 {"timestamp":"00:12:00.963","source":"Server","level":"ERROR","message":"[browser] \"\\u001b[31mUncaught Error: ./lib/data/offerings.json:84:13\\nError: Unable to make a module from invalid JSON\\n  82 |   {\\n  83 |     \\\"id\\\": \\\"picture_of_the_twins\\\",\\n> 84 |     \\\"name\\\": \\\\\\\"Picture of the Twins\\\\\\\",\\n     |             ^\\n  85 |     \\\"type\\\": \\\"Survivor Offering\\\",\\n  86 |     \\\"rarity\\\": \\\"Rare\\\",\\n  87 |     \\\"effect\\\": \\\"Family reunion\\\",\\n\\nexpected value at line 84 column 13\\n\\n\\u001b[39m\\n\\u001b[31m    at <unknown> (Error: ./lib/data/offerings.json:84:13)\\n    at <unknown> (Error: (./lib/data/offerings.json:84:13)\\u001b[39m\""}
 {"timestamp":"00:12:23.022","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}
 {"timestamp":"00:12:50.013","source":"Server","level":"LOG","message":"✓ Compiled in 63ms"}
+{"timestamp":"00:14:29.410","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}
+{"timestamp":"00:28:32.554","source":"Server","level":"LOG","message":"✓ Compiled in 120ms"}
+{"timestamp":"00:29:24.693","source":"Server","level":"LOG","message":"✓ Compiled in 202ms"}
+{"timestamp":"00:29:27.476","source":"Server","level":"LOG","message":"✓ Compiled in 119ms"}
+{"timestamp":"00:33:35.735","source":"Server","level":"LOG","message":"✓ Compiled in 76ms"}
+{"timestamp":"00:33:46.542","source":"Server","level":"LOG","message":"✓ Compiled in 39ms"}
+{"timestamp":"00:34:26.844","source":"Server","level":"LOG","message":"✓ Compiled in 71ms"}
+{"timestamp":"00:35:42.913","source":"Server","level":"ERROR","message":"⨯ ./app/page.tsx\nError: Module not found: Can't resolve './page.tsx'\n\n\nhttps://nextjs.org/docs/messages/module-not-found\n\n"}
+{"timestamp":"00:35:42.914","source":"Server","level":"ERROR","message":"⨯ ./app/page.tsx\nError: Module not found: Can't resolve './page.tsx'\n\n\nhttps://nextjs.org/docs/messages/module-not-found\n\n"}
+{"timestamp":"00:35:43.350","source":"Browser","level":"ERROR","message":"./app/page.tsx\nError: Module not found: Can't resolve './page.tsx'\n\nhttps://nextjs.org/docs/messages/module-not-found "}
+{"timestamp":"00:35:43.352","source":"Server","level":"ERROR","message":"[browser] \"./app/page.tsx\\nError: Module not found: Can't resolve './page.tsx'\\n\\nhttps://nextjs.org/docs/messages/module-not-found\" \"\""}
+{"timestamp":"00:35:43.352","source":"Browser","level":"ERROR","message":"./app/page.tsx\nError: Module not found: Can't resolve './page.tsx'\n\nhttps://nextjs.org/docs/messages/module-not-found "}
+{"timestamp":"00:35:43.352","source":"Server","level":"ERROR","message":"[browser] \"./app/page.tsx\\nError: Module not found: Can't resolve './page.tsx'\\n\\nhttps://nextjs.org/docs/messages/module-not-found\" \"\""}
+{"timestamp":"00:35:43.353","source":"Browser","level":"ERROR","message":"./app/page.tsx\nError: Module not found: Can't resolve './page.tsx'\n\nhttps://nextjs.org/docs/messages/module-not-found "}
+{"timestamp":"00:35:43.353","source":"Server","level":"ERROR","message":"[browser] \"./app/page.tsx\\nError: Module not found: Can't resolve './page.tsx'\\n\\nhttps://nextjs.org/docs/messages/module-not-found\" \"\""}
+{"timestamp":"00:35:43.560","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}
+{"timestamp":"00:36:41.854","source":"Server","level":"LOG","message":"✓ Compiled in 260ms"}
+{"timestamp":"00:36:42.436","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}
+{"timestamp":"00:37:09.760","source":"Server","level":"LOG","message":"✓ Compiled in 52ms"}
+{"timestamp":"00:37:17.567","source":"Server","level":"LOG","message":"✓ Compiled in 71ms"}

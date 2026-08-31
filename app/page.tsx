@@ -2,399 +2,268 @@
 
 import { useState } from "react";
 import {
-  randomizeSurvivor,
-  randomizeKiller,
   getSurvivors,
   getKillers,
-  getRandomOffering,
+  getSurvivorPerks,
+  getKillerPerks,
+  getItems,
+  getKillerAddons,
+  getSurvivorOfferings,
+  getKillerOfferings,
+  pickRandomExcluding,
 } from "@/lib/utils/randomizer";
-import type { Survivor, Killer, Perk } from "@/lib/types/dbd";
+import type { Survivor, Killer, Perk, Item, Addon, Offering } from "@/lib/types/dbd";
 
 interface SurvivorLoadout {
   survivor: Survivor;
   perks: Perk[];
-  item: any;
+  item: Item | null;
   addons: string[];
-  offering: any;
+  offering: Offering | null;
 }
 
 interface KillerLoadout {
   killer: Killer;
   perks: Perk[];
-  addons: any[];
-  offering: any;
+  addons: Addon[];
+  offering: Offering | null;
+}
+
+// Tracks ids that have been individually "omitted" (e.g. not unlocked / not owned)
+// so they are excluded from re-rolls until the next full Randomize clears them.
+interface OmitSets {
+  survivors: Set<string>;
+  killers: Set<string>;
+  perks: Set<string>;
+  items: Set<string>;
+  addons: Set<string>;
+  offerings: Set<string>;
+}
+
+function freshOmitSets(): OmitSets {
+  return {
+    survivors: new Set(),
+    killers: new Set(),
+    perks: new Set(),
+    items: new Set(),
+    addons: new Set(),
+    offerings: new Set(),
+  };
 }
 
 export default function Home() {
-  const [survivorLoadout, setSurvivorLoadout] = useState<SurvivorLoadout | null>(
-    null
-  );
+  const [survivorLoadout, setSurvivorLoadout] = useState<SurvivorLoadout | null>(null);
   const [killerLoadout, setKillerLoadout] = useState<KillerLoadout | null>(null);
-  const [activeTab, setActiveTab] = useState<"survivor" | "killer" | "both">(
-    "both"
-  );
-  const [omitIds, setOmitIds] = useState<Set<string>>(new Set());
+  const [activeTab, setActiveTab] = useState<"survivor" | "killer" | "both">("both");
+  const [omit, setOmit] = useState<OmitSets>(freshOmitSets());
 
-  const handleRandomizeSurvivor = (newOmit?: string) => {
-    const newOmitIds = newOmit
-      ? new Set(omitIds).add(newOmit)
-      : new Set<string>();
-    const result = randomizeSurvivor(Array.from(newOmitIds) as string[]);
-    if (result) {
-      setSurvivorLoadout({
-        ...result,
-        offering: getRandomOffering("survivor"),
-      });
-      if (newOmit) setOmitIds(newOmitIds);
-    }
+  const rollItemAddons = (item: Item | null, excludeAddons: Set<string>): string[] => {
+    if (!item?.addons) return [];
+    const available = item.addons.filter((a) => !excludeAddons.has(a));
+    const shuffled = [...available].sort(() => Math.random() - 0.5);
+    return shuffled.slice(0, Math.min(2, shuffled.length));
   };
 
-  const handleRandomizeKiller = (newOmit?: string) => {
-    const newOmitIds = newOmit
-      ? new Set(omitIds).add(newOmit)
-      : new Set<string>();
-    const result = randomizeKiller(Array.from(newOmitIds) as string[]);
-    if (result) {
-      setKillerLoadout({
-        ...result,
-        offering: getRandomOffering("killer"),
-      });
-      if (newOmit) setOmitIds(newOmitIds);
-    }
+  const rollSurvivorLoadout = (omitSets: OmitSets): SurvivorLoadout | null => {
+    const survivor = pickRandomExcluding(getSurvivors(), omitSets.survivors, (s) => s.id);
+    if (!survivor) return null;
+    const perkPool = getSurvivorPerks().filter((p) => !omitSets.perks.has(p.id));
+    const shuffledPerks = [...perkPool].sort(() => Math.random() - 0.5).slice(0, 4);
+    const availableItems = getItems().filter((i) => !omitSets.items.has(i.id));
+    const item =
+      availableItems.length > 0 && Math.random() > 0.3
+        ? availableItems[Math.floor(Math.random() * availableItems.length)]
+        : null;
+    const addons = rollItemAddons(item, omitSets.addons);
+    const offering = pickRandomExcluding(getSurvivorOfferings(), omitSets.offerings, (o) => o.id);
+    return { survivor, perks: shuffledPerks, item, addons, offering };
+  };
+
+  const rollKillerLoadout = (omitSets: OmitSets): KillerLoadout | null => {
+    const killer = pickRandomExcluding(getKillers(), omitSets.killers, (k) => k.id);
+    if (!killer) return null;
+    const perkPool = getKillerPerks().filter((p) => !omitSets.perks.has(p.id));
+    const shuffledPerks = [...perkPool].sort(() => Math.random() - 0.5).slice(0, 4);
+    const addonPool = getKillerAddons(killer.name).filter((a) => !omitSets.addons.has(a.id));
+    const shuffledAddons = [...addonPool].sort(() => Math.random() - 0.5).slice(0, 2);
+    const offering = pickRandomExcluding(getKillerOfferings(), omitSets.offerings, (o) => o.id);
+    return { killer, perks: shuffledPerks, addons: shuffledAddons, offering };
+  };
+
+  // Full reset: clears every omission and rolls a brand new loadout.
+  const handleRandomizeSurvivor = () => {
+    const fresh = freshOmitSets();
+    setOmit((prev) => ({ ...fresh, killers: prev.killers }));
+    setSurvivorLoadout(rollSurvivorLoadout(fresh));
+  };
+
+  const handleRandomizeKiller = () => {
+    const fresh = freshOmitSets();
+    setOmit((prev) => ({ ...fresh, survivors: prev.survivors }));
+    setKillerLoadout(rollKillerLoadout(fresh));
   };
 
   const handleRandomizeAll = () => {
-    setOmitIds(new Set());
-    const survResult = randomizeSurvivor();
-    const killResult = randomizeKiller();
-    if (survResult) {
-      setSurvivorLoadout({
-        ...survResult,
-        offering: getRandomOffering("survivor"),
-      });
+    const fresh = freshOmitSets();
+    setOmit(fresh);
+    setSurvivorLoadout(rollSurvivorLoadout(fresh));
+    setKillerLoadout(rollKillerLoadout(fresh));
+  };
+
+  // Respin: reroll the same category without changing any omissions.
+  const handleRespinSurvivor = () => setSurvivorLoadout(rollSurvivorLoadout(omit));
+  const handleRespinKiller = () => setKillerLoadout(rollKillerLoadout(omit));
+
+  // Per-element omit & respin: mark this specific thing as unavailable, then
+  // reroll just that one slot, leaving the rest of the loadout untouched.
+  const omitAndRerollSurvivor = () => {
+    if (!survivorLoadout) return;
+    const next = { ...omit, survivors: new Set(omit.survivors).add(survivorLoadout.survivor.id) };
+    setOmit(next);
+    const survivor = pickRandomExcluding(getSurvivors(), next.survivors, (s) => s.id);
+    if (survivor) setSurvivorLoadout({ ...survivorLoadout, survivor });
+  };
+
+  const omitAndRerollKiller = () => {
+    if (!killerLoadout) return;
+    const next = { ...omit, killers: new Set(omit.killers).add(killerLoadout.killer.id) };
+    setOmit(next);
+    const killer = pickRandomExcluding(getKillers(), next.killers, (k) => k.id);
+    if (killer) setKillerLoadout({ ...killerLoadout, killer });
+  };
+
+  const omitAndRerollSurvivorPerk = (index: number) => {
+    if (!survivorLoadout) return;
+    const perkToOmit = survivorLoadout.perks[index];
+    const next = { ...omit, perks: new Set(omit.perks).add(perkToOmit.id) };
+    setOmit(next);
+    const usedIds = new Set(survivorLoadout.perks.map((p) => p.id));
+    const pool = getSurvivorPerks().filter((p) => !next.perks.has(p.id) && !usedIds.has(p.id));
+    const replacement = pool.length > 0 ? pool[Math.floor(Math.random() * pool.length)] : null;
+    if (replacement) {
+      const newPerks = [...survivorLoadout.perks];
+      newPerks[index] = replacement;
+      setSurvivorLoadout({ ...survivorLoadout, perks: newPerks });
     }
-    if (killResult) {
-      setKillerLoadout({
-        ...killResult,
-        offering: getRandomOffering("killer"),
-      });
+  };
+
+  const omitAndRerollKillerPerk = (index: number) => {
+    if (!killerLoadout) return;
+    const perkToOmit = killerLoadout.perks[index];
+    const next = { ...omit, perks: new Set(omit.perks).add(perkToOmit.id) };
+    setOmit(next);
+    const usedIds = new Set(killerLoadout.perks.map((p) => p.id));
+    const pool = getKillerPerks().filter((p) => !next.perks.has(p.id) && !usedIds.has(p.id));
+    const replacement = pool.length > 0 ? pool[Math.floor(Math.random() * pool.length)] : null;
+    if (replacement) {
+      const newPerks = [...killerLoadout.perks];
+      newPerks[index] = replacement;
+      setKillerLoadout({ ...killerLoadout, perks: newPerks });
     }
+  };
+
+  const omitAndRerollItem = () => {
+    if (!survivorLoadout) return;
+    const nextItems = new Set(omit.items);
+    if (survivorLoadout.item) nextItems.add(survivorLoadout.item.id);
+    const next = { ...omit, items: nextItems };
+    setOmit(next);
+    const availableItems = getItems().filter((i) => !next.items.has(i.id));
+    const item = availableItems.length > 0 ? availableItems[Math.floor(Math.random() * availableItems.length)] : null;
+    const addons = rollItemAddons(item, next.addons);
+    setSurvivorLoadout({ ...survivorLoadout, item, addons });
+  };
+
+  const omitAndRerollAddon = (addonId: string) => {
+    if (!survivorLoadout) return;
+    const next = { ...omit, addons: new Set(omit.addons).add(addonId) };
+    const usedIds = new Set(survivorLoadout.addons);
+    const pool = (survivorLoadout.item?.addons ?? []).filter(
+      (a) => !next.addons.has(a) && !usedIds.has(a)
+    );
+    const replacement = pool.length > 0 ? pool[Math.floor(Math.random() * pool.length)] : null;
+    const newAddons = survivorLoadout.addons
+      .map((a) => (a === addonId ? replacement : a))
+      .filter((a): a is string => a !== null && a !== undefined);
+    setOmit(next);
+    setSurvivorLoadout({ ...survivorLoadout, addons: newAddons });
+  };
+
+  const omitAndRerollKillerAddon = (index: number) => {
+    if (!killerLoadout) return;
+    const addonToOmit = killerLoadout.addons[index];
+    const next = { ...omit, addons: new Set(omit.addons).add(addonToOmit.id) };
+    setOmit(next);
+    const usedIds = new Set(killerLoadout.addons.map((a) => a.id));
+    const pool = getKillerAddons(killerLoadout.killer.name).filter(
+      (a) => !next.addons.has(a.id) && !usedIds.has(a.id)
+    );
+    const replacement = pool.length > 0 ? pool[Math.floor(Math.random() * pool.length)] : null;
+    if (replacement) {
+      const newAddons = [...killerLoadout.addons];
+      newAddons[index] = replacement;
+      setKillerLoadout({ ...killerLoadout, addons: newAddons });
+    }
+  };
+
+  const omitAndRerollSurvivorOffering = () => {
+    if (!survivorLoadout?.offering) return;
+    const next = { ...omit, offerings: new Set(omit.offerings).add(survivorLoadout.offering.id) };
+    setOmit(next);
+    const offering = pickRandomExcluding(getSurvivorOfferings(), next.offerings, (o) => o.id);
+    setSurvivorLoadout({ ...survivorLoadout, offering });
+  };
+
+  const omitAndRerollKillerOffering = () => {
+    if (!killerLoadout?.offering) return;
+    const next = { ...omit, offerings: new Set(omit.offerings).add(killerLoadout.offering.id) };
+    setOmit(next);
+    const offering = pickRandomExcluding(getKillerOfferings(), next.offerings, (o) => o.id);
+    setKillerLoadout({ ...killerLoadout, offering });
   };
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-slate-900 to-slate-800">
       <div className="container mx-auto px-4 py-12">
-        {/* Header */}
         <header className="text-center mb-12">
-          <h1 className="text-5xl font-bold text-white mb-4">
-            DBD Randomizer
-          </h1>
+          <h1 className="text-5xl font-bold text-white mb-4">DBD Randomizer</h1>
           <p className="text-xl text-gray-300">
             Ad-free, lightweight randomizer for Dead by Daylight
           </p>
+          <p className="text-sm text-gray-500 mt-2">
+            Don&apos;t have something unlocked? Click &quot;Omit&quot; next to it to exclude it and roll a
+            replacement. Omissions clear the next time you hit Randomize.
+          </p>
         </header>
 
-        {/* Tabs */}
         <div className="flex justify-center gap-4 mb-8 flex-wrap">
           <button
-            onClick={() => {
-              setActiveTab("survivor");
-              setOmitIds(new Set());
-            }}
+            onClick={() => setActiveTab("survivor")}
             className={`px-6 py-2 rounded-lg font-bold transition ${
-              activeTab === "survivor"
-                ? "bg-blue-600 text-white"
-                : "bg-slate-700 text-gray-300 hover:bg-slate-600"
+              activeTab === "survivor" ? "bg-blue-600 text-white" : "bg-slate-700 text-gray-300 hover:bg-slate-600"
             }`}
           >
             🎮 Survivor
           </button>
           <button
-            onClick={() => {
-              setActiveTab("killer");
-              setOmitIds(new Set());
-            }}
+            onClick={() => setActiveTab("killer")}
             className={`px-6 py-2 rounded-lg font-bold transition ${
-              activeTab === "killer"
-                ? "bg-red-600 text-white"
-                : "bg-slate-700 text-gray-300 hover:bg-slate-600"
+              activeTab === "killer" ? "bg-red-600 text-white" : "bg-slate-700 text-gray-300 hover:bg-slate-600"
             }`}
           >
             🔪 Killer
           </button>
           <button
-            onClick={() => {
-              setActiveTab("both");
-              setOmitIds(new Set());
-            }}
+            onClick={() => setActiveTab("both")}
             className={`px-6 py-2 rounded-lg font-bold transition ${
-              activeTab === "both"
-                ? "bg-purple-600 text-white"
-                : "bg-slate-700 text-gray-300 hover:bg-slate-600"
+              activeTab === "both" ? "bg-purple-600 text-white" : "bg-slate-700 text-gray-300 hover:bg-slate-600"
             }`}
           >
             ⚙️ Both
           </button>
         </div>
 
-        {/* Content */}
         <div className="max-w-5xl mx-auto">
-          {/* Survivor Tab */}
-          {(activeTab === "survivor" || activeTab === "both") && (
-            <div className="bg-slate-800 rounded-lg p-8 mb-8 border border-blue-500/30">
-              <h2 className="text-2xl font-bold text-white mb-6">
-                Survivor Randomizer
-              </h2>
-
-              <div className="flex gap-2 mb-6 flex-wrap">
-                <button
-                  onClick={() => handleRandomizeSurvivor()}
-                  className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition"
-                >
-                  🎲 Randomize
-                </button>
-                <button
-                  onClick={() =>
-                    survivorLoadout &&
-                    handleRandomizeSurvivor()
-                  }
-                  className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg transition disabled:opacity-50"
-                  disabled={!survivorLoadout}
-                >
-                  ↻ Respin
-                </button>
-                <button
-                  onClick={() =>
-                    survivorLoadout &&
-                    handleRandomizeSurvivor(survivorLoadout.survivor.id)
-                  }
-                  className="bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 px-6 rounded-lg transition disabled:opacity-50"
-                  disabled={!survivorLoadout}
-                >
-                  ↻ Omit & Respin
-                </button>
-              </div>
-
-              {survivorLoadout && (
-                <div className="space-y-4">
-                  {/* Character */}
-                  <div className="bg-slate-700 rounded p-4">
-                    <h3 className="text-xl font-bold text-white mb-2">
-                      {survivorLoadout.survivor.name}
-                    </h3>
-                    <p className="text-gray-300 mb-2">
-                      {survivorLoadout.survivor.description}
-                    </p>
-                    <p className="text-sm text-gray-400">
-                      Difficulty: {survivorLoadout.survivor.difficulty}
-                    </p>
-                  </div>
-
-                  {/* Perks Grid (4) */}
-                  <div>
-                    <h4 className="text-lg font-bold text-white mb-2">
-                      Perks (4)
-                    </h4>
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-2">
-                      {survivorLoadout.perks.map((perk) => (
-                        <div
-                          key={perk.id}
-                          className="bg-slate-700 rounded p-3 hover:bg-slate-600 transition"
-                        >
-                          <p className="text-white font-semibold text-sm">
-                            {perk.name}
-                          </p>
-                          <p className="text-xs text-gray-300">{perk.effect}</p>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Item with Add-ons */}
-                  {survivorLoadout.item && (
-                    <div>
-                      <h4 className="text-lg font-bold text-white mb-2">
-                        Item
-                      </h4>
-                      <div className="bg-slate-700 rounded p-3">
-                        <p className="text-white font-semibold">
-                          {survivorLoadout.item.name}
-                        </p>
-                        <p className="text-sm text-gray-300 mb-2">
-                          {survivorLoadout.item.effect}
-                        </p>
-                        <p className="text-xs text-gray-400 mb-2">
-                          Rarity: {survivorLoadout.item.rarity}
-                        </p>
-                        {survivorLoadout.addons.length > 0 && (
-                          <div className="border-t border-slate-600 pt-2 mt-2">
-                            <p className="text-xs font-semibold text-yellow-300 mb-1">
-                              Add-ons:
-                            </p>
-                            <div className="flex flex-wrap gap-1">
-                              {survivorLoadout.addons.map((addon) => (
-                                <span
-                                  key={addon}
-                                  className="bg-slate-600 text-xs px-2 py-1 rounded"
-                                >
-                                  {addon}
-                                </span>
-                              ))}
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Offering */}
-                  {survivorLoadout.offering && (
-                    <div>
-                      <h4 className="text-lg font-bold text-white mb-2">
-                        Offering
-                      </h4>
-                      <div className="bg-slate-700 rounded p-3 border-l-4 border-yellow-500">
-                        <p className="text-white font-semibold">
-                          {survivorLoadout.offering.name}
-                        </p>
-                        <p className="text-sm text-gray-300">
-                          {survivorLoadout.offering.effect}
-                        </p>
-                        <p className="text-xs text-gray-400 mt-1">
-                          Rarity: {survivorLoadout.offering.rarity}
-                        </p>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* Killer Tab */}
-          {(activeTab === "killer" || activeTab === "both") && (
-            <div className="bg-slate-800 rounded-lg p-8 mb-8 border border-red-500/30">
-              <h2 className="text-2xl font-bold text-white mb-6">
-                Killer Randomizer
-              </h2>
-
-              <div className="flex gap-2 mb-6 flex-wrap">
-                <button
-                  onClick={() => handleRandomizeKiller()}
-                  className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg transition"
-                >
-                  🎲 Randomize
-                </button>
-                <button
-                  onClick={() =>
-                    killerLoadout &&
-                    handleRandomizeKiller()
-                  }
-                  className="bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-lg transition disabled:opacity-50"
-                  disabled={!killerLoadout}
-                >
-                  ↻ Respin
-                </button>
-                <button
-                  onClick={() =>
-                    killerLoadout &&
-                    handleRandomizeKiller(killerLoadout.killer.id)
-                  }
-                  className="bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 px-6 rounded-lg transition disabled:opacity-50"
-                  disabled={!killerLoadout}
-                >
-                  ↻ Omit & Respin
-                </button>
-              </div>
-
-              {killerLoadout && (
-                <div className="space-y-4">
-                  {/* Character */}
-                  <div className="bg-slate-700 rounded p-4">
-                    <h3 className="text-xl font-bold text-white mb-2">
-                      {killerLoadout.killer.name}
-                    </h3>
-                    <p className="text-gray-300 mb-2">
-                      {killerLoadout.killer.description}
-                    </p>
-                    <p className="text-sm text-gray-400 mb-1">
-                      Power: {killerLoadout.killer.power}
-                    </p>
-                    <p className="text-sm text-gray-400">
-                      Difficulty: {killerLoadout.killer.difficulty}
-                    </p>
-                  </div>
-
-                  {/* Perks Grid (4) */}
-                  <div>
-                    <h4 className="text-lg font-bold text-white mb-2">
-                      Perks (4)
-                    </h4>
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-2">
-                      {killerLoadout.perks.map((perk) => (
-                        <div
-                          key={perk.id}
-                          className="bg-slate-700 rounded p-3 hover:bg-slate-600 transition"
-                        >
-                          <p className="text-white font-semibold text-sm">
-                            {perk.name}
-                          </p>
-                          <p className="text-xs text-gray-300">{perk.effect}</p>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Add-ons */}
-                  <div>
-                    <h4 className="text-lg font-bold text-white mb-2">
-                      Add-ons
-                    </h4>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                      {killerLoadout.addons.map((addon) => (
-                        <div
-                          key={addon.id}
-                          className="bg-slate-700 rounded p-3 hover:bg-slate-600 transition"
-                        >
-                          <p className="text-white font-semibold">
-                            {addon.name}
-                          </p>
-                          <p className="text-sm text-gray-300">
-                            {addon.effect}
-                          </p>
-                          <p className="text-xs text-gray-400 mt-1">
-                            Rarity: {addon.rarity}
-                          </p>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Offering */}
-                  {killerLoadout.offering && (
-                    <div>
-                      <h4 className="text-lg font-bold text-white mb-2">
-                        Offering
-                      </h4>
-                      <div className="bg-slate-700 rounded p-3 border-l-4 border-red-500">
-                        <p className="text-white font-semibold">
-                          {killerLoadout.offering.name}
-                        </p>
-                        <p className="text-sm text-gray-300">
-                          {killerLoadout.offering.effect}
-                        </p>
-                        <p className="text-xs text-gray-400 mt-1">
-                          Rarity: {killerLoadout.offering.rarity}
-                        </p>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* Both Tab */}
           {activeTab === "both" && (
             <div className="text-center mb-8">
               <button
@@ -406,32 +275,275 @@ export default function Home() {
             </div>
           )}
 
-          {/* Stats */}
+          {(activeTab === "survivor" || activeTab === "both") && (
+            <div className="bg-slate-800 rounded-lg p-8 mb-8 border border-blue-500/30">
+              <h2 className="text-2xl font-bold text-white mb-6">Survivor Randomizer</h2>
+
+              <div className="flex gap-2 mb-6 flex-wrap">
+                <button
+                  onClick={handleRandomizeSurvivor}
+                  className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition"
+                >
+                  🎲 Randomize
+                </button>
+                <button
+                  onClick={handleRespinSurvivor}
+                  disabled={!survivorLoadout}
+                  className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg transition disabled:opacity-50"
+                >
+                  ↻ Respin
+                </button>
+              </div>
+
+              {survivorLoadout && (
+                <div className="space-y-4">
+                  <div className="bg-slate-700 rounded p-4 flex items-start justify-between gap-4">
+                    <div>
+                      <h3 className="text-xl font-bold text-white mb-2">
+                        {survivorLoadout.survivor.name}
+                      </h3>
+                      <p className="text-gray-300 mb-2">{survivorLoadout.survivor.description}</p>
+                      <p className="text-sm text-gray-400">
+                        Difficulty: {survivorLoadout.survivor.difficulty}
+                      </p>
+                    </div>
+                    <button
+                      onClick={omitAndRerollSurvivor}
+                      className="shrink-0 bg-orange-600 hover:bg-orange-700 text-white text-sm font-semibold py-2 px-3 rounded-lg transition"
+                      title="Don't have this survivor unlocked? Omit them and roll another."
+                    >
+                      Omit & Reroll
+                    </button>
+                  </div>
+
+                  <div>
+                    <h4 className="text-lg font-bold text-white mb-2">Perks (4)</h4>
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-2">
+                      {survivorLoadout.perks.map((perk, index) => (
+                        <div key={perk.id} className="bg-slate-700 rounded p-3 flex flex-col gap-2">
+                          <div>
+                            <p className="text-white font-semibold text-sm">{perk.name}</p>
+                            <p className="text-xs text-gray-300">{perk.effect}</p>
+                          </div>
+                          <button
+                            onClick={() => omitAndRerollSurvivorPerk(index)}
+                            className="self-start bg-orange-600 hover:bg-orange-700 text-white text-xs font-semibold py-1 px-2 rounded transition"
+                            title="Don't have this perk unlocked? Omit it and roll another."
+                          >
+                            Omit
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {survivorLoadout.item && (
+                    <div>
+                      <h4 className="text-lg font-bold text-white mb-2">Item</h4>
+                      <div className="bg-slate-700 rounded p-3">
+                        <div className="flex items-start justify-between gap-4">
+                          <div>
+                            <p className="text-white font-semibold">{survivorLoadout.item.name}</p>
+                            <p className="text-sm text-gray-300 mb-2">{survivorLoadout.item.effect}</p>
+                            <p className="text-xs text-gray-400 mb-2">
+                              Rarity: {survivorLoadout.item.rarity}
+                            </p>
+                          </div>
+                          <button
+                            onClick={omitAndRerollItem}
+                            className="shrink-0 bg-orange-600 hover:bg-orange-700 text-white text-xs font-semibold py-1 px-2 rounded transition"
+                            title="Don't have this item unlocked? Omit it and roll another."
+                          >
+                            Omit
+                          </button>
+                        </div>
+                        {survivorLoadout.addons.length > 0 && (
+                          <div className="border-t border-slate-600 pt-2 mt-2">
+                            <p className="text-xs font-semibold text-yellow-300 mb-1">Add-ons:</p>
+                            <div className="flex flex-wrap gap-1">
+                              {survivorLoadout.addons.map((addon) => (
+                                <span
+                                  key={addon}
+                                  className="bg-slate-600 text-xs px-2 py-1 rounded flex items-center gap-1"
+                                >
+                                  {addon}
+                                  <button
+                                    onClick={() => omitAndRerollAddon(addon)}
+                                    className="text-orange-300 hover:text-orange-100 font-bold"
+                                    title="Don't have this add-on? Omit it and roll another."
+                                  >
+                                    ×
+                                  </button>
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+
+                  {survivorLoadout.offering && (
+                    <div>
+                      <h4 className="text-lg font-bold text-white mb-2">Offering</h4>
+                      <div className="bg-slate-700 rounded p-3 border-l-4 border-yellow-500 flex items-start justify-between gap-4">
+                        <div>
+                          <p className="text-white font-semibold">{survivorLoadout.offering.name}</p>
+                          <p className="text-sm text-gray-300">{survivorLoadout.offering.effect}</p>
+                          <p className="text-xs text-gray-400 mt-1">
+                            Rarity: {survivorLoadout.offering.rarity}
+                          </p>
+                        </div>
+                        <button
+                          onClick={omitAndRerollSurvivorOffering}
+                          className="shrink-0 bg-orange-600 hover:bg-orange-700 text-white text-xs font-semibold py-1 px-2 rounded transition"
+                          title="Don't have this offering? Omit it and roll another."
+                        >
+                          Omit
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
+
+          {(activeTab === "killer" || activeTab === "both") && (
+            <div className="bg-slate-800 rounded-lg p-8 mb-8 border border-red-500/30">
+              <h2 className="text-2xl font-bold text-white mb-6">Killer Randomizer</h2>
+
+              <div className="flex gap-2 mb-6 flex-wrap">
+                <button
+                  onClick={handleRandomizeKiller}
+                  className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg transition"
+                >
+                  🎲 Randomize
+                </button>
+                <button
+                  onClick={handleRespinKiller}
+                  disabled={!killerLoadout}
+                  className="bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-lg transition disabled:opacity-50"
+                >
+                  ↻ Respin
+                </button>
+              </div>
+
+              {killerLoadout && (
+                <div className="space-y-4">
+                  <div className="bg-slate-700 rounded p-4 flex items-start justify-between gap-4">
+                    <div>
+                      <h3 className="text-xl font-bold text-white mb-2">{killerLoadout.killer.name}</h3>
+                      <p className="text-gray-300 mb-2">{killerLoadout.killer.description}</p>
+                      <p className="text-sm text-gray-400 mb-1">Power: {killerLoadout.killer.power}</p>
+                      <p className="text-sm text-gray-400">Difficulty: {killerLoadout.killer.difficulty}</p>
+                    </div>
+                    <button
+                      onClick={omitAndRerollKiller}
+                      className="shrink-0 bg-orange-600 hover:bg-orange-700 text-white text-sm font-semibold py-2 px-3 rounded-lg transition"
+                      title="Don't have this killer unlocked? Omit them and roll another."
+                    >
+                      Omit & Reroll
+                    </button>
+                  </div>
+
+                  <div>
+                    <h4 className="text-lg font-bold text-white mb-2">Perks (4)</h4>
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-2">
+                      {killerLoadout.perks.map((perk, index) => (
+                        <div key={perk.id} className="bg-slate-700 rounded p-3 flex flex-col gap-2">
+                          <div>
+                            <p className="text-white font-semibold text-sm">{perk.name}</p>
+                            <p className="text-xs text-gray-300">{perk.effect}</p>
+                          </div>
+                          <button
+                            onClick={() => omitAndRerollKillerPerk(index)}
+                            className="self-start bg-orange-600 hover:bg-orange-700 text-white text-xs font-semibold py-1 px-2 rounded transition"
+                            title="Don't have this perk unlocked? Omit it and roll another."
+                          >
+                            Omit
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 className="text-lg font-bold text-white mb-2">Add-ons</h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                      {killerLoadout.addons.map((addon, index) => (
+                        <div key={addon.id} className="bg-slate-700 rounded p-3 flex items-start justify-between gap-2">
+                          <div>
+                            <p className="text-white font-semibold">{addon.name}</p>
+                            <p className="text-sm text-gray-300">{addon.effect}</p>
+                            <p className="text-xs text-gray-400 mt-1">Rarity: {addon.rarity}</p>
+                          </div>
+                          <button
+                            onClick={() => omitAndRerollKillerAddon(index)}
+                            className="shrink-0 bg-orange-600 hover:bg-orange-700 text-white text-xs font-semibold py-1 px-2 rounded transition"
+                            title="Don't have this add-on unlocked? Omit it and roll another."
+                          >
+                            Omit
+                          </button>
+                        </div>
+                      ))}
+                      {killerLoadout.addons.length === 0 && (
+                        <p className="text-gray-400 text-sm">No add-ons available for this killer.</p>
+                      )}
+                    </div>
+                  </div>
+
+                  {killerLoadout.offering && (
+                    <div>
+                      <h4 className="text-lg font-bold text-white mb-2">Offering</h4>
+                      <div className="bg-slate-700 rounded p-3 border-l-4 border-red-500 flex items-start justify-between gap-4">
+                        <div>
+                          <p className="text-white font-semibold">{killerLoadout.offering.name}</p>
+                          <p className="text-sm text-gray-300">{killerLoadout.offering.effect}</p>
+                          <p className="text-xs text-gray-400 mt-1">
+                            Rarity: {killerLoadout.offering.rarity}
+                          </p>
+                        </div>
+                        <button
+                          onClick={omitAndRerollKillerOffering}
+                          className="shrink-0 bg-orange-600 hover:bg-orange-700 text-white text-xs font-semibold py-1 px-2 rounded transition"
+                          title="Don't have this offering? Omit it and roll another."
+                        >
+                          Omit
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
+
           <div className="bg-slate-800 rounded-lg p-8 border border-slate-700">
             <h3 className="text-lg font-bold text-white mb-4">Database Stats</h3>
             <div className="grid grid-cols-2 md:grid-cols-5 gap-4 text-center">
               <div>
-                <p className="text-3xl font-bold text-blue-400">
-                  {getSurvivors().length}
-                </p>
+                <p className="text-3xl font-bold text-blue-400">{getSurvivors().length}</p>
                 <p className="text-gray-400">Survivors</p>
               </div>
               <div>
-                <p className="text-3xl font-bold text-red-400">
-                  {getKillers().length}
-                </p>
+                <p className="text-3xl font-bold text-red-400">{getKillers().length}</p>
                 <p className="text-gray-400">Killers</p>
               </div>
               <div>
-                <p className="text-3xl font-bold text-yellow-400">30+</p>
+                <p className="text-3xl font-bold text-yellow-400">
+                  {getSurvivorPerks().length + getKillerPerks().length}
+                </p>
                 <p className="text-gray-400">Perks</p>
               </div>
               <div>
-                <p className="text-3xl font-bold text-green-400">15+</p>
+                <p className="text-3xl font-bold text-green-400">{getItems().length}</p>
                 <p className="text-gray-400">Items</p>
               </div>
               <div>
-                <p className="text-3xl font-bold text-purple-400">15+</p>
+                <p className="text-3xl font-bold text-purple-400">
+                  {getSurvivorOfferings().length + getKillerOfferings().length}
+                </p>
                 <p className="text-gray-400">Offerings</p>
               </div>
             </div>

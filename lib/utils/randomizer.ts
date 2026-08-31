@@ -83,82 +83,18 @@ function getRandomElement<T>(array: T[]): T {
 }
 
 /**
- * Get N random unique elements from array
+ * Pick one random element from a pool, excluding a set of ids (used for per-element
+ * "omit & respin" so an individually excluded survivor/perk/item/add-on/offering
+ * never gets rolled again until the next full Randomize).
  */
-function getRandomElements<T>(array: T[], count: number): T[] {
-  const shuffled = [...array].sort(() => Math.random() - 0.5);
-  return shuffled.slice(0, Math.min(count, array.length));
-}
-
-/**
- * Randomize a survivor loadout with omit support
- */
-export function randomizeSurvivor(omitIds?: string[]) {
-  const availableSurvivors = survivors.filter(
-    (s) => !omitIds?.includes(s.id)
-  ) as Survivor[];
-  if (availableSurvivors.length === 0) return null;
-
-  const survivor = getRandomElement(availableSurvivors);
-  const survivorPerks = getSurvivorPerks().filter(
-    (p) => !omitIds?.includes(p.id)
-  );
-  const selectedPerks = getRandomElements(survivorPerks, 4);
-  const availableItems = getItems().filter((i) => !omitIds?.includes(i.id));
-  const randomItem =
-    availableItems.length > 0 && Math.random() > 0.3
-      ? getRandomElement(availableItems)
-      : null;
-
-  // Get random add-ons for the item
-  let selectedAddons: any[] = [];
-  if (randomItem?.addons) {
-    const availableAddons = randomItem.addons.filter(
-      (a: string) => !omitIds?.includes(a)
-    );
-    selectedAddons = getRandomElements(availableAddons, Math.min(2, availableAddons.length));
-  }
-
-  return {
-    survivor,
-    perks: selectedPerks,
-    item: randomItem,
-    addons: selectedAddons,
-  };
-}
-
-/**
- * Randomize a killer loadout with omit support
- */
-export function randomizeKiller(omitIds?: string[]) {
-  const availableKillers = killers.filter(
-    (k) => !omitIds?.includes(k.id)
-  ) as Killer[];
-  if (availableKillers.length === 0) return null;
-
-  const killer = getRandomElement(availableKillers);
-  const killerPerks = getKillerPerks().filter((p) => !omitIds?.includes(p.id));
-  const selectedPerks = getRandomElements(killerPerks, 4);
-  const killerAddons = getKillerAddons(killer.name).filter(
-    (a) => !omitIds?.includes(a.id)
-  );
-  const selectedAddons = getRandomElements(killerAddons, 2);
-
-  return {
-    killer,
-    perks: selectedPerks,
-    addons: selectedAddons,
-  };
-}
-
-/**
- * Randomize both survivor and killer loadouts with omit support
- */
-export function randomizeFullGame(omitIds?: string[]) {
-  return {
-    survivor: randomizeSurvivor(omitIds),
-    killer: randomizeKiller(omitIds),
-  };
+export function pickRandomExcluding<T>(
+  pool: T[],
+  excludeIds: Set<string>,
+  idOf: (item: T) => string
+): T | null {
+  const available = pool.filter((item) => !excludeIds.has(idOf(item)));
+  if (available.length === 0) return null;
+  return getRandomElement(available);
 }
 
 /**

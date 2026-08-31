@@ -13,49 +13,246 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2f$randomizer$2
 ;
 ;
 ;
+function freshOmitSets() {
+    return {
+        survivors: new Set(),
+        killers: new Set(),
+        perks: new Set(),
+        items: new Set(),
+        addons: new Set(),
+        offerings: new Set()
+    };
+}
 function Home() {
     const [survivorLoadout, setSurvivorLoadout] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(null);
     const [killerLoadout, setKillerLoadout] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(null);
     const [activeTab, setActiveTab] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])("both");
-    const [omitIds, setOmitIds] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(new Set());
-    const handleRandomizeSurvivor = (newOmit)=>{
-        const newOmitIds = newOmit ? new Set(omitIds).add(newOmit) : new Set();
-        const result = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2f$randomizer$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["randomizeSurvivor"])(Array.from(newOmitIds));
-        if (result) {
-            setSurvivorLoadout({
-                ...result,
-                offering: (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2f$randomizer$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["getRandomOffering"])("survivor")
-            });
-            if (newOmit) setOmitIds(newOmitIds);
-        }
+    const [omit, setOmit] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(freshOmitSets());
+    const rollItemAddons = (item, excludeAddons)=>{
+        if (!item?.addons) return [];
+        const available = item.addons.filter((a)=>!excludeAddons.has(a));
+        const shuffled = [
+            ...available
+        ].sort(()=>Math.random() - 0.5);
+        return shuffled.slice(0, Math.min(2, shuffled.length));
     };
-    const handleRandomizeKiller = (newOmit)=>{
-        const newOmitIds = newOmit ? new Set(omitIds).add(newOmit) : new Set();
-        const result = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2f$randomizer$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["randomizeKiller"])(Array.from(newOmitIds));
-        if (result) {
-            setKillerLoadout({
-                ...result,
-                offering: (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2f$randomizer$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["getRandomOffering"])("killer")
-            });
-            if (newOmit) setOmitIds(newOmitIds);
-        }
+    const rollSurvivorLoadout = (omitSets)=>{
+        const survivor = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2f$randomizer$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["pickRandomExcluding"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2f$randomizer$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["getSurvivors"])(), omitSets.survivors, (s)=>s.id);
+        if (!survivor) return null;
+        const perkPool = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2f$randomizer$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["getSurvivorPerks"])().filter((p)=>!omitSets.perks.has(p.id));
+        const shuffledPerks = [
+            ...perkPool
+        ].sort(()=>Math.random() - 0.5).slice(0, 4);
+        const availableItems = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2f$randomizer$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["getItems"])().filter((i)=>!omitSets.items.has(i.id));
+        const item = availableItems.length > 0 && Math.random() > 0.3 ? availableItems[Math.floor(Math.random() * availableItems.length)] : null;
+        const addons = rollItemAddons(item, omitSets.addons);
+        const offering = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2f$randomizer$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["pickRandomExcluding"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2f$randomizer$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["getSurvivorOfferings"])(), omitSets.offerings, (o)=>o.id);
+        return {
+            survivor,
+            perks: shuffledPerks,
+            item,
+            addons,
+            offering
+        };
+    };
+    const rollKillerLoadout = (omitSets)=>{
+        const killer = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2f$randomizer$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["pickRandomExcluding"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2f$randomizer$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["getKillers"])(), omitSets.killers, (k)=>k.id);
+        if (!killer) return null;
+        const perkPool = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2f$randomizer$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["getKillerPerks"])().filter((p)=>!omitSets.perks.has(p.id));
+        const shuffledPerks = [
+            ...perkPool
+        ].sort(()=>Math.random() - 0.5).slice(0, 4);
+        const addonPool = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2f$randomizer$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["getKillerAddons"])(killer.name).filter((a)=>!omitSets.addons.has(a.id));
+        const shuffledAddons = [
+            ...addonPool
+        ].sort(()=>Math.random() - 0.5).slice(0, 2);
+        const offering = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2f$randomizer$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["pickRandomExcluding"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2f$randomizer$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["getKillerOfferings"])(), omitSets.offerings, (o)=>o.id);
+        return {
+            killer,
+            perks: shuffledPerks,
+            addons: shuffledAddons,
+            offering
+        };
+    };
+    // Full reset: clears every omission and rolls a brand new loadout.
+    const handleRandomizeSurvivor = ()=>{
+        const fresh = freshOmitSets();
+        setOmit((prev)=>({
+                ...fresh,
+                killers: prev.killers
+            }));
+        setSurvivorLoadout(rollSurvivorLoadout(fresh));
+    };
+    const handleRandomizeKiller = ()=>{
+        const fresh = freshOmitSets();
+        setOmit((prev)=>({
+                ...fresh,
+                survivors: prev.survivors
+            }));
+        setKillerLoadout(rollKillerLoadout(fresh));
     };
     const handleRandomizeAll = ()=>{
-        setOmitIds(new Set());
-        const survResult = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2f$randomizer$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["randomizeSurvivor"])();
-        const killResult = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2f$randomizer$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["randomizeKiller"])();
-        if (survResult) {
+        const fresh = freshOmitSets();
+        setOmit(fresh);
+        setSurvivorLoadout(rollSurvivorLoadout(fresh));
+        setKillerLoadout(rollKillerLoadout(fresh));
+    };
+    // Respin: reroll the same category without changing any omissions.
+    const handleRespinSurvivor = ()=>setSurvivorLoadout(rollSurvivorLoadout(omit));
+    const handleRespinKiller = ()=>setKillerLoadout(rollKillerLoadout(omit));
+    // Per-element omit & respin: mark this specific thing as unavailable, then
+    // reroll just that one slot, leaving the rest of the loadout untouched.
+    const omitAndRerollSurvivor = ()=>{
+        if (!survivorLoadout) return;
+        const next = {
+            ...omit,
+            survivors: new Set(omit.survivors).add(survivorLoadout.survivor.id)
+        };
+        setOmit(next);
+        const survivor = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2f$randomizer$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["pickRandomExcluding"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2f$randomizer$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["getSurvivors"])(), next.survivors, (s)=>s.id);
+        if (survivor) setSurvivorLoadout({
+            ...survivorLoadout,
+            survivor
+        });
+    };
+    const omitAndRerollKiller = ()=>{
+        if (!killerLoadout) return;
+        const next = {
+            ...omit,
+            killers: new Set(omit.killers).add(killerLoadout.killer.id)
+        };
+        setOmit(next);
+        const killer = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2f$randomizer$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["pickRandomExcluding"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2f$randomizer$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["getKillers"])(), next.killers, (k)=>k.id);
+        if (killer) setKillerLoadout({
+            ...killerLoadout,
+            killer
+        });
+    };
+    const omitAndRerollSurvivorPerk = (index)=>{
+        if (!survivorLoadout) return;
+        const perkToOmit = survivorLoadout.perks[index];
+        const next = {
+            ...omit,
+            perks: new Set(omit.perks).add(perkToOmit.id)
+        };
+        setOmit(next);
+        const usedIds = new Set(survivorLoadout.perks.map((p)=>p.id));
+        const pool = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2f$randomizer$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["getSurvivorPerks"])().filter((p)=>!next.perks.has(p.id) && !usedIds.has(p.id));
+        const replacement = pool.length > 0 ? pool[Math.floor(Math.random() * pool.length)] : null;
+        if (replacement) {
+            const newPerks = [
+                ...survivorLoadout.perks
+            ];
+            newPerks[index] = replacement;
             setSurvivorLoadout({
-                ...survResult,
-                offering: (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2f$randomizer$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["getRandomOffering"])("survivor")
+                ...survivorLoadout,
+                perks: newPerks
             });
         }
-        if (killResult) {
+    };
+    const omitAndRerollKillerPerk = (index)=>{
+        if (!killerLoadout) return;
+        const perkToOmit = killerLoadout.perks[index];
+        const next = {
+            ...omit,
+            perks: new Set(omit.perks).add(perkToOmit.id)
+        };
+        setOmit(next);
+        const usedIds = new Set(killerLoadout.perks.map((p)=>p.id));
+        const pool = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2f$randomizer$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["getKillerPerks"])().filter((p)=>!next.perks.has(p.id) && !usedIds.has(p.id));
+        const replacement = pool.length > 0 ? pool[Math.floor(Math.random() * pool.length)] : null;
+        if (replacement) {
+            const newPerks = [
+                ...killerLoadout.perks
+            ];
+            newPerks[index] = replacement;
             setKillerLoadout({
-                ...killResult,
-                offering: (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2f$randomizer$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["getRandomOffering"])("killer")
+                ...killerLoadout,
+                perks: newPerks
             });
         }
+    };
+    const omitAndRerollItem = ()=>{
+        if (!survivorLoadout) return;
+        const nextItems = new Set(omit.items);
+        if (survivorLoadout.item) nextItems.add(survivorLoadout.item.id);
+        const next = {
+            ...omit,
+            items: nextItems
+        };
+        setOmit(next);
+        const availableItems = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2f$randomizer$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["getItems"])().filter((i)=>!next.items.has(i.id));
+        const item = availableItems.length > 0 ? availableItems[Math.floor(Math.random() * availableItems.length)] : null;
+        const addons = rollItemAddons(item, next.addons);
+        setSurvivorLoadout({
+            ...survivorLoadout,
+            item,
+            addons
+        });
+    };
+    const omitAndRerollAddon = (addonId)=>{
+        if (!survivorLoadout) return;
+        const next = {
+            ...omit,
+            addons: new Set(omit.addons).add(addonId)
+        };
+        const usedIds = new Set(survivorLoadout.addons);
+        const pool = (survivorLoadout.item?.addons ?? []).filter((a)=>!next.addons.has(a) && !usedIds.has(a));
+        const replacement = pool.length > 0 ? pool[Math.floor(Math.random() * pool.length)] : null;
+        const newAddons = survivorLoadout.addons.map((a)=>a === addonId ? replacement : a).filter((a)=>a !== null && a !== undefined);
+        setOmit(next);
+        setSurvivorLoadout({
+            ...survivorLoadout,
+            addons: newAddons
+        });
+    };
+    const omitAndRerollKillerAddon = (index)=>{
+        if (!killerLoadout) return;
+        const addonToOmit = killerLoadout.addons[index];
+        const next = {
+            ...omit,
+            addons: new Set(omit.addons).add(addonToOmit.id)
+        };
+        setOmit(next);
+        const usedIds = new Set(killerLoadout.addons.map((a)=>a.id));
+        const pool = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2f$randomizer$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["getKillerAddons"])(killerLoadout.killer.name).filter((a)=>!next.addons.has(a.id) && !usedIds.has(a.id));
+        const replacement = pool.length > 0 ? pool[Math.floor(Math.random() * pool.length)] : null;
+        if (replacement) {
+            const newAddons = [
+                ...killerLoadout.addons
+            ];
+            newAddons[index] = replacement;
+            setKillerLoadout({
+                ...killerLoadout,
+                addons: newAddons
+            });
+        }
+    };
+    const omitAndRerollSurvivorOffering = ()=>{
+        if (!survivorLoadout?.offering) return;
+        const next = {
+            ...omit,
+            offerings: new Set(omit.offerings).add(survivorLoadout.offering.id)
+        };
+        setOmit(next);
+        const offering = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2f$randomizer$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["pickRandomExcluding"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2f$randomizer$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["getSurvivorOfferings"])(), next.offerings, (o)=>o.id);
+        setSurvivorLoadout({
+            ...survivorLoadout,
+            offering
+        });
+    };
+    const omitAndRerollKillerOffering = ()=>{
+        if (!killerLoadout?.offering) return;
+        const next = {
+            ...omit,
+            offerings: new Set(omit.offerings).add(killerLoadout.offering.id)
+        };
+        setOmit(next);
+        const offering = (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2f$randomizer$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["pickRandomExcluding"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2f$randomizer$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["getKillerOfferings"])(), next.offerings, (o)=>o.id);
+        setKillerLoadout({
+            ...killerLoadout,
+            offering
+        });
     };
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("main", {
         className: "min-h-screen bg-gradient-to-b from-slate-900 to-slate-800",
@@ -70,7 +267,7 @@ function Home() {
                             children: "DBD Randomizer"
                         }, void 0, false, {
                             fileName: "[project]/app/page.tsx",
-                            lineNumber: 89,
+                            lineNumber: 229,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -78,63 +275,78 @@ function Home() {
                             children: "Ad-free, lightweight randomizer for Dead by Daylight"
                         }, void 0, false, {
                             fileName: "[project]/app/page.tsx",
-                            lineNumber: 92,
+                            lineNumber: 230,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                            className: "text-sm text-gray-500 mt-2",
+                            children: 'Don\'t have something unlocked? Click "Omit" next to it to exclude it and roll a replacement. Omissions clear the next time you hit Randomize.'
+                        }, void 0, false, {
+                            fileName: "[project]/app/page.tsx",
+                            lineNumber: 233,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/app/page.tsx",
-                    lineNumber: 88,
+                    lineNumber: 228,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                     className: "flex justify-center gap-4 mb-8 flex-wrap",
                     children: [
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                            onClick: ()=>{
-                                setActiveTab("survivor");
-                                setOmitIds(new Set());
-                            },
+                            onClick: ()=>setActiveTab("survivor"),
                             className: `px-6 py-2 rounded-lg font-bold transition ${activeTab === "survivor" ? "bg-blue-600 text-white" : "bg-slate-700 text-gray-300 hover:bg-slate-600"}`,
                             children: "🎮 Survivor"
                         }, void 0, false, {
                             fileName: "[project]/app/page.tsx",
-                            lineNumber: 99,
+                            lineNumber: 240,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                            onClick: ()=>{
-                                setActiveTab("killer");
-                                setOmitIds(new Set());
-                            },
+                            onClick: ()=>setActiveTab("killer"),
                             className: `px-6 py-2 rounded-lg font-bold transition ${activeTab === "killer" ? "bg-red-600 text-white" : "bg-slate-700 text-gray-300 hover:bg-slate-600"}`,
                             children: "🔪 Killer"
                         }, void 0, false, {
                             fileName: "[project]/app/page.tsx",
-                            lineNumber: 112,
+                            lineNumber: 248,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                            onClick: ()=>{
-                                setActiveTab("both");
-                                setOmitIds(new Set());
-                            },
+                            onClick: ()=>setActiveTab("both"),
                             className: `px-6 py-2 rounded-lg font-bold transition ${activeTab === "both" ? "bg-purple-600 text-white" : "bg-slate-700 text-gray-300 hover:bg-slate-600"}`,
                             children: "⚙️ Both"
                         }, void 0, false, {
                             fileName: "[project]/app/page.tsx",
-                            lineNumber: 125,
+                            lineNumber: 256,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/app/page.tsx",
-                    lineNumber: 98,
+                    lineNumber: 239,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                     className: "max-w-5xl mx-auto",
                     children: [
+                        activeTab === "both" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "text-center mb-8",
+                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                onClick: handleRandomizeAll,
+                                className: "bg-purple-600 hover:bg-purple-700 text-white font-bold py-4 px-8 rounded-lg text-lg transition",
+                                children: "🎲 Randomize Full Game"
+                            }, void 0, false, {
+                                fileName: "[project]/app/page.tsx",
+                                lineNumber: 269,
+                                columnNumber: 15
+                            }, this)
+                        }, void 0, false, {
+                            fileName: "[project]/app/page.tsx",
+                            lineNumber: 268,
+                            columnNumber: 13
+                        }, this),
                         (activeTab === "survivor" || activeTab === "both") && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             className: "bg-slate-800 rounded-lg p-8 mb-8 border border-blue-500/30",
                             children: [
@@ -143,84 +355,92 @@ function Home() {
                                     children: "Survivor Randomizer"
                                 }, void 0, false, {
                                     fileName: "[project]/app/page.tsx",
-                                    lineNumber: 145,
+                                    lineNumber: 280,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                     className: "flex gap-2 mb-6 flex-wrap",
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                            onClick: ()=>handleRandomizeSurvivor(),
+                                            onClick: handleRandomizeSurvivor,
                                             className: "bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition",
                                             children: "🎲 Randomize"
                                         }, void 0, false, {
                                             fileName: "[project]/app/page.tsx",
-                                            lineNumber: 150,
+                                            lineNumber: 283,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                            onClick: ()=>survivorLoadout && handleRandomizeSurvivor(),
-                                            className: "bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg transition disabled:opacity-50",
+                                            onClick: handleRespinSurvivor,
                                             disabled: !survivorLoadout,
+                                            className: "bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg transition disabled:opacity-50",
                                             children: "↻ Respin"
                                         }, void 0, false, {
                                             fileName: "[project]/app/page.tsx",
-                                            lineNumber: 156,
-                                            columnNumber: 17
-                                        }, this),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                            onClick: ()=>survivorLoadout && handleRandomizeSurvivor(survivorLoadout.survivor.id),
-                                            className: "bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 px-6 rounded-lg transition disabled:opacity-50",
-                                            disabled: !survivorLoadout,
-                                            children: "↻ Omit & Respin"
-                                        }, void 0, false, {
-                                            fileName: "[project]/app/page.tsx",
-                                            lineNumber: 166,
+                                            lineNumber: 289,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/page.tsx",
-                                    lineNumber: 149,
+                                    lineNumber: 282,
                                     columnNumber: 15
                                 }, this),
                                 survivorLoadout && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                     className: "space-y-4",
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: "bg-slate-700 rounded p-4",
+                                            className: "bg-slate-700 rounded p-4 flex items-start justify-between gap-4",
                                             children: [
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
-                                                    className: "text-xl font-bold text-white mb-2",
-                                                    children: survivorLoadout.survivor.name
-                                                }, void 0, false, {
-                                                    fileName: "[project]/app/page.tsx",
-                                                    lineNumber: 182,
-                                                    columnNumber: 21
-                                                }, this),
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                    className: "text-gray-300 mb-2",
-                                                    children: survivorLoadout.survivor.description
-                                                }, void 0, false, {
-                                                    fileName: "[project]/app/page.tsx",
-                                                    lineNumber: 185,
-                                                    columnNumber: 21
-                                                }, this),
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                    className: "text-sm text-gray-400",
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                     children: [
-                                                        "Difficulty: ",
-                                                        survivorLoadout.survivor.difficulty
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                                                            className: "text-xl font-bold text-white mb-2",
+                                                            children: survivorLoadout.survivor.name
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/app/page.tsx",
+                                                            lineNumber: 302,
+                                                            columnNumber: 23
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                            className: "text-gray-300 mb-2",
+                                                            children: survivorLoadout.survivor.description
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/app/page.tsx",
+                                                            lineNumber: 305,
+                                                            columnNumber: 23
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                            className: "text-sm text-gray-400",
+                                                            children: [
+                                                                "Difficulty: ",
+                                                                survivorLoadout.survivor.difficulty
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/app/page.tsx",
+                                                            lineNumber: 306,
+                                                            columnNumber: 23
+                                                        }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/page.tsx",
-                                                    lineNumber: 188,
+                                                    lineNumber: 301,
+                                                    columnNumber: 21
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                    onClick: omitAndRerollSurvivor,
+                                                    className: "shrink-0 bg-orange-600 hover:bg-orange-700 text-white text-sm font-semibold py-2 px-3 rounded-lg transition",
+                                                    title: "Don't have this survivor unlocked? Omit them and roll another.",
+                                                    children: "Omit & Reroll"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/app/page.tsx",
+                                                    lineNumber: 310,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/page.tsx",
-                                            lineNumber: 181,
+                                            lineNumber: 300,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -230,45 +450,63 @@ function Home() {
                                                     children: "Perks (4)"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/page.tsx",
-                                                    lineNumber: 195,
+                                                    lineNumber: 320,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                     className: "grid grid-cols-1 md:grid-cols-4 gap-2",
-                                                    children: survivorLoadout.perks.map((perk)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                            className: "bg-slate-700 rounded p-3 hover:bg-slate-600 transition",
+                                                    children: survivorLoadout.perks.map((perk, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "bg-slate-700 rounded p-3 flex flex-col gap-2",
                                                             children: [
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                                    className: "text-white font-semibold text-sm",
-                                                                    children: perk.name
-                                                                }, void 0, false, {
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                    children: [
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                            className: "text-white font-semibold text-sm",
+                                                                            children: perk.name
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/app/page.tsx",
+                                                                            lineNumber: 325,
+                                                                            columnNumber: 29
+                                                                        }, this),
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                            className: "text-xs text-gray-300",
+                                                                            children: perk.effect
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/app/page.tsx",
+                                                                            lineNumber: 326,
+                                                                            columnNumber: 29
+                                                                        }, this)
+                                                                    ]
+                                                                }, void 0, true, {
                                                                     fileName: "[project]/app/page.tsx",
-                                                                    lineNumber: 204,
+                                                                    lineNumber: 324,
                                                                     columnNumber: 27
                                                                 }, this),
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                                    className: "text-xs text-gray-300",
-                                                                    children: perk.effect
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                                    onClick: ()=>omitAndRerollSurvivorPerk(index),
+                                                                    className: "self-start bg-orange-600 hover:bg-orange-700 text-white text-xs font-semibold py-1 px-2 rounded transition",
+                                                                    title: "Don't have this perk unlocked? Omit it and roll another.",
+                                                                    children: "Omit"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/page.tsx",
-                                                                    lineNumber: 207,
+                                                                    lineNumber: 328,
                                                                     columnNumber: 27
                                                                 }, this)
                                                             ]
                                                         }, perk.id, true, {
                                                             fileName: "[project]/app/page.tsx",
-                                                            lineNumber: 200,
+                                                            lineNumber: 323,
                                                             columnNumber: 25
                                                         }, this))
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/page.tsx",
-                                                    lineNumber: 198,
+                                                    lineNumber: 321,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/page.tsx",
-                                            lineNumber: 194,
+                                            lineNumber: 319,
                                             columnNumber: 19
                                         }, this),
                                         survivorLoadout.item && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -278,37 +516,64 @@ function Home() {
                                                     children: "Item"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/page.tsx",
-                                                    lineNumber: 216,
+                                                    lineNumber: 342,
                                                     columnNumber: 23
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                     className: "bg-slate-700 rounded p-3",
                                                     children: [
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                            className: "text-white font-semibold",
-                                                            children: survivorLoadout.item.name
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/app/page.tsx",
-                                                            lineNumber: 220,
-                                                            columnNumber: 25
-                                                        }, this),
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                            className: "text-sm text-gray-300 mb-2",
-                                                            children: survivorLoadout.item.effect
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/app/page.tsx",
-                                                            lineNumber: 223,
-                                                            columnNumber: 25
-                                                        }, this),
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                            className: "text-xs text-gray-400 mb-2",
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "flex items-start justify-between gap-4",
                                                             children: [
-                                                                "Rarity: ",
-                                                                survivorLoadout.item.rarity
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                    children: [
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                            className: "text-white font-semibold",
+                                                                            children: survivorLoadout.item.name
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/app/page.tsx",
+                                                                            lineNumber: 346,
+                                                                            columnNumber: 29
+                                                                        }, this),
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                            className: "text-sm text-gray-300 mb-2",
+                                                                            children: survivorLoadout.item.effect
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/app/page.tsx",
+                                                                            lineNumber: 347,
+                                                                            columnNumber: 29
+                                                                        }, this),
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                            className: "text-xs text-gray-400 mb-2",
+                                                                            children: [
+                                                                                "Rarity: ",
+                                                                                survivorLoadout.item.rarity
+                                                                            ]
+                                                                        }, void 0, true, {
+                                                                            fileName: "[project]/app/page.tsx",
+                                                                            lineNumber: 348,
+                                                                            columnNumber: 29
+                                                                        }, this)
+                                                                    ]
+                                                                }, void 0, true, {
+                                                                    fileName: "[project]/app/page.tsx",
+                                                                    lineNumber: 345,
+                                                                    columnNumber: 27
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                                    onClick: omitAndRerollItem,
+                                                                    className: "shrink-0 bg-orange-600 hover:bg-orange-700 text-white text-xs font-semibold py-1 px-2 rounded transition",
+                                                                    title: "Don't have this item unlocked? Omit it and roll another.",
+                                                                    children: "Omit"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/app/page.tsx",
+                                                                    lineNumber: 352,
+                                                                    columnNumber: 27
+                                                                }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/app/page.tsx",
-                                                            lineNumber: 226,
+                                                            lineNumber: 344,
                                                             columnNumber: 25
                                                         }, this),
                                                         survivorLoadout.addons.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -319,40 +584,52 @@ function Home() {
                                                                     children: "Add-ons:"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/page.tsx",
-                                                                    lineNumber: 231,
+                                                                    lineNumber: 362,
                                                                     columnNumber: 29
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                                     className: "flex flex-wrap gap-1",
                                                                     children: survivorLoadout.addons.map((addon)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                            className: "bg-slate-600 text-xs px-2 py-1 rounded",
-                                                                            children: addon
-                                                                        }, addon, false, {
+                                                                            className: "bg-slate-600 text-xs px-2 py-1 rounded flex items-center gap-1",
+                                                                            children: [
+                                                                                addon,
+                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                                                    onClick: ()=>omitAndRerollAddon(addon),
+                                                                                    className: "text-orange-300 hover:text-orange-100 font-bold",
+                                                                                    title: "Don't have this add-on? Omit it and roll another.",
+                                                                                    children: "×"
+                                                                                }, void 0, false, {
+                                                                                    fileName: "[project]/app/page.tsx",
+                                                                                    lineNumber: 370,
+                                                                                    columnNumber: 35
+                                                                                }, this)
+                                                                            ]
+                                                                        }, addon, true, {
                                                                             fileName: "[project]/app/page.tsx",
-                                                                            lineNumber: 236,
+                                                                            lineNumber: 365,
                                                                             columnNumber: 33
                                                                         }, this))
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/page.tsx",
-                                                                    lineNumber: 234,
+                                                                    lineNumber: 363,
                                                                     columnNumber: 29
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/app/page.tsx",
-                                                            lineNumber: 230,
+                                                            lineNumber: 361,
                                                             columnNumber: 27
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/page.tsx",
-                                                    lineNumber: 219,
+                                                    lineNumber: 343,
                                                     columnNumber: 23
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/page.tsx",
-                                            lineNumber: 215,
+                                            lineNumber: 341,
                                             columnNumber: 21
                                         }, this),
                                         survivorLoadout.offering && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -362,61 +639,79 @@ function Home() {
                                                     children: "Offering"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/page.tsx",
-                                                    lineNumber: 253,
+                                                    lineNumber: 388,
                                                     columnNumber: 23
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                    className: "bg-slate-700 rounded p-3 border-l-4 border-yellow-500",
+                                                    className: "bg-slate-700 rounded p-3 border-l-4 border-yellow-500 flex items-start justify-between gap-4",
                                                     children: [
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                            className: "text-white font-semibold",
-                                                            children: survivorLoadout.offering.name
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/app/page.tsx",
-                                                            lineNumber: 257,
-                                                            columnNumber: 25
-                                                        }, this),
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                            className: "text-sm text-gray-300",
-                                                            children: survivorLoadout.offering.effect
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/app/page.tsx",
-                                                            lineNumber: 260,
-                                                            columnNumber: 25
-                                                        }, this),
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                            className: "text-xs text-gray-400 mt-1",
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                             children: [
-                                                                "Rarity: ",
-                                                                survivorLoadout.offering.rarity
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                    className: "text-white font-semibold",
+                                                                    children: survivorLoadout.offering.name
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/app/page.tsx",
+                                                                    lineNumber: 391,
+                                                                    columnNumber: 27
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                    className: "text-sm text-gray-300",
+                                                                    children: survivorLoadout.offering.effect
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/app/page.tsx",
+                                                                    lineNumber: 392,
+                                                                    columnNumber: 27
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                    className: "text-xs text-gray-400 mt-1",
+                                                                    children: [
+                                                                        "Rarity: ",
+                                                                        survivorLoadout.offering.rarity
+                                                                    ]
+                                                                }, void 0, true, {
+                                                                    fileName: "[project]/app/page.tsx",
+                                                                    lineNumber: 393,
+                                                                    columnNumber: 27
+                                                                }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/app/page.tsx",
-                                                            lineNumber: 263,
+                                                            lineNumber: 390,
+                                                            columnNumber: 25
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                            onClick: omitAndRerollSurvivorOffering,
+                                                            className: "shrink-0 bg-orange-600 hover:bg-orange-700 text-white text-xs font-semibold py-1 px-2 rounded transition",
+                                                            title: "Don't have this offering? Omit it and roll another.",
+                                                            children: "Omit"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/app/page.tsx",
+                                                            lineNumber: 397,
                                                             columnNumber: 25
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/page.tsx",
-                                                    lineNumber: 256,
+                                                    lineNumber: 389,
                                                     columnNumber: 23
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/page.tsx",
-                                            lineNumber: 252,
+                                            lineNumber: 387,
                                             columnNumber: 21
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/page.tsx",
-                                    lineNumber: 179,
+                                    lineNumber: 299,
                                     columnNumber: 17
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/app/page.tsx",
-                            lineNumber: 144,
+                            lineNumber: 279,
                             columnNumber: 13
                         }, this),
                         (activeTab === "killer" || activeTab === "both") && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -427,95 +722,103 @@ function Home() {
                                     children: "Killer Randomizer"
                                 }, void 0, false, {
                                     fileName: "[project]/app/page.tsx",
-                                    lineNumber: 277,
+                                    lineNumber: 414,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                     className: "flex gap-2 mb-6 flex-wrap",
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                            onClick: ()=>handleRandomizeKiller(),
+                                            onClick: handleRandomizeKiller,
                                             className: "bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg transition",
                                             children: "🎲 Randomize"
                                         }, void 0, false, {
                                             fileName: "[project]/app/page.tsx",
-                                            lineNumber: 282,
+                                            lineNumber: 417,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                            onClick: ()=>killerLoadout && handleRandomizeKiller(),
-                                            className: "bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-lg transition disabled:opacity-50",
+                                            onClick: handleRespinKiller,
                                             disabled: !killerLoadout,
+                                            className: "bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-lg transition disabled:opacity-50",
                                             children: "↻ Respin"
                                         }, void 0, false, {
                                             fileName: "[project]/app/page.tsx",
-                                            lineNumber: 288,
-                                            columnNumber: 17
-                                        }, this),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                            onClick: ()=>killerLoadout && handleRandomizeKiller(killerLoadout.killer.id),
-                                            className: "bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 px-6 rounded-lg transition disabled:opacity-50",
-                                            disabled: !killerLoadout,
-                                            children: "↻ Omit & Respin"
-                                        }, void 0, false, {
-                                            fileName: "[project]/app/page.tsx",
-                                            lineNumber: 298,
+                                            lineNumber: 423,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/page.tsx",
-                                    lineNumber: 281,
+                                    lineNumber: 416,
                                     columnNumber: 15
                                 }, this),
                                 killerLoadout && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                     className: "space-y-4",
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: "bg-slate-700 rounded p-4",
+                                            className: "bg-slate-700 rounded p-4 flex items-start justify-between gap-4",
                                             children: [
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
-                                                    className: "text-xl font-bold text-white mb-2",
-                                                    children: killerLoadout.killer.name
-                                                }, void 0, false, {
-                                                    fileName: "[project]/app/page.tsx",
-                                                    lineNumber: 314,
-                                                    columnNumber: 21
-                                                }, this),
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                    className: "text-gray-300 mb-2",
-                                                    children: killerLoadout.killer.description
-                                                }, void 0, false, {
-                                                    fileName: "[project]/app/page.tsx",
-                                                    lineNumber: 317,
-                                                    columnNumber: 21
-                                                }, this),
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                    className: "text-sm text-gray-400 mb-1",
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                     children: [
-                                                        "Power: ",
-                                                        killerLoadout.killer.power
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                                                            className: "text-xl font-bold text-white mb-2",
+                                                            children: killerLoadout.killer.name
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/app/page.tsx",
+                                                            lineNumber: 436,
+                                                            columnNumber: 23
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                            className: "text-gray-300 mb-2",
+                                                            children: killerLoadout.killer.description
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/app/page.tsx",
+                                                            lineNumber: 437,
+                                                            columnNumber: 23
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                            className: "text-sm text-gray-400 mb-1",
+                                                            children: [
+                                                                "Power: ",
+                                                                killerLoadout.killer.power
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/app/page.tsx",
+                                                            lineNumber: 438,
+                                                            columnNumber: 23
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                            className: "text-sm text-gray-400",
+                                                            children: [
+                                                                "Difficulty: ",
+                                                                killerLoadout.killer.difficulty
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/app/page.tsx",
+                                                            lineNumber: 439,
+                                                            columnNumber: 23
+                                                        }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/page.tsx",
-                                                    lineNumber: 320,
+                                                    lineNumber: 435,
                                                     columnNumber: 21
                                                 }, this),
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                    className: "text-sm text-gray-400",
-                                                    children: [
-                                                        "Difficulty: ",
-                                                        killerLoadout.killer.difficulty
-                                                    ]
-                                                }, void 0, true, {
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                    onClick: omitAndRerollKiller,
+                                                    className: "shrink-0 bg-orange-600 hover:bg-orange-700 text-white text-sm font-semibold py-2 px-3 rounded-lg transition",
+                                                    title: "Don't have this killer unlocked? Omit them and roll another.",
+                                                    children: "Omit & Reroll"
+                                                }, void 0, false, {
                                                     fileName: "[project]/app/page.tsx",
-                                                    lineNumber: 323,
+                                                    lineNumber: 441,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/page.tsx",
-                                            lineNumber: 313,
+                                            lineNumber: 434,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -525,45 +828,63 @@ function Home() {
                                                     children: "Perks (4)"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/page.tsx",
-                                                    lineNumber: 330,
+                                                    lineNumber: 451,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                     className: "grid grid-cols-1 md:grid-cols-4 gap-2",
-                                                    children: killerLoadout.perks.map((perk)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                            className: "bg-slate-700 rounded p-3 hover:bg-slate-600 transition",
+                                                    children: killerLoadout.perks.map((perk, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "bg-slate-700 rounded p-3 flex flex-col gap-2",
                                                             children: [
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                                    className: "text-white font-semibold text-sm",
-                                                                    children: perk.name
-                                                                }, void 0, false, {
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                    children: [
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                            className: "text-white font-semibold text-sm",
+                                                                            children: perk.name
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/app/page.tsx",
+                                                                            lineNumber: 456,
+                                                                            columnNumber: 29
+                                                                        }, this),
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                            className: "text-xs text-gray-300",
+                                                                            children: perk.effect
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/app/page.tsx",
+                                                                            lineNumber: 457,
+                                                                            columnNumber: 29
+                                                                        }, this)
+                                                                    ]
+                                                                }, void 0, true, {
                                                                     fileName: "[project]/app/page.tsx",
-                                                                    lineNumber: 339,
+                                                                    lineNumber: 455,
                                                                     columnNumber: 27
                                                                 }, this),
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                                    className: "text-xs text-gray-300",
-                                                                    children: perk.effect
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                                    onClick: ()=>omitAndRerollKillerPerk(index),
+                                                                    className: "self-start bg-orange-600 hover:bg-orange-700 text-white text-xs font-semibold py-1 px-2 rounded transition",
+                                                                    title: "Don't have this perk unlocked? Omit it and roll another.",
+                                                                    children: "Omit"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/app/page.tsx",
-                                                                    lineNumber: 342,
+                                                                    lineNumber: 459,
                                                                     columnNumber: 27
                                                                 }, this)
                                                             ]
                                                         }, perk.id, true, {
                                                             fileName: "[project]/app/page.tsx",
-                                                            lineNumber: 335,
+                                                            lineNumber: 454,
                                                             columnNumber: 25
                                                         }, this))
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/page.tsx",
-                                                    lineNumber: 333,
+                                                    lineNumber: 452,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/page.tsx",
-                                            lineNumber: 329,
+                                            lineNumber: 450,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -573,56 +894,84 @@ function Home() {
                                                     children: "Add-ons"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/page.tsx",
-                                                    lineNumber: 350,
+                                                    lineNumber: 472,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                     className: "grid grid-cols-1 md:grid-cols-2 gap-2",
-                                                    children: killerLoadout.addons.map((addon)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                            className: "bg-slate-700 rounded p-3 hover:bg-slate-600 transition",
-                                                            children: [
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                                    className: "text-white font-semibold",
-                                                                    children: addon.name
-                                                                }, void 0, false, {
-                                                                    fileName: "[project]/app/page.tsx",
-                                                                    lineNumber: 359,
-                                                                    columnNumber: 27
-                                                                }, this),
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                                    className: "text-sm text-gray-300",
-                                                                    children: addon.effect
-                                                                }, void 0, false, {
-                                                                    fileName: "[project]/app/page.tsx",
-                                                                    lineNumber: 362,
-                                                                    columnNumber: 27
-                                                                }, this),
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                                    className: "text-xs text-gray-400 mt-1",
-                                                                    children: [
-                                                                        "Rarity: ",
-                                                                        addon.rarity
-                                                                    ]
-                                                                }, void 0, true, {
-                                                                    fileName: "[project]/app/page.tsx",
-                                                                    lineNumber: 365,
-                                                                    columnNumber: 27
-                                                                }, this)
-                                                            ]
-                                                        }, addon.id, true, {
+                                                    children: [
+                                                        killerLoadout.addons.map((addon, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                className: "bg-slate-700 rounded p-3 flex items-start justify-between gap-2",
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                        children: [
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                                className: "text-white font-semibold",
+                                                                                children: addon.name
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/app/page.tsx",
+                                                                                lineNumber: 477,
+                                                                                columnNumber: 29
+                                                                            }, this),
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                                className: "text-sm text-gray-300",
+                                                                                children: addon.effect
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/app/page.tsx",
+                                                                                lineNumber: 478,
+                                                                                columnNumber: 29
+                                                                            }, this),
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                                className: "text-xs text-gray-400 mt-1",
+                                                                                children: [
+                                                                                    "Rarity: ",
+                                                                                    addon.rarity
+                                                                                ]
+                                                                            }, void 0, true, {
+                                                                                fileName: "[project]/app/page.tsx",
+                                                                                lineNumber: 479,
+                                                                                columnNumber: 29
+                                                                            }, this)
+                                                                        ]
+                                                                    }, void 0, true, {
+                                                                        fileName: "[project]/app/page.tsx",
+                                                                        lineNumber: 476,
+                                                                        columnNumber: 27
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                                        onClick: ()=>omitAndRerollKillerAddon(index),
+                                                                        className: "shrink-0 bg-orange-600 hover:bg-orange-700 text-white text-xs font-semibold py-1 px-2 rounded transition",
+                                                                        title: "Don't have this add-on unlocked? Omit it and roll another.",
+                                                                        children: "Omit"
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/app/page.tsx",
+                                                                        lineNumber: 481,
+                                                                        columnNumber: 27
+                                                                    }, this)
+                                                                ]
+                                                            }, addon.id, true, {
+                                                                fileName: "[project]/app/page.tsx",
+                                                                lineNumber: 475,
+                                                                columnNumber: 25
+                                                            }, this)),
+                                                        killerLoadout.addons.length === 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                            className: "text-gray-400 text-sm",
+                                                            children: "No add-ons available for this killer."
+                                                        }, void 0, false, {
                                                             fileName: "[project]/app/page.tsx",
-                                                            lineNumber: 355,
+                                                            lineNumber: 491,
                                                             columnNumber: 25
-                                                        }, this))
-                                                }, void 0, false, {
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
                                                     fileName: "[project]/app/page.tsx",
-                                                    lineNumber: 353,
+                                                    lineNumber: 473,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/page.tsx",
-                                            lineNumber: 349,
+                                            lineNumber: 471,
                                             columnNumber: 19
                                         }, this),
                                         killerLoadout.offering && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -632,77 +981,79 @@ function Home() {
                                                     children: "Offering"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/page.tsx",
-                                                    lineNumber: 376,
+                                                    lineNumber: 498,
                                                     columnNumber: 23
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                    className: "bg-slate-700 rounded p-3 border-l-4 border-red-500",
+                                                    className: "bg-slate-700 rounded p-3 border-l-4 border-red-500 flex items-start justify-between gap-4",
                                                     children: [
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                            className: "text-white font-semibold",
-                                                            children: killerLoadout.offering.name
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/app/page.tsx",
-                                                            lineNumber: 380,
-                                                            columnNumber: 25
-                                                        }, this),
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                            className: "text-sm text-gray-300",
-                                                            children: killerLoadout.offering.effect
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/app/page.tsx",
-                                                            lineNumber: 383,
-                                                            columnNumber: 25
-                                                        }, this),
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                            className: "text-xs text-gray-400 mt-1",
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                             children: [
-                                                                "Rarity: ",
-                                                                killerLoadout.offering.rarity
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                    className: "text-white font-semibold",
+                                                                    children: killerLoadout.offering.name
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/app/page.tsx",
+                                                                    lineNumber: 501,
+                                                                    columnNumber: 27
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                    className: "text-sm text-gray-300",
+                                                                    children: killerLoadout.offering.effect
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/app/page.tsx",
+                                                                    lineNumber: 502,
+                                                                    columnNumber: 27
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                    className: "text-xs text-gray-400 mt-1",
+                                                                    children: [
+                                                                        "Rarity: ",
+                                                                        killerLoadout.offering.rarity
+                                                                    ]
+                                                                }, void 0, true, {
+                                                                    fileName: "[project]/app/page.tsx",
+                                                                    lineNumber: 503,
+                                                                    columnNumber: 27
+                                                                }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/app/page.tsx",
-                                                            lineNumber: 386,
+                                                            lineNumber: 500,
+                                                            columnNumber: 25
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                            onClick: omitAndRerollKillerOffering,
+                                                            className: "shrink-0 bg-orange-600 hover:bg-orange-700 text-white text-xs font-semibold py-1 px-2 rounded transition",
+                                                            title: "Don't have this offering? Omit it and roll another.",
+                                                            children: "Omit"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/app/page.tsx",
+                                                            lineNumber: 507,
                                                             columnNumber: 25
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/app/page.tsx",
-                                                    lineNumber: 379,
+                                                    lineNumber: 499,
                                                     columnNumber: 23
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/page.tsx",
-                                            lineNumber: 375,
+                                            lineNumber: 497,
                                             columnNumber: 21
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/page.tsx",
-                                    lineNumber: 311,
+                                    lineNumber: 433,
                                     columnNumber: 17
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/app/page.tsx",
-                            lineNumber: 276,
-                            columnNumber: 13
-                        }, this),
-                        activeTab === "both" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "text-center mb-8",
-                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                onClick: handleRandomizeAll,
-                                className: "bg-purple-600 hover:bg-purple-700 text-white font-bold py-4 px-8 rounded-lg text-lg transition",
-                                children: "🎲 Randomize Full Game"
-                            }, void 0, false, {
-                                fileName: "[project]/app/page.tsx",
-                                lineNumber: 400,
-                                columnNumber: 15
-                            }, this)
-                        }, void 0, false, {
-                            fileName: "[project]/app/page.tsx",
-                            lineNumber: 399,
+                            lineNumber: 413,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -713,7 +1064,7 @@ function Home() {
                                     children: "Database Stats"
                                 }, void 0, false, {
                                     fileName: "[project]/app/page.tsx",
-                                    lineNumber: 411,
+                                    lineNumber: 523,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -726,7 +1077,7 @@ function Home() {
                                                     children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2f$randomizer$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["getSurvivors"])().length
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/page.tsx",
-                                                    lineNumber: 414,
+                                                    lineNumber: 526,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -734,13 +1085,13 @@ function Home() {
                                                     children: "Survivors"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/page.tsx",
-                                                    lineNumber: 417,
+                                                    lineNumber: 527,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/page.tsx",
-                                            lineNumber: 413,
+                                            lineNumber: 525,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -750,7 +1101,7 @@ function Home() {
                                                     children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2f$randomizer$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["getKillers"])().length
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/page.tsx",
-                                                    lineNumber: 420,
+                                                    lineNumber: 530,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -758,23 +1109,23 @@ function Home() {
                                                     children: "Killers"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/page.tsx",
-                                                    lineNumber: 423,
+                                                    lineNumber: 531,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/page.tsx",
-                                            lineNumber: 419,
+                                            lineNumber: 529,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                             children: [
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                     className: "text-3xl font-bold text-yellow-400",
-                                                    children: "30+"
+                                                    children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2f$randomizer$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["getSurvivorPerks"])().length + (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2f$randomizer$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["getKillerPerks"])().length
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/page.tsx",
-                                                    lineNumber: 426,
+                                                    lineNumber: 534,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -782,23 +1133,23 @@ function Home() {
                                                     children: "Perks"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/page.tsx",
-                                                    lineNumber: 427,
+                                                    lineNumber: 537,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/page.tsx",
-                                            lineNumber: 425,
+                                            lineNumber: 533,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                             children: [
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                     className: "text-3xl font-bold text-green-400",
-                                                    children: "15+"
+                                                    children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2f$randomizer$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["getItems"])().length
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/page.tsx",
-                                                    lineNumber: 430,
+                                                    lineNumber: 540,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -806,23 +1157,23 @@ function Home() {
                                                     children: "Items"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/page.tsx",
-                                                    lineNumber: 431,
+                                                    lineNumber: 541,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/page.tsx",
-                                            lineNumber: 429,
+                                            lineNumber: 539,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                             children: [
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                     className: "text-3xl font-bold text-purple-400",
-                                                    children: "15+"
+                                                    children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2f$randomizer$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["getSurvivorOfferings"])().length + (0, __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$utils$2f$randomizer$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["getKillerOfferings"])().length
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/page.tsx",
-                                                    lineNumber: 434,
+                                                    lineNumber: 544,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -830,42 +1181,42 @@ function Home() {
                                                     children: "Offerings"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/page.tsx",
-                                                    lineNumber: 435,
+                                                    lineNumber: 547,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/app/page.tsx",
-                                            lineNumber: 433,
+                                            lineNumber: 543,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/app/page.tsx",
-                                    lineNumber: 412,
+                                    lineNumber: 524,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/app/page.tsx",
-                            lineNumber: 410,
+                            lineNumber: 522,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/app/page.tsx",
-                    lineNumber: 141,
+                    lineNumber: 266,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/app/page.tsx",
-            lineNumber: 86,
+            lineNumber: 227,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/app/page.tsx",
-        lineNumber: 85,
+        lineNumber: 226,
         columnNumber: 5
     }, this);
 }
@@ -1167,380 +1518,7 @@ module.exports = [
 }),
 "[project]/lib/data/killers.json.[json].cjs [app-ssr] (ecmascript)", ((__turbopack_context__, module, exports) => {
 
-module.exports = [
-    {
-        "id": "trapper",
-        "name": "The Trapper",
-        "realName": "Evan MacMillan",
-        "chapter": "Dead by Daylight",
-        "releaseDate": "2016-06-14",
-        "power": "Bear Traps",
-        "difficulty": "Medium",
-        "perks": [
-            "unnerving_presence",
-            "hex_the_third_seal",
-            "agitation"
-        ],
-        "description": "A hunter using elaborate traps."
-    },
-    {
-        "id": "wraith",
-        "name": "The Wraith",
-        "realName": "Philip Ojomo",
-        "chapter": "Dead by Daylight",
-        "releaseDate": "2016-06-14",
-        "power": "Wailing Bell",
-        "difficulty": "Easy",
-        "perks": [
-            "bloodhound",
-            "shadowborn",
-            "predator"
-        ],
-        "description": "A vigilante who hides in invisibility."
-    },
-    {
-        "id": "hillbilly",
-        "name": "The Hillbilly",
-        "realName": "Max Thompson Jr.",
-        "chapter": "Dead by Daylight",
-        "releaseDate": "2016-06-14",
-        "power": "Chainsaw",
-        "difficulty": "Medium",
-        "perks": [
-            "hex_make_your_choice",
-            "enduring",
-            "tinkerer"
-        ],
-        "description": "A killer with a chainsaw."
-    },
-    {
-        "id": "nurse",
-        "name": "The Nurse",
-        "realName": "Sally Smithson",
-        "chapter": "Dead by Daylight",
-        "releaseDate": "2016-06-14",
-        "power": "Spencer's Last Breath",
-        "difficulty": "Hard",
-        "perks": [
-            "hex_ruin",
-            "stridor",
-            "thanatophobia"
-        ],
-        "description": "A nurse who blinks between locations."
-    },
-    {
-        "id": "shape",
-        "name": "The Shape",
-        "realName": "Michael Myers",
-        "chapter": "Halloween",
-        "releaseDate": "2018-09-05",
-        "power": "Evil Within",
-        "difficulty": "Hard",
-        "perks": [
-            "hex_ruin",
-            "hex_devour_hope",
-            "dying_light"
-        ],
-        "description": "An unstoppable killer driven by pure evil."
-    },
-    {
-        "id": "huntress",
-        "name": "The Huntress",
-        "realName": "Anna",
-        "chapter": "Dead by Daylight",
-        "releaseDate": "2016-10-04",
-        "power": "Hatchets",
-        "difficulty": "Medium",
-        "perks": [
-            "hex_ruin",
-            "territorial_imperative"
-        ],
-        "description": "A hunter with deadly hatchets."
-    },
-    {
-        "id": "cannibal",
-        "name": "The Cannibal",
-        "realName": "Bubba Sawyer",
-        "chapter": "Texas Chainsaw Massacre",
-        "releaseDate": "2016-12-14",
-        "power": "Chainsaw",
-        "difficulty": "Medium",
-        "perks": [
-            "barbecue_and_chili",
-            "knock_out"
-        ],
-        "description": "A deranged killer with a chainsaw."
-    },
-    {
-        "id": "nightmare",
-        "name": "A Nightmare on Elm Street",
-        "realName": "Freddy Krueger",
-        "chapter": "A Nightmare on Elm Street",
-        "releaseDate": "2017-11-08",
-        "power": "Dream World",
-        "difficulty": "Hard",
-        "perks": [
-            "remember_me",
-            "blood_warden",
-            "fire_up"
-        ],
-        "description": "A dream demon who rules the nightmare realm."
-    },
-    {
-        "id": "spirit",
-        "name": "The Spirit",
-        "realName": "Rin Yamaoka",
-        "chapter": "Curtain Call",
-        "releaseDate": "2017-12-13",
-        "power": "Yamaoka's Haunting",
-        "difficulty": "Hard",
-        "perks": [
-            "hex_haunted_ground",
-            "rancor",
-            "play_with_your_food"
-        ],
-        "description": "A vengeful spirit who phases through reality."
-    },
-    {
-        "id": "legion",
-        "name": "The Legion",
-        "realName": "Frank Morrison",
-        "chapter": "Dead by Daylight",
-        "releaseDate": "2017-09-12",
-        "power": "Feral Frenzy",
-        "difficulty": "Medium",
-        "perks": [
-            "discordance",
-            "mad_grit"
-        ],
-        "description": "A group of adolescent killers."
-    },
-    {
-        "id": "plague",
-        "name": "The Plague",
-        "realName": "Adiris",
-        "chapter": "Dead by Daylight",
-        "releaseDate": "2019-03-19",
-        "power": "Vile Purge",
-        "difficulty": "Medium",
-        "perks": [
-            "infectious_fright",
-            "corrupt_intervention",
-            "dark_devotion"
-        ],
-        "description": "A priestess spreading pestilence."
-    },
-    {
-        "id": "demogorgon",
-        "name": "The Demogorgon",
-        "realName": "Demogorgon",
-        "chapter": "Stranger Things",
-        "releaseDate": "2019-11-06",
-        "power": "Demonic Claws",
-        "difficulty": "Medium",
-        "perks": [
-            "surge",
-            "monitor_and_abuse"
-        ],
-        "description": "A beast from the Upside Down."
-    },
-    {
-        "id": "oni",
-        "name": "The Oni",
-        "realName": "Kazan Yamaoka",
-        "chapter": "Cursed Legacy",
-        "releaseDate": "2019-11-19",
-        "power": "Yamaoka's Wrath",
-        "difficulty": "Hard",
-        "perks": [
-            "zanshin_tactic",
-            "blood_security"
-        ],
-        "description": "A demon of vengeance and rage."
-    },
-    {
-        "id": "blight",
-        "name": "The Blight",
-        "realName": "Talbot Grady",
-        "chapter": "Chains of Hate",
-        "releaseDate": "2020-07-07",
-        "power": "Compound 21",
-        "difficulty": "Hard",
-        "perks": [
-            "hex_undying",
-            "blood_echo",
-            "corrupted_intervention"
-        ],
-        "description": "A scientist enhanced by serum."
-    },
-    {
-        "id": "deathslinger",
-        "name": "The Deathslinger",
-        "realName": "Caleb Quinn",
-        "chapter": "Special Delivery",
-        "releaseDate": "2020-04-14",
-        "power": "Redeemer",
-        "difficulty": "Hard",
-        "perks": [
-            "hex_retribution",
-            "dead_man_switch"
-        ],
-        "description": "A gunslinger with a harpoon."
-    },
-    {
-        "id": "executioner",
-        "name": "Pyramid Head",
-        "realName": "The Executioner",
-        "chapter": "Silent Hill",
-        "releaseDate": "2021-06-16",
-        "power": "Rites of Judgement",
-        "difficulty": "Hard",
-        "perks": [
-            "deathbound",
-            "trail_of_torment"
-        ],
-        "description": "An executioner from Silent Hill."
-    },
-    {
-        "id": "nemesis",
-        "name": "Nemesis",
-        "realName": "Nemesis T-Type",
-        "chapter": "Resident Evil",
-        "releaseDate": "2021-04-14",
-        "power": "T-Virus",
-        "difficulty": "Hard",
-        "perks": [
-            "lethal_pursuer",
-            "hysteria",
-            "superior_anatomy"
-        ],
-        "description": "A bioweapon of terrible power."
-    },
-    {
-        "id": "twins",
-        "name": "The Twins",
-        "realName": "Victor & Charlotte Deshayes",
-        "chapter": "Dead by Daylight",
-        "releaseDate": "2021-02-02",
-        "power": "Fraternal Bond",
-        "difficulty": "Hard",
-        "perks": [
-            "incapacitate",
-            "potential"
-        ],
-        "description": "Conjoined twins with horrifying origins."
-    },
-    {
-        "id": "trickster",
-        "name": "The Trickster",
-        "realName": "Ji-Woon Hak",
-        "chapter": "Dead by Daylight",
-        "releaseDate": "2021-03-30",
-        "power": "Showstopper",
-        "difficulty": "Medium",
-        "perks": [
-            "no_time_to_heal",
-            "crowd_control"
-        ],
-        "description": "A K-pop idol turned killer."
-    },
-    {
-        "id": "wesker",
-        "name": "Wesker",
-        "realName": "Albert Wesker",
-        "chapter": "Resident Evil",
-        "releaseDate": "2024-10-02",
-        "power": "Virulent Bound",
-        "difficulty": "Hard",
-        "perks": [
-            "awakening",
-            "superior_anatomy"
-        ],
-        "description": "A scientist with superhuman abilities."
-    },
-    {
-        "id": "sadako",
-        "name": "Sadako",
-        "realName": "Sadako Yamamura",
-        "chapter": "Ring",
-        "releaseDate": "2019-10-02",
-        "power": "Cursed Tape",
-        "difficulty": "Medium",
-        "perks": [
-            "ringu",
-            "recursion"
-        ],
-        "description": "A vengeful spirit from the Ring."
-    },
-    {
-        "id": "cenobite",
-        "name": "The Cenobite",
-        "realName": "Elliott Spencer",
-        "chapter": "Dead by Daylight",
-        "releaseDate": "2022-06-14",
-        "power": "Lament Configuration",
-        "difficulty": "Hard",
-        "perks": [
-            "gift_of_pain",
-            "deadlock"
-        ],
-        "description": "A sadomasochistic being from Hell."
-    },
-    {
-        "id": "artist",
-        "name": "The Artist",
-        "realName": "Carmina Mora",
-        "chapter": "Dead by Daylight",
-        "releaseDate": "2022-05-17",
-        "power": "Dire Crows",
-        "difficulty": "Hard",
-        "perks": [
-            "hex_pentimento",
-            "repressed_alliance"
-        ],
-        "description": "An occultist with dark powers."
-    },
-    {
-        "id": "onryo",
-        "name": "Onryo",
-        "realName": "Sadako",
-        "chapter": "Dead by Daylight",
-        "releaseDate": "2023-01-31",
-        "power": "Cursed Gaze",
-        "difficulty": "Medium",
-        "perks": [
-            "scourge_hook_floods_of_wrath"
-        ],
-        "description": "A vengeful spirit from Japanese horror."
-    },
-    {
-        "id": "skull_merchant",
-        "name": "The Skull Merchant",
-        "realName": "Adriana",
-        "chapter": "Dead by Daylight",
-        "releaseDate": "2023-02-14",
-        "power": "Skull Echoes",
-        "difficulty": "Medium",
-        "perks": [
-            "gearhead",
-            "hoarder"
-        ],
-        "description": "A criminal mastermind."
-    },
-    {
-        "id": "dredge",
-        "name": "The Dredge",
-        "realName": "The Dredge",
-        "chapter": "Dead by Daylight",
-        "releaseDate": "2022-09-06",
-        "power": "Reign of Darkness",
-        "difficulty": "Hard",
-        "perks": [
-            "scourge_hook_crowd_control"
-        ],
-        "description": "A creature of shadow and darkness."
-    }
-];
+module.exports = JSON.parse("[{\"id\":\"the_trapper\",\"name\":\"The Trapper\",\"realName\":\"Evan MacMillan\",\"chapter\":\"Dead by Daylight\",\"power\":\"Bear Traps\",\"difficulty\":\"Easy\",\"perks\":[\"brutal_strength\",\"unnerving_presence\",\"agitation\"],\"description\":\"Sets and hides Bear Traps around the trial to catch and immobilize survivors.\"},{\"id\":\"the_wraith\",\"name\":\"The Wraith\",\"realName\":\"Philip Ojomo\",\"chapter\":\"Dead by Daylight\",\"power\":\"Wailing Bell\",\"difficulty\":\"Easy\",\"perks\":[\"bloodhound\",\"predator\",\"shadowborn\"],\"description\":\"Rings a bell to cloak himself, moving faster but unable to attack while invisible.\"},{\"id\":\"the_hillbilly\",\"name\":\"The Hillbilly\",\"realName\":\"Max Thompson Jr.\",\"chapter\":\"Dead by Daylight\",\"power\":\"Chainsaw\",\"difficulty\":\"Medium\",\"perks\":[\"enduring\",\"lightborn\",\"tinkerer\"],\"description\":\"Revs up a chainsaw to sprint across the map and down survivors instantly.\"},{\"id\":\"the_nurse\",\"name\":\"The Nurse\",\"realName\":\"Sally Smithson\",\"chapter\":\"Dead by Daylight\",\"power\":\"Blink\",\"difficulty\":\"Hard\",\"perks\":[\"a_nurses_calling\",\"stridor\",\"thanatophobia\"],\"description\":\"Blinks short distances through obstacles, bypassing walls and pallets entirely.\"},{\"id\":\"the_shape\",\"name\":\"The Shape\",\"realName\":\"Michael Myers\",\"chapter\":\"Halloween\",\"power\":\"Evil Within\",\"difficulty\":\"Medium\",\"perks\":[\"dying_light\",\"play_with_your_food\",\"save_the_best_for_last\"],\"description\":\"Stalks survivors to build power, eventually gaining speed and one-hit downs.\"},{\"id\":\"the_hag\",\"name\":\"The Hag\",\"realName\":\"Lisa Sherwood\",\"chapter\":\"Dead by Daylight\",\"power\":\"Phantasm Traps\",\"difficulty\":\"Medium\",\"perks\":[\"hex_ruin\",\"hex_the_third_seal\",\"hex_no_one_escapes_death\"],\"description\":\"Plants trap totems that teleport her to survivors who trigger them.\"},{\"id\":\"the_doctor\",\"name\":\"The Doctor\",\"realName\":\"Herman Carter\",\"chapter\":\"Dead by Daylight\",\"power\":\"Shock Therapy\",\"difficulty\":\"Medium\",\"perks\":[\"monitor_abuse\",\"overcharge\",\"overwhelming_presence\"],\"description\":\"Emits electrical shocks that reveal and disorient nearby survivors.\"},{\"id\":\"the_huntress\",\"name\":\"The Huntress\",\"realName\":\"Anna\",\"chapter\":\"Dead by Daylight\",\"power\":\"Hunting Hatchets\",\"difficulty\":\"Medium\",\"perks\":[\"beast_of_prey\",\"hex_huntress_lullaby\",\"territorial_imperative\"],\"description\":\"Throws hatchets at survivors from a distance, injuring them without a chase.\"},{\"id\":\"the_cannibal\",\"name\":\"The Cannibal\",\"realName\":\"Bubba Sawyer\",\"chapter\":\"Leatherface\",\"power\":\"Chainsaw\",\"difficulty\":\"Medium\",\"perks\":[\"barbecue_chilli\",\"franklins_demise\",\"knock_out\"],\"description\":\"Revs a chainsaw for a wide sweeping attack that instantly downs survivors.\"},{\"id\":\"the_nightmare\",\"name\":\"The Nightmare\",\"realName\":\"Freddy Krueger\",\"chapter\":\"A Nightmare on Elm Street\",\"power\":\"Dream World\",\"difficulty\":\"Hard\",\"perks\":[\"blood_warden\",\"fire_up\",\"remember_me\"],\"description\":\"Pulls survivors into a dream world where they move and act more slowly.\"},{\"id\":\"the_pig\",\"name\":\"The Pig\",\"realName\":\"Amanda Young\",\"chapter\":\"Saw\",\"power\":\"Reverse Bear Traps\",\"difficulty\":\"Medium\",\"perks\":[\"make_your_choice\",\"surveillance\",\"scourge_hook_hangmans_trick\"],\"description\":\"Fits survivors with Reverse Bear Traps that must be removed before time runs out.\"},{\"id\":\"the_clown\",\"name\":\"The Clown\",\"realName\":\"Jeffrey Hawk\",\"chapter\":\"Dead by Daylight\",\"power\":\"Afterpiece Tonic\",\"difficulty\":\"Medium\",\"perks\":[\"bamboozle\",\"coulrophobia\",\"pop_goes_the_weasel\"],\"description\":\"Throws gas bottles that slow survivors caught in the toxic cloud.\"},{\"id\":\"the_spirit\",\"name\":\"The Spirit\",\"realName\":\"Rin Yamaoka\",\"chapter\":\"Shattered Bloodline\",\"power\":\"Yamaoka's Haunting\",\"difficulty\":\"Hard\",\"perks\":[\"hex_haunted_ground\",\"rancor\",\"spirit_fury\"],\"description\":\"Phases out of the physical realm to move quickly and track survivors by sound.\"},{\"id\":\"the_legion\",\"name\":\"The Legion\",\"realName\":\"Frank Morrison\",\"chapter\":\"Cursed Legacy\",\"power\":\"Feral Frenzy\",\"difficulty\":\"Medium\",\"perks\":[\"discordance\",\"iron_maiden\",\"mad_grit\"],\"description\":\"Enters a frenzy to rapidly injure multiple survivors in quick succession.\"},{\"id\":\"the_plague\",\"name\":\"The Plague\",\"realName\":\"Adiris\",\"chapter\":\"Curtain Call\",\"power\":\"Vile Purge\",\"difficulty\":\"Medium\",\"perks\":[\"corrupt_intervention\",\"dark_devotion\",\"infectious_fright\"],\"description\":\"Vomits corruption onto survivors and objects, sickening anyone who interacts with them.\"},{\"id\":\"the_ghost_face\",\"name\":\"The Ghost Face\",\"realName\":\"Danny Johnson\",\"chapter\":\"Ghost Face\",\"power\":\"Night Shroud\",\"difficulty\":\"Medium\",\"perks\":[\"furtive_chase\",\"im_all_ears\",\"thrilling_tremors\"],\"description\":\"Stalks survivors while cloaked to mark them and approach undetected.\"},{\"id\":\"the_demogorgon\",\"name\":\"The Demogorgon\",\"realName\":\"Demogorgon\",\"chapter\":\"Stranger Things\",\"power\":\"Of The Abyss\",\"difficulty\":\"Medium\",\"perks\":[\"cruel_limits\",\"mindbreaker\",\"surge\"],\"description\":\"Opens portals to travel the Upside Down and ambush survivors from below.\"},{\"id\":\"the_oni\",\"name\":\"The Oni\",\"realName\":\"Kazan Yamaoka\",\"chapter\":\"Cursed Legacy\",\"power\":\"Yamaoka's Wrath\",\"difficulty\":\"Hard\",\"perks\":[\"blood_echo\",\"nemesis\",\"zanshin_tactics\"],\"description\":\"Collects blood orbs to transform into a demonic state with immense speed and power.\"},{\"id\":\"the_deathslinger\",\"name\":\"The Deathslinger\",\"realName\":\"Caleb Quinn\",\"chapter\":\"Chains of Hate\",\"power\":\"The Redeemer\",\"difficulty\":\"Medium\",\"perks\":[\"dead_mans_switch\",\"gearhead\",\"hex_retribution\"],\"description\":\"Fires a harpoon spear to reel survivors in from a distance.\"},{\"id\":\"the_executioner\",\"name\":\"The Executioner\",\"realName\":\"Pyramid Head\",\"chapter\":\"Silent Hill\",\"power\":\"Rites of Judgment\",\"difficulty\":\"Hard\",\"perks\":[\"deathbound\",\"forced_penance\",\"trail_of_torment\"],\"description\":\"Manifests torment creations and barriers throughout the trial grounds.\"},{\"id\":\"the_blight\",\"name\":\"The Blight\",\"realName\":\"Talbot Grimes\",\"chapter\":\"Tools of Torment\",\"power\":\"Vial of Compound 21\",\"difficulty\":\"Hard\",\"perks\":[\"dragons_grip\",\"hex_blood_favour\",\"hex_undying\"],\"description\":\"Injects a serum to dash rapidly across the map, rebounding off obstacles.\"},{\"id\":\"the_twins\",\"name\":\"The Twins\",\"realName\":\"Charlotte and Victor Deshayes\",\"chapter\":\"Binding of Kin\",\"power\":\"Blood Bond\",\"difficulty\":\"Hard\",\"perks\":[\"coup_de_grace\",\"hoarder\",\"oppression\"],\"description\":\"Controls a small companion, Victor, who can pounce on survivors from afar.\"},{\"id\":\"the_trickster\",\"name\":\"The Trickster\",\"realName\":\"Ji-Woon Hak\",\"chapter\":\"All-Kill\",\"power\":\"Showstopper\",\"difficulty\":\"Medium\",\"perks\":[\"hex_crowd_control\",\"no_way_out\",\"starstruck\"],\"description\":\"Throws a barrage of knives at survivors from range for stacking damage.\"},{\"id\":\"the_nemesis\",\"name\":\"The Nemesis\",\"realName\":\"Nemesis T-Type\",\"chapter\":\"Resident Evil\",\"power\":\"T-Virus\",\"difficulty\":\"Medium\",\"perks\":[\"eruption\",\"hysteria\",\"lethal_pursuer\"],\"description\":\"Whips survivors with tentacle attacks that grow stronger and can zombify obstacles.\"},{\"id\":\"the_cenobite\",\"name\":\"The Cenobite\",\"realName\":\"Elliott Spencer\",\"chapter\":\"Hellraiser\",\"power\":\"Summons of Pain\",\"difficulty\":\"Hard\",\"perks\":[\"deadlock\",\"hex_plaything\",\"scourge_hook_gift_of_pain\"],\"description\":\"Solves the Lament Configuration to summon chains that bind survivors in place.\"},{\"id\":\"the_artist\",\"name\":\"The Artist\",\"realName\":\"Carmina Mora\",\"chapter\":\"All-Kill II\",\"power\":\"Dirge of the Crows\",\"difficulty\":\"Medium\",\"perks\":[\"grim_embrace\",\"nowhere_to_hide\",\"bitter_murmur\"],\"description\":\"Summons crows to fly through the environment and injure survivors from afar.\"},{\"id\":\"the_onryo\",\"name\":\"The Onryō\",\"realName\":\"Sadako Yamamura\",\"chapter\":\"Sadako Rising\",\"power\":\"Fading of Sadako\",\"difficulty\":\"Medium\",\"perks\":[\"call_of_brine\",\"merciless_storm\",\"scourge_hook_floods_of_rage\"],\"description\":\"Spreads cursed tapes and teleports through televisions across the trial.\"},{\"id\":\"the_dredge\",\"name\":\"The Dredge\",\"realName\":\"The Dredge\",\"chapter\":\"Roots of Dread\",\"power\":\"Nightfall\",\"difficulty\":\"Hard\",\"perks\":[\"darkness_revealed\",\"dissolution\",\"septic_touch\"],\"description\":\"Teleports between lockers and thrives when the trial descends into darkness.\"},{\"id\":\"the_mastermind\",\"name\":\"The Mastermind\",\"realName\":\"Albert Wesker\",\"chapter\":\"Resident Evil: Descend Beyond\",\"power\":\"Virulent Bound\",\"difficulty\":\"Medium\",\"perks\":[\"awakened_awareness\",\"superior_anatomy\",\"terminus\"],\"description\":\"Infects survivors with the T-Virus, then leaps across the map with superhuman bounds.\"},{\"id\":\"the_knight\",\"name\":\"The Knight\",\"realName\":\"Tarhos Kovács\",\"chapter\":\"Forced Hesitation\",\"power\":\"Order Guard Summon\",\"difficulty\":\"Medium\",\"perks\":[\"hubris\",\"nowhere_to_hide\",\"surveillance\"],\"description\":\"Summons loyal guards to patrol and hunt down survivors on his behalf.\"},{\"id\":\"the_skull_merchant\",\"name\":\"The Skull Merchant\",\"realName\":\"Adriana Imai\",\"chapter\":\"End Transmission\",\"power\":\"Predator Drones\",\"difficulty\":\"Medium\",\"perks\":[\"game_afoot\",\"leverage\",\"thwack\"],\"description\":\"Deploys claw-trap drones that scan the area and slow down survivors caught nearby.\"},{\"id\":\"the_singularity\",\"name\":\"The Singularity\",\"realName\":\"William Birkin\",\"chapter\":\"Resident Evil: Descend Beyond\",\"power\":\"Biopods\",\"difficulty\":\"Hard\",\"perks\":[\"forced_hesitation\",\"genetic_limits\",\"machine_learning\"],\"description\":\"Deploys camera pods to teleport across the map and overload survivors.\"},{\"id\":\"the_xenomorph\",\"name\":\"The Xenomorph\",\"realName\":\"Xenomorph\",\"chapter\":\"Alien\",\"power\":\"Turret and Tail Attack\",\"difficulty\":\"Medium\",\"perks\":[\"alien_instinct\",\"rapid_brutality\",\"ultimate_weapon\"],\"description\":\"Prowls through vents and crawlspaces before striking with a lethal tail attack.\"},{\"id\":\"the_good_guy\",\"name\":\"The Good Guy\",\"realName\":\"Charles Lee Ray\",\"chapter\":\"Chucky\",\"power\":\"Hidey-Ho Mode\",\"difficulty\":\"Medium\",\"perks\":[\"batteries_included\",\"friends_til_the_end\",\"hex_two_can_play\"],\"description\":\"Hides in Hidey-Ho Mode among the crowd before striking with a butcher's knife.\"},{\"id\":\"the_unknown\",\"name\":\"The Unknown\",\"realName\":\"Unknown\",\"chapter\":\"All-Kill III\",\"power\":\"Weaving Illusions\",\"difficulty\":\"Hard\",\"perks\":[\"unbound\",\"undone\",\"unforeseen\"],\"description\":\"Casts illusory UVX orbs that mark and injure survivors caught in its afterimage.\"},{\"id\":\"the_lich\",\"name\":\"The Lich\",\"realName\":\"Vecna\",\"chapter\":\"Stranger Things: Chapter III\",\"power\":\"Dark Arsenal\",\"difficulty\":\"Hard\",\"perks\":[\"dark_arrogance\",\"languid_touch\",\"weave_attunement\"],\"description\":\"Casts a variety of arcane spells, including flight and instant transportation.\"},{\"id\":\"the_dark_lord\",\"name\":\"The Dark Lord\",\"realName\":\"Dracula\",\"chapter\":\"Castlevania\",\"power\":\"Shapeshift\",\"difficulty\":\"Hard\",\"perks\":[\"dominance\",\"human_greed\",\"hex_wretched_fate\"],\"description\":\"Shapeshifts between forms, each granting a different power over the trial.\"},{\"id\":\"the_houndmaster\",\"name\":\"The Houndmaster\",\"realName\":\"Portia Maye\",\"chapter\":\"Tundra Terror\",\"power\":\"Pack Mentality\",\"difficulty\":\"Medium\",\"perks\":[\"all_shaking_thunder\",\"no_quarter\",\"scourge_hook_jagged_compass\"],\"description\":\"Commands a loyal hound to track and pounce on survivors across the trial.\"},{\"id\":\"the_ghoul\",\"name\":\"The Ghoul\",\"realName\":\"The Ghoul\",\"chapter\":\"Fractured Vigil\",\"power\":\"Devouring Fetish\",\"difficulty\":\"Medium\",\"perks\":[\"forever_entwined\",\"none_are_free\",\"hex_nothing_but_misery\"],\"description\":\"Grows stronger by feasting on despair, gaining speed and lasting map control.\"},{\"id\":\"the_animatronic\",\"name\":\"The Animatronic\",\"realName\":\"Springtrap\",\"chapter\":\"Five Nights at Freddy's\",\"power\":\"Remnant\",\"difficulty\":\"Medium\",\"perks\":[\"haywire\",\"help_wanted\",\"phantom_fear\"],\"description\":\"Uses jump scares and animatronic ambushes to stun and terrify survivors.\"},{\"id\":\"the_krasue\",\"name\":\"The Krasue\",\"realName\":\"Pornsak Soulacheewa\",\"chapter\":\"Tundra Terror II\",\"power\":\"Rot and Bloom\",\"difficulty\":\"Medium\",\"perks\":[\"hex_overture_of_doom\",\"ravenous\",\"wandering_eye\"],\"description\":\"Detaches into a floating head with trailing entrails to fly silently through the trial.\"},{\"id\":\"the_first\",\"name\":\"The First\",\"realName\":\"Henry Creel\",\"chapter\":\"Stranger Things: Chapter III\",\"power\":\"Psychic Echo\",\"difficulty\":\"Hard\",\"perks\":[\"secret_project\",\"turn_back_the_clock\"],\"description\":\"Uses psychic powers to manipulate generators and block survivor progress.\"},{\"id\":\"the_slasher\",\"name\":\"The Slasher\",\"realName\":\"The Slasher\",\"chapter\":\"Anniversary II\",\"power\":\"Slasher's Blade\",\"difficulty\":\"Medium\",\"perks\":[\"hex_scared_to_death\",\"rampage\",\"silent_shadow\"],\"description\":\"Delivers rapid, ferocious slash attacks that gain momentum the longer the trial runs.\"},{\"id\":\"the_judgment\",\"name\":\"The Judgment\",\"realName\":\"Judgment\",\"chapter\":\"Norse Force III\",\"power\":\"Divine Wrath\",\"difficulty\":\"Hard\",\"perks\":[\"celestial_witness\",\"hex_under_your_thumb\",\"lay_waste\"],\"description\":\"Channels divine wrath to punish survivors and disrupt their progress from afar.\"}]");
 }),
 "[project]/lib/data/offerings.json.[json].cjs [app-ssr] (ecmascript)", ((__turbopack_context__, module, exports) => {
 
@@ -1669,652 +1647,11 @@ module.exports = [
 }),
 "[project]/lib/data/perks.json.[json].cjs [app-ssr] (ecmascript)", ((__turbopack_context__, module, exports) => {
 
-module.exports = [
-    {
-        "id": "decisive_strike",
-        "name": "Decisive Strike",
-        "type": "Survivor",
-        "character": "Laurie Strode",
-        "rarity": "Rare",
-        "effect": "Escape the Killer's grasp",
-        "cooldown": 60,
-        "description": "When being carried by the Killer, press the Active Ability button when at the right moment to escape their grasp. Causes 5% exhaustion of your Sprint Burst."
-    },
-    {
-        "id": "self_care",
-        "name": "Self-Care",
-        "type": "Survivor",
-        "character": "Cheryl Mason",
-        "rarity": "Uncommon",
-        "effect": "Heal yourself",
-        "description": "Unlock the ability to heal yourself without needing a Med-Kit, but at a reduced rate."
-    },
-    {
-        "id": "spine_chill",
-        "name": "Spine Chill",
-        "type": "Survivor",
-        "character": "Bill Overbeck",
-        "rarity": "Uncommon",
-        "effect": "Alerts you when Killer is nearby",
-        "description": "When the Killer comes within 12 meters, the Perk activates, revealing their presence."
-    },
-    {
-        "id": "bond",
-        "name": "Bond",
-        "type": "Survivor",
-        "character": "Quentin Smith",
-        "rarity": "Uncommon",
-        "effect": "Reveal teammates",
-        "description": "Reveals the location of teammates within 28 meters of you."
-    },
-    {
-        "id": "unbreakable",
-        "name": "Unbreakable",
-        "type": "Survivor",
-        "character": "Bill Overbeck",
-        "rarity": "Rare",
-        "effect": "Recover from broken status",
-        "description": "Recover from the Broken status effect without needing external intervention."
-    },
-    {
-        "id": "borrowed_time",
-        "name": "Borrowed Time",
-        "type": "Survivor",
-        "character": "Bill Overbeck",
-        "rarity": "Rare",
-        "effect": "Protect teammates from being hit",
-        "description": "After unhooking a teammate, they are protected from being damaged for 12 seconds."
-    },
-    {
-        "id": "inner_strength",
-        "name": "Inner Strength",
-        "type": "Survivor",
-        "character": "Nancy Wheeler",
-        "rarity": "Rare",
-        "effect": "Heal inside lockers",
-        "description": "While in a locker, you can enter a meditative state and heal yourself without a Med-Kit."
-    },
-    {
-        "id": "lucky_break",
-        "name": "Lucky Break",
-        "type": "Survivor",
-        "character": "Claire Redfield",
-        "rarity": "Rare",
-        "effect": "Hide scratch marks",
-        "description": "Scratch marks you leave are hidden for 80 seconds after entering the injured state."
-    },
-    {
-        "id": "blast_mine",
-        "name": "Blast Mine",
-        "type": "Survivor",
-        "character": "Jill Valentine",
-        "rarity": "Rare",
-        "effect": "Trigger explosions",
-        "description": "After repairing a generator for a total of 3 seconds, press the activate ability button to set a trap."
-    },
-    {
-        "id": "hex_ruin",
-        "name": "Hex: Ruin",
-        "type": "Killer",
-        "character": "Rin Yamaoka",
-        "rarity": "Rare",
-        "effect": "Slows generator repairs",
-        "description": "Causes all generators to regress at 150% speed when not being repaired."
-    },
-    {
-        "id": "hex_devour_hope",
-        "name": "Hex: Devour Hope",
-        "type": "Killer",
-        "character": "Michael Myers",
-        "rarity": "Rare",
-        "effect": "Gain power from hooks",
-        "description": "Each time a survivor is hooked, gain a token and gain effects based on token count."
-    },
-    {
-        "id": "dying_light",
-        "name": "Dying Light",
-        "type": "Killer",
-        "character": "Michael Myers",
-        "rarity": "Rare",
-        "effect": "Slow survivor repair speed",
-        "description": "When a survivor is in a dying state, all other survivors suffer from a stack of -3% repair speed."
-    },
-    {
-        "id": "hex_haunted_ground",
-        "name": "Hex: Haunted Ground",
-        "type": "Killer",
-        "character": "The Spirit",
-        "rarity": "Uncommon",
-        "effect": "Curse unhooking survivors",
-        "description": "When a survivor unhooks another survivor, both are exposed for 60 seconds."
-    },
-    {
-        "id": "stridor",
-        "name": "Stridor",
-        "type": "Killer",
-        "character": "Sally Smithson",
-        "rarity": "Uncommon",
-        "effect": "Hear survivor breathing",
-        "description": "The breathing sounds of survivors are 25% louder to you."
-    },
-    {
-        "id": "thanatophobia",
-        "name": "Thanatophobia",
-        "type": "Killer",
-        "character": "Sally Smithson",
-        "rarity": "Rare",
-        "effect": "Slow repairs when injured",
-        "description": "For each survivor in an injured state, all generators repair 4% slower."
-    },
-    {
-        "id": "bbq_chili",
-        "name": "BBQ & Chili",
-        "type": "Killer",
-        "character": "Leatherface",
-        "rarity": "Rare",
-        "effect": "Reveal survivors after hook",
-        "description": "After hooking a survivor, all survivors auras are revealed for 4 seconds."
-    },
-    {
-        "id": "iron_grasp",
-        "name": "Iron Grasp",
-        "type": "Killer",
-        "character": "Evan MacMillan",
-        "rarity": "Uncommon",
-        "effect": "Slow escape attempts",
-        "description": "Reduce the struggle effect that causes you to lose time when carrying a survivor by 10%."
-    },
-    {
-        "id": "agitation",
-        "name": "Agitation",
-        "type": "Killer",
-        "character": "Evan MacMillan",
-        "rarity": "Uncommon",
-        "effect": "Faster carrying",
-        "description": "Increase the movement speed of the Killer by 10% while carrying a survivor."
-    },
-    {
-        "id": "enduring",
-        "name": "Enduring",
-        "type": "Killer",
-        "character": "Max Thompson Jr.",
-        "rarity": "Uncommon",
-        "effect": "Reduce stun duration",
-        "description": "Reduce the duration of time the Killer is stunned by 25%."
-    },
-    {
-        "id": "tinkerer",
-        "name": "Tinkerer",
-        "type": "Killer",
-        "character": "Max Thompson Jr.",
-        "rarity": "Rare",
-        "effect": "See generator alerts",
-        "description": "When a survivor starts repairing a generator for the first time, you receive a notification and see the generator's aura."
-    }
-];
+module.exports = JSON.parse("[{\"id\":\"leader\",\"name\":\"Leader\",\"type\":\"Survivor\",\"character\":\"Dwight Fairfield\",\"rarity\":\"Common\",\"effect\":\"Increases the action speed of nearby Survivors for cleansing, healing, repairing, sabotaging, unhooking, and unlocking.\",\"description\":\"You are able to organise a team to cooperate more efficiently.\"},{\"id\":\"prove_thyself\",\"name\":\"Prove Thyself\",\"type\":\"Survivor\",\"character\":\"Dwight Fairfield\",\"rarity\":\"Common\",\"effect\":\"Increases repair speed for each other Survivor working on the same Generator.\",\"description\":\"Show me what you can do!\"},{\"id\":\"bond\",\"name\":\"Bond\",\"type\":\"Survivor\",\"character\":\"Dwight Fairfield\",\"rarity\":\"Common\",\"effect\":\"Reveals the Auras of all other Survivors within a set radius.\",\"description\":\"We have to work as a team.\"},{\"id\":\"adrenaline\",\"name\":\"Adrenaline\",\"type\":\"Survivor\",\"character\":\"Meg Thomas\",\"rarity\":\"Rare\",\"effect\":\"Once Exit Gates are powered, heals you one Health State and grants a burst of Haste.\",\"description\":\"You are fuelled by unexpected energy on the verge of escape.\"},{\"id\":\"sprint_burst\",\"name\":\"Sprint Burst\",\"type\":\"Survivor\",\"character\":\"Meg Thomas\",\"rarity\":\"Rare\",\"effect\":\"Starting to run grants a burst of Haste, then causes Exhaustion.\",\"description\":\"See you if you can catch up.\"},{\"id\":\"quick_and_quiet\",\"name\":\"Quick & Quiet\",\"type\":\"Survivor\",\"character\":\"Meg Thomas\",\"rarity\":\"Common\",\"effect\":\"Suppresses noise when vaulting or entering/exiting Lockers.\",\"description\":\"They will never catch me!\"},{\"id\":\"botany_knowledge\",\"name\":\"Botany Knowledge\",\"type\":\"Survivor\",\"character\":\"Claudette Morel\",\"rarity\":\"Common\",\"effect\":\"Increases your healing speed permanently.\",\"description\":\"Basic botany knowledge could save your life someday.\"},{\"id\":\"empathy\",\"name\":\"Empathy\",\"type\":\"Survivor\",\"character\":\"Claudette Morel\",\"rarity\":\"Common\",\"effect\":\"Reveals the Auras of injured or dying Survivors within range.\",\"description\":\"An intuition for those who suffer.\"},{\"id\":\"self_care\",\"name\":\"Self-Care\",\"type\":\"Survivor\",\"character\":\"Claudette Morel\",\"rarity\":\"Common\",\"effect\":\"Grants the ability to heal yourself without a Med-Kit, at a reduced speed.\",\"description\":\"Sometimes you must help yourself.\"},{\"id\":\"calm_spirit\",\"name\":\"Calm Spirit\",\"type\":\"Survivor\",\"character\":\"Jake Park\",\"rarity\":\"Common\",\"effect\":\"Suppresses the urge to scream and reduces noise from interacting with Chests and Totems.\",\"description\":\"Animals seem to trust you.\"},{\"id\":\"iron_will\",\"name\":\"Iron Will\",\"type\":\"Survivor\",\"character\":\"Jake Park\",\"rarity\":\"Uncommon\",\"effect\":\"Reduces the volume of your Grunts of Pain while injured.\",\"description\":\"A meditative state to numb pain.\"},{\"id\":\"saboteur\",\"name\":\"Saboteur\",\"type\":\"Survivor\",\"character\":\"Jake Park\",\"rarity\":\"Uncommon\",\"effect\":\"Reveals Hook Auras and lets you sabotage Hooks without a Toolbox.\",\"description\":\"You have a knack for breaking things.\"},{\"id\":\"balanced_landing\",\"name\":\"Balanced Landing\",\"type\":\"Survivor\",\"character\":\"Nea Karlsson\",\"rarity\":\"Rare\",\"effect\":\"Reduces fall stagger and grants Haste after falling from height, then causes Exhaustion.\",\"description\":\"Your agility is incomparable.\"},{\"id\":\"streetwise\",\"name\":\"Streetwise\",\"type\":\"Survivor\",\"character\":\"Nea Karlsson\",\"rarity\":\"Uncommon\",\"effect\":\"Increases Item charges retrieved from Chests and reveals the Killer when your Item depletes.\",\"description\":\"Long nights out taught you to do a lot with what you have got.\"},{\"id\":\"urban_evasion\",\"name\":\"Urban Evasion\",\"type\":\"Survivor\",\"character\":\"Nea Karlsson\",\"rarity\":\"Common\",\"effect\":\"Increases your crouched movement speed.\",\"description\":\"Years of evading the cops taught you a thing or two about stealth.\"},{\"id\":\"decisive_strike\",\"name\":\"Decisive Strike\",\"type\":\"Survivor\",\"character\":\"Laurie Strode\",\"rarity\":\"Rare\",\"effect\":\"After being unhooked, stuns the Killer if they pick you up again within the timer.\",\"description\":\"There is nothing to be scared of.\"},{\"id\":\"object_of_obsession\",\"name\":\"Object of Obsession\",\"type\":\"Survivor\",\"character\":\"Laurie Strode\",\"rarity\":\"Uncommon\",\"effect\":\"Reveals your Aura to the Killer, but you also see the Killer's Aura when they look at you.\",\"description\":\"He was watching me.\"},{\"id\":\"sole_survivor\",\"name\":\"Sole Survivor\",\"type\":\"Survivor\",\"character\":\"Laurie Strode\",\"rarity\":\"Uncommon\",\"effect\":\"Grants immunity to the Killer's Aura-reading as more Survivors die, with bonus speeds when you are last alive.\",\"description\":\"It was the boogeyman.\"},{\"id\":\"ace_in_the_hole\",\"name\":\"Ace in the Hole\",\"type\":\"Survivor\",\"character\":\"Ace Visconti\",\"rarity\":\"Uncommon\",\"effect\":\"Causes Items retrieved from Chests to come with Add-ons and preserves them upon escaping.\",\"description\":\"Lady Luck always seems to be throwing something good your way.\"},{\"id\":\"up_the_ante\",\"name\":\"Up the Ante\",\"type\":\"Survivor\",\"character\":\"Ace Visconti\",\"rarity\":\"Uncommon\",\"effect\":\"Increases the Luck of all Survivors for Self-Unhook attempts, scaling with Survivors remaining.\",\"description\":\"Confidence strengthens hope.\"},{\"id\":\"open_handed\",\"name\":\"Open-Handed\",\"type\":\"Survivor\",\"character\":\"Ace Visconti\",\"rarity\":\"Uncommon\",\"effect\":\"Increases the radius of all Aura-reading abilities for all Survivors.\",\"description\":\"Paying attention is what kept me alive.\"},{\"id\":\"borrowed_time\",\"name\":\"Borrowed Time\",\"type\":\"Survivor\",\"character\":\"Bill Overbeck\",\"rarity\":\"Very Rare\",\"effect\":\"Grants Endurance and Haste to a Survivor you unhook.\",\"description\":\"Probably stings like hell, but it ain't gonna kill ya.\"},{\"id\":\"left_behind\",\"name\":\"Left Behind\",\"type\":\"Survivor\",\"character\":\"Bill Overbeck\",\"rarity\":\"Uncommon\",\"effect\":\"Reveals the Hatch Aura once you are the last Survivor standing.\",\"description\":\"I'm not horse-shittin' around.\"},{\"id\":\"unbreakable\",\"name\":\"Unbreakable\",\"type\":\"Survivor\",\"character\":\"Bill Overbeck\",\"rarity\":\"Uncommon\",\"effect\":\"Increases recovery speed and allows one full Self-Recovery from the Dying State per Trial.\",\"description\":\"Past battles have taught you a thing or two about survival.\"},{\"id\":\"alert\",\"name\":\"Alert\",\"type\":\"Survivor\",\"character\":\"Feng Min\",\"rarity\":\"Common\",\"effect\":\"Reveals the Killer's Aura whenever they break or damage an object.\",\"description\":\"I have true sight.\"},{\"id\":\"lithe\",\"name\":\"Lithe\",\"type\":\"Survivor\",\"character\":\"Feng Min\",\"rarity\":\"Rare\",\"effect\":\"Performing a rushed vault grants a burst of Haste, then causes Exhaustion.\",\"description\":\"U mad?\"},{\"id\":\"technician\",\"name\":\"Technician\",\"type\":\"Survivor\",\"character\":\"Feng Min\",\"rarity\":\"Uncommon\",\"effect\":\"Reduces repair noise and suppresses generator explosions on failed skill checks.\",\"description\":\"I am gonna stealth this one.\"},{\"id\":\"dead_hard\",\"name\":\"Dead Hard\",\"type\":\"Survivor\",\"character\":\"David King\",\"rarity\":\"Very Rare\",\"effect\":\"After being unhooked, grants a brief burst of Endurance while injured and running.\",\"description\":\"You can take a beating.\"},{\"id\":\"no_mither\",\"name\":\"No Mither\",\"type\":\"Survivor\",\"character\":\"David King\",\"rarity\":\"Very Rare\",\"effect\":\"Permanently Broken, but grants Self-Recovery and suppresses blood and pain sounds.\",\"description\":\"Go on out, kid, it is just a scratch.\"},{\"id\":\"were_gonna_live_forever\",\"name\":\"We're Gonna Live Forever\",\"type\":\"Survivor\",\"character\":\"David King\",\"rarity\":\"Uncommon\",\"effect\":\"Increases healing speed on dying Survivors and grants them Endurance once healed.\",\"description\":\"Come on then, let's ave' it!\"},{\"id\":\"pharmacy\",\"name\":\"Pharmacy\",\"type\":\"Survivor\",\"character\":\"Quentin Smith\",\"rarity\":\"Uncommon\",\"effect\":\"Increases Chest unlocking speed and guarantees a Med-Kit inside.\",\"description\":\"You have a knack for finding medicine.\"},{\"id\":\"vigil\",\"name\":\"Vigil\",\"type\":\"Survivor\",\"character\":\"Quentin Smith\",\"rarity\":\"Common\",\"effect\":\"Increases recovery speed from Status Effects for yourself and nearby Survivors.\",\"description\":\"You watch over your friends.\"},{\"id\":\"wake_up\",\"name\":\"Wake Up!\",\"type\":\"Survivor\",\"character\":\"Quentin Smith\",\"rarity\":\"Common\",\"effect\":\"Reveals Exit Gate Switch Auras and increases Gate-opening speed once all Generators are done.\",\"description\":\"If we survive the next 24 hours...\"},{\"id\":\"detectives_hunch\",\"name\":\"Detective's Hunch\",\"type\":\"Survivor\",\"character\":\"David Tapp\",\"rarity\":\"Uncommon\",\"effect\":\"Reveals nearby Chest, Generator, and Totem Auras when a Generator is completed.\",\"description\":\"Are you able to tell us where you were last night?\"},{\"id\":\"stake_out\",\"name\":\"Stake Out\",\"type\":\"Survivor\",\"character\":\"David Tapp\",\"rarity\":\"Uncommon\",\"effect\":\"Gains Tokens near the Killer to convert Good Skill Checks into Great ones.\",\"description\":\"We're gonna close this case.\"},{\"id\":\"tenacity\",\"name\":\"Tenacity\",\"type\":\"Survivor\",\"character\":\"David Tapp\",\"rarity\":\"Common\",\"effect\":\"Grants the ability to crawl faster and hide your Aura while in the Dying State.\",\"description\":\"There is nothing stopping you.\"},{\"id\":\"boil_over\",\"name\":\"Boil Over\",\"type\":\"Survivor\",\"character\":\"Kate Denson\",\"rarity\":\"Common\",\"effect\":\"Increases the strength of your struggle effects and hides nearby Hook Auras while carried.\",\"description\":\"You are a battler.\"},{\"id\":\"dance_with_me\",\"name\":\"Dance With Me\",\"type\":\"Survivor\",\"character\":\"Kate Denson\",\"rarity\":\"Common\",\"effect\":\"Suppresses Scratch Marks after a rushed vault or Locker exit.\",\"description\":\"Another show's off and runnin'.\"},{\"id\":\"windows_of_opportunity\",\"name\":\"Windows of Opportunity\",\"type\":\"Survivor\",\"character\":\"Kate Denson\",\"rarity\":\"Common\",\"effect\":\"Reveals nearby Pallet, Window, and Breakable Wall Auras.\",\"description\":\"Open wide, your windows of opportunity.\"},{\"id\":\"deliverance\",\"name\":\"Deliverance\",\"type\":\"Survivor\",\"character\":\"Adam Francis\",\"rarity\":\"Uncommon\",\"effect\":\"Grants a guaranteed Self-Unhook attempt after unhooking another Survivor.\",\"description\":\"I was raised by a strict man.\"},{\"id\":\"diversion\",\"name\":\"Diversion\",\"type\":\"Survivor\",\"character\":\"Adam Francis\",\"rarity\":\"Common\",\"effect\":\"Throws a pebble to create a fake noise and Scratch Mark distraction.\",\"description\":\"There's what is easy and then there's what is right.\"},{\"id\":\"autodidact\",\"name\":\"Autodidact\",\"type\":\"Survivor\",\"character\":\"Adam Francis\",\"rarity\":\"Uncommon\",\"effect\":\"Gains Tokens from Skill Checks while healing others, converting them into bonus healing progress.\",\"description\":\"Learning through hardship.\"},{\"id\":\"aftercare\",\"name\":\"Aftercare\",\"type\":\"Survivor\",\"character\":\"Jeff Johansen\",\"rarity\":\"Common\",\"effect\":\"Reveals the Auras of Survivors who rescued or healed you, and vice versa.\",\"description\":\"A mercy that rips the storm.\"},{\"id\":\"breakdown\",\"name\":\"Breakdown\",\"type\":\"Survivor\",\"character\":\"Jeff Johansen\",\"rarity\":\"Uncommon\",\"effect\":\"Breaks the Hook you were unhooked from and reveals the Killer's Aura.\",\"description\":\"Charge from the belly of the beast.\"},{\"id\":\"distortion\",\"name\":\"Distortion\",\"type\":\"Survivor\",\"character\":\"Jeff Johansen\",\"rarity\":\"Uncommon\",\"effect\":\"Uses Tokens to block your Aura from being read and suppress Scratch Marks.\",\"description\":\"Better to disappear.\"},{\"id\":\"poised\",\"name\":\"Poised\",\"type\":\"Survivor\",\"character\":\"Jane Romero\",\"rarity\":\"Common\",\"effect\":\"Suppresses your Scratch Marks after completing a Generator, and reveals the Killer when starting one.\",\"description\":\"Achieving goals boosts your confidence.\"},{\"id\":\"solidarity\",\"name\":\"Solidarity\",\"type\":\"Survivor\",\"character\":\"Jane Romero\",\"rarity\":\"Uncommon\",\"effect\":\"Passively heals yourself while healing another Survivor without a Med-Kit.\",\"description\":\"Showing up when things get rough.\"},{\"id\":\"buckle_up\",\"name\":\"Buckle Up\",\"type\":\"Survivor\",\"character\":\"Ash Williams\",\"rarity\":\"Common\",\"effect\":\"Reveals the Killer's Aura while healing a dying Survivor and grants them Haste afterward.\",\"description\":\"Ghost beaters never leave a man behind.\"},{\"id\":\"flip_flop\",\"name\":\"Flip-Flop\",\"type\":\"Survivor\",\"character\":\"Ash Williams\",\"rarity\":\"Uncommon\",\"effect\":\"Converts a portion of your Recovery progress into Wiggle progress.\",\"description\":\"Catch ya on the flip-flop.\"},{\"id\":\"mettle_of_man\",\"name\":\"Mettle of Man\",\"type\":\"Survivor\",\"character\":\"Ash Williams\",\"rarity\":\"Very Rare\",\"effect\":\"After several Protection Hits, shields you from the next down while injured.\",\"description\":\"Evil has a way of always finding you.\"},{\"id\":\"better_together\",\"name\":\"Better Together\",\"type\":\"Survivor\",\"character\":\"Nancy Wheeler\",\"rarity\":\"Common\",\"effect\":\"Reveals the Generator's Aura to all Survivors while repairing, plus Survivor Auras if the Killer downs someone.\",\"description\":\"Let's burn that lab to the ground.\"},{\"id\":\"fixated\",\"name\":\"Fixated\",\"type\":\"Survivor\",\"character\":\"Nancy Wheeler\",\"rarity\":\"Common\",\"effect\":\"Increases walking speed and reveals your own Scratch Marks.\",\"description\":\"I wanna finish what we started.\"},{\"id\":\"inner_strength\",\"name\":\"Inner Strength\",\"type\":\"Survivor\",\"character\":\"Nancy Wheeler\",\"rarity\":\"Uncommon\",\"effect\":\"After cleansing a Totem, hide in a Locker to heal one Health State.\",\"description\":\"You look inwards and trust your instincts.\"},{\"id\":\"babysitter\",\"name\":\"Babysitter\",\"type\":\"Survivor\",\"character\":\"Steve Harrington\",\"rarity\":\"Common\",\"effect\":\"Reveals the Killer's Aura after unhooking, and grants the unhooked Survivor stealth benefits.\",\"description\":\"I promised to keep you shitheads safe.\"},{\"id\":\"camaraderie\",\"name\":\"Camaraderie\",\"type\":\"Survivor\",\"character\":\"Steve Harrington\",\"rarity\":\"Uncommon\",\"effect\":\"Pauses the Struggle Phase timer when another Survivor comes near your Hook.\",\"description\":\"Life has taught you the importance of friendship.\"},{\"id\":\"second_wind\",\"name\":\"Second Wind\",\"type\":\"Survivor\",\"character\":\"Steve Harrington\",\"rarity\":\"Uncommon\",\"effect\":\"After healing another Survivor, your next unhook grants a delayed automatic heal.\",\"description\":\"Part of you still thinks your best option is to run away.\"},{\"id\":\"any_means_necessary\",\"name\":\"Any Means Necessary\",\"type\":\"Survivor\",\"character\":\"Yui Kimura\",\"rarity\":\"Uncommon\",\"effect\":\"Resets a dropped Pallet back to its upright position.\",\"description\":\"I'll hit you with everything I've got.\"},{\"id\":\"breakout\",\"name\":\"Breakout\",\"type\":\"Survivor\",\"character\":\"Yui Kimura\",\"rarity\":\"Common\",\"effect\":\"Grants Haste and increases the carried Survivor's wiggle speed while near the Killer.\",\"description\":\"Come, we are going to rip our way out of this.\"},{\"id\":\"head_on\",\"name\":\"Head On\",\"type\":\"Survivor\",\"character\":\"Yui Kimura\",\"rarity\":\"Uncommon\",\"effect\":\"Stuns the Killer by bursting out of a Locker after hiding inside it.\",\"description\":\"People are remembered for the challenges they overcome.\"},{\"id\":\"down_to_the_last\",\"name\":\"Down to the Last\",\"type\":\"Survivor\",\"character\":\"Zarina Kassir\",\"rarity\":\"Uncommon\",\"effect\":\"Grants immunity to Aura-reading as Survivors die, with bonus speeds when last alive.\",\"description\":\"Isolation breeds resilience.\"},{\"id\":\"blast_mine\",\"name\":\"Blast Mine\",\"type\":\"Survivor\",\"character\":\"Zarina Kassir\",\"rarity\":\"Uncommon\",\"effect\":\"Installs a trap on a Generator that blinds and stuns the Killer when triggered.\",\"description\":\"When direct combat is not an option.\"},{\"id\":\"chemical_trap\",\"name\":\"Chemical Trap\",\"type\":\"Survivor\",\"character\":\"Zarina Kassir\",\"rarity\":\"Uncommon\",\"effect\":\"Installs a trap on a Pallet that hinders the Killer when it is broken.\",\"description\":\"An officer must adapt to the materials at hand.\"},{\"id\":\"red_herring\",\"name\":\"Red Herring\",\"type\":\"Survivor\",\"character\":\"Cheryl Mason\",\"rarity\":\"Uncommon\",\"effect\":\"Highlights a Generator's Aura, then triggers a loud noise elsewhere when entering a Locker.\",\"description\":\"People pay attention to whatever makes the loudest noise.\"},{\"id\":\"repressed_alliance\",\"name\":\"Repressed Alliance\",\"type\":\"Survivor\",\"character\":\"Cheryl Mason\",\"rarity\":\"Uncommon\",\"effect\":\"Temporarily blocks the Generator you are repairing from the Killer.\",\"description\":\"You are accustomed to being hunted.\"},{\"id\":\"soul_guard\",\"name\":\"Soul Guard\",\"type\":\"Survivor\",\"character\":\"Cheryl Mason\",\"rarity\":\"Uncommon\",\"effect\":\"Grants Endurance after healing or recovering, with Self-Recovery while Cursed.\",\"description\":\"You have been through immense hardship.\"},{\"id\":\"built_to_last\",\"name\":\"Built to Last\",\"type\":\"Survivor\",\"character\":\"Felix Richter\",\"rarity\":\"Uncommon\",\"effect\":\"Recharges a depleted Item while hiding in a Locker, up to three times.\",\"description\":\"You know how to get the most out of your tools.\"},{\"id\":\"desperate_measures\",\"name\":\"Desperate Measures\",\"type\":\"Survivor\",\"character\":\"Felix Richter\",\"rarity\":\"Uncommon\",\"effect\":\"Increases healing and unhooking speed based on the number of injured Survivors.\",\"description\":\"You refuse to fail.\"},{\"id\":\"visionary\",\"name\":\"Visionary\",\"type\":\"Survivor\",\"character\":\"Felix Richter\",\"rarity\":\"Common\",\"effect\":\"Reveals nearby Generator Auras permanently.\",\"description\":\"You are remarkably focused on your means of escape.\"},{\"id\":\"appraisal\",\"name\":\"Appraisal\",\"type\":\"Survivor\",\"character\":\"Élodie Rakoto\",\"rarity\":\"Uncommon\",\"effect\":\"Allows retrieving an extra Item from a Chest using Tokens.\",\"description\":\"You have a careful eye that notices what many overlook.\"},{\"id\":\"deception\",\"name\":\"Deception\",\"type\":\"Survivor\",\"character\":\"Élodie Rakoto\",\"rarity\":\"Uncommon\",\"effect\":\"Fakes entering a Locker while triggering a loud noise at its location.\",\"description\":\"Your adventurous lifestyle requires crafty misdirection.\"},{\"id\":\"power_struggle\",\"name\":\"Power Struggle\",\"type\":\"Survivor\",\"character\":\"Élodie Rakoto\",\"rarity\":\"Very Rare\",\"effect\":\"While being carried, drop a nearby Pallet to stun the Killer and escape their grasp.\",\"description\":\"I relied on others to protect me once.\"},{\"id\":\"fast_track\",\"name\":\"Fast Track\",\"type\":\"Survivor\",\"character\":\"Yun-Jin Lee\",\"rarity\":\"Uncommon\",\"effect\":\"Succeeding Great Skill Checks after unhooking permanently reduces a Generator's required charges.\",\"description\":\"The weak are sacrificed first.\"},{\"id\":\"self_preservation\",\"name\":\"Self-Preservation\",\"type\":\"Survivor\",\"character\":\"Yun-Jin Lee\",\"rarity\":\"Common\",\"effect\":\"Grants a stealth boost whenever another Survivor is hooked.\",\"description\":\"When the axe is swinging, keep your head down.\"},{\"id\":\"smash_hit\",\"name\":\"Smash Hit\",\"type\":\"Survivor\",\"character\":\"Yun-Jin Lee\",\"rarity\":\"Uncommon\",\"effect\":\"Stunning the Killer with a Pallet grants a burst of Haste.\",\"description\":\"I have dealt with psychopaths in suits.\"},{\"id\":\"counterforce\",\"name\":\"Counterforce\",\"type\":\"Survivor\",\"character\":\"Jill Valentine\",\"rarity\":\"Uncommon\",\"effect\":\"Increases Totem cleansing speed and reveals the farthest Totem's Aura.\",\"description\":\"I don't mind a little detective work.\"},{\"id\":\"resurgence\",\"name\":\"Resurgence\",\"type\":\"Survivor\",\"character\":\"Jill Valentine\",\"rarity\":\"Uncommon\",\"effect\":\"Grants healing progress immediately after being unhooked.\",\"description\":\"It's my turn.\"},{\"id\":\"bite_the_bullet\",\"name\":\"Bite the Bullet\",\"type\":\"Survivor\",\"character\":\"Leon S. Kennedy\",\"rarity\":\"Uncommon\",\"effect\":\"Suppresses healing noises and reduces the failed Skill Check penalty.\",\"description\":\"I can do this.\"},{\"id\":\"flashbang\",\"name\":\"Flashbang\",\"type\":\"Survivor\",\"character\":\"Leon S. Kennedy\",\"rarity\":\"Uncommon\",\"effect\":\"Crafts a Flash Grenade inside a Locker after repairing Generators.\",\"description\":\"Get outta my face!\"},{\"id\":\"rookie_spirit\",\"name\":\"Rookie Spirit\",\"type\":\"Survivor\",\"character\":\"Leon S. Kennedy\",\"rarity\":\"Uncommon\",\"effect\":\"Reveals regressing Generator Auras after several Good or Great Skill Checks.\",\"description\":\"I'll stop this, I promise.\"},{\"id\":\"boon_circle_of_healing\",\"name\":\"Boon: Circle of Healing\",\"type\":\"Survivor\",\"character\":\"Mikaela Reid\",\"rarity\":\"Very Rare\",\"effect\":\"Blesses a Totem to boost healing speed and reveal injured Survivor Auras within range.\",\"description\":\"Comfort amidst the terror.\"},{\"id\":\"blood_pact\",\"name\":\"Blood Pact\",\"type\":\"Survivor\",\"character\":\"Mikaela Reid\",\"rarity\":\"Uncommon\",\"effect\":\"Links your Aura with the Obsession's whenever either becomes injured.\",\"description\":\"A latent part of yourself has awakened.\"},{\"id\":\"clairvoyance\",\"name\":\"Clairvoyance\",\"type\":\"Survivor\",\"character\":\"Mikaela Reid\",\"rarity\":\"Uncommon\",\"effect\":\"Unlocks the ability to reveal important object Auras from a distance.\",\"description\":\"There is an intrinsic energy in you.\"},{\"id\":\"corrective_action\",\"name\":\"Corrective Action\",\"type\":\"Survivor\",\"character\":\"Jonah Vasquez\",\"rarity\":\"Uncommon\",\"effect\":\"Converts a nearby Survivor's failed Skill Check into a Good Skill Check using Tokens.\",\"description\":\"Cannot hurt to have another set of eyes on the problem.\"},{\"id\":\"overcome\",\"name\":\"Overcome\",\"type\":\"Survivor\",\"character\":\"Jonah Vasquez\",\"rarity\":\"Rare\",\"effect\":\"Extends your sprint boost when injured from full health, then causes Exhaustion.\",\"description\":\"After careful analysis, we are getting the hell out of here.\"},{\"id\":\"road_life\",\"name\":\"Road Life\",\"type\":\"Survivor\",\"character\":\"Jonah Vasquez\",\"rarity\":\"Uncommon\",\"effect\":\"Gains Tokens from Skill Checks while injured and repairing, boosting healing speed once maxed.\",\"description\":\"Nothing makes you feel more alive.\"},{\"id\":\"boon_dark_theory\",\"name\":\"Boon: Dark Theory\",\"type\":\"Survivor\",\"character\":\"Yoichi Asakawa\",\"rarity\":\"Uncommon\",\"effect\":\"Blesses a Totem to grant a lingering Haste boost within its range.\",\"description\":\"Your obsessive study of the paranormal.\"},{\"id\":\"empathic_connection\",\"name\":\"Empathic Connection\",\"type\":\"Survivor\",\"character\":\"Yoichi Asakawa\",\"rarity\":\"Uncommon\",\"effect\":\"Increases altruistic healing speed and reveals your Aura to injured Survivors as a potential healer.\",\"description\":\"Your presence psychically projects itself.\"},{\"id\":\"parental_guidance\",\"name\":\"Parental Guidance\",\"type\":\"Survivor\",\"character\":\"Yoichi Asakawa\",\"rarity\":\"Uncommon\",\"effect\":\"Suppresses pain sounds and Scratch Marks after stunning the Killer.\",\"description\":\"The dead warn you of danger.\"},{\"id\":\"inner_focus\",\"name\":\"Inner Focus\",\"type\":\"Survivor\",\"character\":\"Haddie Kaur\",\"rarity\":\"Uncommon\",\"effect\":\"Reveals other Survivors' Scratch Marks and the Killer's Aura when someone loses a Health State.\",\"description\":\"You have honed your ability to see through the haze.\"},{\"id\":\"overzealous\",\"name\":\"Overzealous\",\"type\":\"Survivor\",\"character\":\"Haddie Kaur\",\"rarity\":\"Uncommon\",\"effect\":\"Increases repair speed after cleansing or blessing a Totem.\",\"description\":\"Fighting back motivates and inspires you.\"},{\"id\":\"residual_manifest\",\"name\":\"Residual Manifest\",\"type\":\"Survivor\",\"character\":\"Haddie Kaur\",\"rarity\":\"Uncommon\",\"effect\":\"Blinds the Killer after a successful Blind and guarantees a Flashlight from a Chest.\",\"description\":\"The best disinfectant is light.\"},{\"id\":\"low_profile\",\"name\":\"Low Profile\",\"type\":\"Survivor\",\"character\":\"Ada Wong\",\"rarity\":\"Uncommon\",\"effect\":\"Suppresses pain sounds, blood, and Scratch Marks once you are the only active Survivor left.\",\"description\":\"You work best alone.\"},{\"id\":\"reactive_healing\",\"name\":\"Reactive Healing\",\"type\":\"Survivor\",\"character\":\"Ada Wong\",\"rarity\":\"Uncommon\",\"effect\":\"Grants passive healing progress when a nearby Survivor loses a Health State while you are injured.\",\"description\":\"The more compromised, the more determined you become.\"},{\"id\":\"wiretap\",\"name\":\"Wiretap\",\"type\":\"Survivor\",\"character\":\"Ada Wong\",\"rarity\":\"Uncommon\",\"effect\":\"Installs a listening device on a Generator that reveals the Killer's Aura nearby.\",\"description\":\"Keep tabs on the competition.\"},{\"id\":\"better_than_new\",\"name\":\"Better than New\",\"type\":\"Survivor\",\"character\":\"Rebecca Chambers\",\"rarity\":\"Uncommon\",\"effect\":\"Grants a temporary action speed boost to Survivors you heal.\",\"description\":\"An expert in combat medicine.\"},{\"id\":\"hyperfocus\",\"name\":\"Hyperfocus\",\"type\":\"Survivor\",\"character\":\"Rebecca Chambers\",\"rarity\":\"Uncommon\",\"effect\":\"Gains Tokens from Skill Checks that boost future Skill Check odds and bonuses.\",\"description\":\"You throw yourself entirely into your tasks.\"},{\"id\":\"reassurance\",\"name\":\"Reassurance\",\"type\":\"Survivor\",\"character\":\"Rebecca Chambers\",\"rarity\":\"Uncommon\",\"effect\":\"Pauses the Sacrifice Process for a nearby hooked Survivor.\",\"description\":\"Your presence helps allies focus.\"},{\"id\":\"fogwise\",\"name\":\"Fogwise\",\"type\":\"Survivor\",\"character\":\"Vittorio Toscano\",\"rarity\":\"Uncommon\",\"effect\":\"Reveals the Killer's Aura after a Great Skill Check while repairing.\",\"description\":\"I have seen great cruelty.\"},{\"id\":\"quick_gambit\",\"name\":\"Quick Gambit\",\"type\":\"Survivor\",\"character\":\"Vittorio Toscano\",\"rarity\":\"Uncommon\",\"effect\":\"Reveals other Survivor Auras and boosts their repair speed while you are chased.\",\"description\":\"We need not resort to violence.\"},{\"id\":\"extrasensory_perception\",\"name\":\"Extrasensory Perception\",\"type\":\"Survivor\",\"character\":\"Vittorio Toscano\",\"rarity\":\"Uncommon\",\"effect\":\"Crouching reveals nearby Survivor, Killer, and object Auras in an expanding radius.\",\"description\":\"By slowing down and focusing, you can sense both ally and enemy.\"},{\"id\":\"cut_loose\",\"name\":\"Cut Loose\",\"type\":\"Survivor\",\"character\":\"Thalita Lyra\",\"rarity\":\"Uncommon\",\"effect\":\"Suppresses noise after a rushed vault performed while being chased.\",\"description\":\"You get in enough trouble, you know how to get out of it.\"},{\"id\":\"friendly_competition\",\"name\":\"Friendly Competition\",\"type\":\"Survivor\",\"character\":\"Thalita Lyra\",\"rarity\":\"Common\",\"effect\":\"Boosts repair speed for all participants after completing a Generator together.\",\"description\":\"C'mon, let's do this!\"},{\"id\":\"teamwork_power_of_two\",\"name\":\"Teamwork: Power of Two\",\"type\":\"Survivor\",\"character\":\"Thalita Lyra\",\"rarity\":\"Uncommon\",\"effect\":\"Grants Haste to both you and the Survivor you just healed while nearby.\",\"description\":\"You good? Then keep up!\"},{\"id\":\"background_player\",\"name\":\"Background Player\",\"type\":\"Survivor\",\"character\":\"Renato Lyra\",\"rarity\":\"Uncommon\",\"effect\":\"Grants Haste when starting to run after the Killer picks up another Survivor.\",\"description\":\"You forget about me?\"},{\"id\":\"blood_rush\",\"name\":\"Blood Rush\",\"type\":\"Survivor\",\"character\":\"Renato Lyra\",\"rarity\":\"Uncommon\",\"effect\":\"After being unhooked, instantly recover from Exhaustion once.\",\"description\":\"Just gotta push through!\"},{\"id\":\"teamwork_collective_stealth\",\"name\":\"Teamwork: Collective Stealth\",\"type\":\"Survivor\",\"character\":\"Renato Lyra\",\"rarity\":\"Uncommon\",\"effect\":\"Suppresses Scratch Marks for you and your healer while you stay close together.\",\"description\":\"I'm good, I'm good, but keep it down.\"},{\"id\":\"made_for_this\",\"name\":\"Made for This\",\"type\":\"Survivor\",\"character\":\"Gabriel Soma\",\"rarity\":\"Uncommon\",\"effect\":\"Grants Endurance after healing another Survivor while injured, plus bonus Haste with Deep Wound.\",\"description\":\"You were born to survive.\"},{\"id\":\"scavenger\",\"name\":\"Scavenger\",\"type\":\"Survivor\",\"character\":\"Gabriel Soma\",\"rarity\":\"Uncommon\",\"effect\":\"Recharges a depleted Toolbox using Tokens gained from Great Skill Checks.\",\"description\":\"Where others see junk, you see valuable tools.\"},{\"id\":\"troubleshooter\",\"name\":\"Troubleshooter\",\"type\":\"Survivor\",\"character\":\"Gabriel Soma\",\"rarity\":\"Uncommon\",\"effect\":\"Reveals the most progressed Generator's Aura and the Killer's Aura after dropping a Pallet while chased.\",\"description\":\"Nothing gets done around here if I don't do it.\"},{\"id\":\"scene_partner\",\"name\":\"Scene Partner\",\"type\":\"Survivor\",\"character\":\"Nicolas Cage\",\"rarity\":\"Uncommon\",\"effect\":\"Looking at the Killer in their Terror Radius causes you to scream and reveal their Aura.\",\"description\":\"This is not in the script!\"},{\"id\":\"bardic_inspiration\",\"name\":\"Bardic Inspiration\",\"type\":\"Survivor\",\"character\":\"Nicolas Cage\",\"rarity\":\"Very Rare\",\"effect\":\"Performing empowers nearby Survivors' Skill Check progression based on a random roll.\",\"description\":\"Will you bring the house down or will you choke?\"},{\"id\":\"dramaturgy\",\"name\":\"Dramaturgy\",\"type\":\"Survivor\",\"character\":\"Nicolas Cage\",\"rarity\":\"Very Rare\",\"effect\":\"While at full health, running with knees high grants Haste and a random secondary effect.\",\"description\":\"The unexpected magic you bring to your performance.\"},{\"id\":\"light_footed\",\"name\":\"Light-Footed\",\"type\":\"Survivor\",\"character\":\"Ellen Ripley\",\"rarity\":\"Uncommon\",\"effect\":\"Suppresses running footsteps while healthy.\",\"description\":\"Come on, cat.\"},{\"id\":\"lucky_star\",\"name\":\"Lucky Star\",\"type\":\"Survivor\",\"character\":\"Ellen Ripley\",\"rarity\":\"Uncommon\",\"effect\":\"Suppresses pain sounds and reveals nearby Survivor and Generator Auras after leaving a Locker.\",\"description\":\"You are my lucky star.\"},{\"id\":\"champion_of_light\",\"name\":\"Champion of Light\",\"type\":\"Survivor\",\"character\":\"Alan Wake\",\"rarity\":\"Uncommon\",\"effect\":\"Grants Haste while shining a Flashlight, and hinders the Killer after a successful blind.\",\"description\":\"I squeezed the Flashlight like my life depended on it.\"},{\"id\":\"deadline\",\"name\":\"Deadline\",\"type\":\"Survivor\",\"character\":\"Alan Wake\",\"rarity\":\"Uncommon\",\"effect\":\"Increases Skill Check odds while injured and reduces the failed Skill Check penalty.\",\"description\":\"The night had been one desperate situation after another.\"},{\"id\":\"plot_twist\",\"name\":\"Plot Twist\",\"type\":\"Survivor\",\"character\":\"Alan Wake\",\"rarity\":\"Very Rare\",\"effect\":\"Silently enters the Dying State to unlock a boosted Self-Recovery, then heals fully after.\",\"description\":\"An understated read can be just as powerful.\"},{\"id\":\"strength_in_shadows\",\"name\":\"Strength in Shadows\",\"type\":\"Survivor\",\"character\":\"Sable Ward\",\"rarity\":\"Uncommon\",\"effect\":\"Unlocks self-healing without a Med-Kit while in the Basement.\",\"description\":\"A chance for renewed power down where danger calls home.\"},{\"id\":\"wicked\",\"name\":\"Wicked\",\"type\":\"Survivor\",\"character\":\"Sable Ward\",\"rarity\":\"Uncommon\",\"effect\":\"Reveals the Killer's Aura after being unhooked, with bonus Self-Unhook odds in the Basement.\",\"description\":\"They can try to hurt you.\"},{\"id\":\"off_the_record\",\"name\":\"Off the Record\",\"type\":\"Survivor\",\"character\":\"Sable Ward\",\"rarity\":\"Uncommon\",\"effect\":\"Blocks Aura-reading and suppresses pain sounds after being unhooked, plus grants Endurance.\",\"description\":\"A quiet approach is sometimes best.\"},{\"id\":\"mirrored_illusion\",\"name\":\"Mirrored Illusion\",\"type\":\"Survivor\",\"character\":\"Aestri Yazar\",\"rarity\":\"Uncommon\",\"effect\":\"Spawns a decoy Static Illusion near an interactive object.\",\"description\":\"A familiar spell made unfamiliar.\"},{\"id\":\"still_sight\",\"name\":\"Still Sight\",\"type\":\"Survivor\",\"character\":\"Aestri Yazar\",\"rarity\":\"Uncommon\",\"effect\":\"Standing still reveals the Killer, Chest, and Generator Auras nearby.\",\"description\":\"A clear mind and calm temperament.\"},{\"id\":\"potential_energy\",\"name\":\"Potential Energy\",\"type\":\"Survivor\",\"character\":\"Aestri Yazar\",\"rarity\":\"Very Rare\",\"effect\":\"Stores repair progress as Tokens to instantly boost any Generator later.\",\"description\":\"Unprecedented control over the Entity's Realm.\"},{\"id\":\"finesse\",\"name\":\"Finesse\",\"type\":\"Survivor\",\"character\":\"Lara Croft\",\"rarity\":\"Uncommon\",\"effect\":\"Increases vaulting speed for fast vaults while healthy.\",\"description\":\"Just need to push myself a bit further.\"},{\"id\":\"hardened\",\"name\":\"Hardened\",\"type\":\"Survivor\",\"character\":\"Lara Croft\",\"rarity\":\"Uncommon\",\"effect\":\"Suppresses the urge to scream and reveals the Killer's Aura instead.\",\"description\":\"Got to keep quiet.\"},{\"id\":\"specialist\",\"name\":\"Specialist\",\"type\":\"Survivor\",\"character\":\"Lara Croft\",\"rarity\":\"Uncommon\",\"effect\":\"Gains Tokens from Chests that permanently reduce a Generator's required charges.\",\"description\":\"Doesn't this feel familiar?\"},{\"id\":\"exultation\",\"name\":\"Exultation\",\"type\":\"Survivor\",\"character\":\"Trevor Belmont\",\"rarity\":\"Uncommon\",\"effect\":\"Stunning the Killer while holding an Item recharges and upgrades its rarity.\",\"description\":\"You will not take me this day!\"},{\"id\":\"eyes_of_belmont\",\"name\":\"Eyes of Belmont\",\"type\":\"Survivor\",\"character\":\"Trevor Belmont\",\"rarity\":\"Uncommon\",\"effect\":\"Reveals the Killer's Aura when a Generator is completed and extends other Aura reveals.\",\"description\":\"Your secret has been revealed!\"},{\"id\":\"moment_of_glory\",\"name\":\"Moment of Glory\",\"type\":\"Survivor\",\"character\":\"Trevor Belmont\",\"rarity\":\"Uncommon\",\"effect\":\"Grants an automatic delayed heal after becoming injured, once per Trial.\",\"description\":\"Never lose hope for a brighter tomorrow.\"},{\"id\":\"clean_break\",\"name\":\"Clean Break\",\"type\":\"Survivor\",\"character\":\"Taurie Cain\",\"rarity\":\"Uncommon\",\"effect\":\"Trades a Broken Status Effect for an automatic delayed heal after being healed.\",\"description\":\"Everyone has to look out for themselves.\"},{\"id\":\"invocation_weaving_spiders\",\"name\":\"Invocation: Weaving Spiders\",\"type\":\"Survivor\",\"character\":\"Taurie Cain\",\"rarity\":\"Very Rare\",\"effect\":\"Completing a ritual in the Basement permanently reduces all Generators' required charges.\",\"description\":\"Reach across the veil.\"},{\"id\":\"shoulder_the_burden\",\"name\":\"Shoulder the Burden\",\"type\":\"Survivor\",\"character\":\"Taurie Cain\",\"rarity\":\"Uncommon\",\"effect\":\"Trades a Hook Stage with an unhooked Survivor, taking Exposed in return.\",\"description\":\"It's not your time yet.\"},{\"id\":\"do_no_harm\",\"name\":\"Do No Harm\",\"type\":\"Survivor\",\"character\":\"Orela Rose\",\"rarity\":\"Uncommon\",\"effect\":\"Increases altruistic healing speed based on the healed Survivor's accumulated Hook Stages.\",\"description\":\"Helping those in need comes easily.\"},{\"id\":\"duty_of_care\",\"name\":\"Duty of Care\",\"type\":\"Survivor\",\"character\":\"Orela Rose\",\"rarity\":\"Uncommon\",\"effect\":\"Grants nearby Survivors Haste when you take a Protection Hit while healthy.\",\"description\":\"You live by a code of conduct.\"},{\"id\":\"rapid_response\",\"name\":\"Rapid Response\",\"type\":\"Survivor\",\"character\":\"Orela Rose\",\"rarity\":\"Uncommon\",\"effect\":\"Reveals the Killer's Aura briefly whenever you become Exhausted.\",\"description\":\"3... 2... 1... go!\"},{\"id\":\"apocalyptic_ingenuity\",\"name\":\"Apocalyptic Ingenuity\",\"type\":\"Survivor\",\"character\":\"Rick Grimes\",\"rarity\":\"Uncommon\",\"effect\":\"Reveals broken Pallet Auras and allows rebuilding one into a Fragile Pallet.\",\"description\":\"Without the fences, this place is worthless.\"},{\"id\":\"come_and_get_me\",\"name\":\"Come and Get Me!\",\"type\":\"Survivor\",\"character\":\"Rick Grimes\",\"rarity\":\"Uncommon\",\"effect\":\"Suppresses nearby Survivors' noises after an unhook, but reveals your own Aura.\",\"description\":\"We're the ones who live.\"},{\"id\":\"teamwork_toughen_up\",\"name\":\"Teamwork: Toughen Up\",\"type\":\"Survivor\",\"character\":\"Rick Grimes\",\"rarity\":\"Uncommon\",\"effect\":\"Suppresses pain sounds and blood after a nearby Survivor blinds or stuns the Killer while you're injured.\",\"description\":\"They're fucking with the wrong people.\"},{\"id\":\"conviction\",\"name\":\"Conviction\",\"type\":\"Survivor\",\"character\":\"Michonne Grimes\",\"rarity\":\"Very Rare\",\"effect\":\"Unlocks a boosted Self-Recovery from the Dying State, ending in Broken afterward.\",\"description\":\"Keep going. Keep trying. Keep fighting.\"},{\"id\":\"last_stand\",\"name\":\"Last Stand\",\"type\":\"Survivor\",\"character\":\"Michonne Grimes\",\"rarity\":\"Uncommon\",\"effect\":\"A rushed vault performed near the Killer stuns them once activated.\",\"description\":\"Some bullies, you can live with.\"},{\"id\":\"teamwork_throw_down\",\"name\":\"Teamwork: Throw Down\",\"type\":\"Survivor\",\"character\":\"Michonne Grimes\",\"rarity\":\"Uncommon\",\"effect\":\"Grants Endurance to nearby injured Survivors after blinding or stunning the Killer.\",\"description\":\"Facing evil brings good people together.\"},{\"id\":\"ghost_notes\",\"name\":\"Ghost Notes\",\"type\":\"Survivor\",\"character\":\"Vee Boonyasak\",\"rarity\":\"Common\",\"effect\":\"Increases Scratch Mark fade speed and recovery rate while Exhausted.\",\"description\":\"Let's take it to the bridge!\"},{\"id\":\"one_two_three_four\",\"name\":\"One-Two-Three-Four!\",\"type\":\"Survivor\",\"character\":\"Vee Boonyasak\",\"rarity\":\"Uncommon\",\"effect\":\"Performing empowers nearby Survivors with increased Skill Check odds.\",\"description\":\"We are loud! We are heavy!\"},{\"id\":\"boon_exponential\",\"name\":\"Boon: Exponential\",\"type\":\"Survivor\",\"character\":\"Vee Boonyasak\",\"rarity\":\"Very Rare\",\"effect\":\"Blesses a Totem that greatly increases recovery speed and unlocks Self-Recovery.\",\"description\":\"Recalculate the odds.\"},{\"id\":\"change_of_plan\",\"name\":\"Change of Plan\",\"type\":\"Survivor\",\"character\":\"Dustin Henderson\",\"rarity\":\"Uncommon\",\"effect\":\"Transforms a Toolbox into a Med-Kit of the same rarity while hidden in a Locker.\",\"description\":\"Oh my god, oh my god, oh my god.\"},{\"id\":\"teamwork_full_circuit\",\"name\":\"Teamwork: Full Circuit\",\"type\":\"Survivor\",\"character\":\"Dustin Henderson\",\"rarity\":\"Uncommon\",\"effect\":\"Increases the Good Skill Check zone and repair speed while repairing with others.\",\"description\":\"How many times do I have to be right?\"},{\"id\":\"boon_illumination\",\"name\":\"Boon: Illumination\",\"type\":\"Survivor\",\"character\":\"Dustin Henderson\",\"rarity\":\"Uncommon\",\"effect\":\"Blesses a Totem that highlights Chest and Generator Auras and speeds up Blessing/Cleansing.\",\"description\":\"Your keen insight is something best shared.\"},{\"id\":\"teamwork_soft_spoken\",\"name\":\"Teamwork: Soft-Spoken\",\"type\":\"Survivor\",\"character\":\"Eleven\",\"rarity\":\"Uncommon\",\"effect\":\"Reduces repair noise range and increases repair speed while repairing with others.\",\"description\":\"I make my own rules.\"},{\"id\":\"we_see_you\",\"name\":\"We See You\",\"type\":\"Survivor\",\"character\":\"Eleven\",\"rarity\":\"Uncommon\",\"effect\":\"Gains Tokens when the Killer reads your Aura, revealing theirs to everyone once maxed.\",\"description\":\"It is not me. It is you.\"},{\"id\":\"boon_shadow_step\",\"name\":\"Boon: Shadow Step\",\"type\":\"Survivor\",\"character\":\"Eleven\",\"rarity\":\"Very Rare\",\"effect\":\"Blesses a Totem that suppresses Scratch Marks and hides Auras from the Killer within range.\",\"description\":\"A Boon that conceals the truth.\"},{\"id\":\"a_place_for_us\",\"name\":\"A Place For Us\",\"type\":\"Survivor\",\"character\":\"Kwon Tae-young\",\"rarity\":\"Uncommon\",\"effect\":\"Grants Elusive to both you and a Survivor you finish healing.\",\"description\":\"I wonder if I'll ever understand.\"},{\"id\":\"five_moves_ahead\",\"name\":\"Five Moves Ahead\",\"type\":\"Survivor\",\"character\":\"Kwon Tae-young\",\"rarity\":\"Uncommon\",\"effect\":\"Reveals nearby Pallet and Window Auras while chased, and lets you move earlier after dropping a Pallet.\",\"description\":\"Every problem has a solution.\"},{\"id\":\"flow_state\",\"name\":\"Flow State\",\"type\":\"Survivor\",\"character\":\"Kwon Tae-young\",\"rarity\":\"Uncommon\",\"effect\":\"Gains Tokens from completed Generators to speed up Blessing, healing, and unhooking.\",\"description\":\"I didn't realize I was working so late.\"},{\"id\":\"cross_examination\",\"name\":\"Cross-Examination\",\"type\":\"Survivor\",\"character\":\"Shane Wiigwaas\",\"rarity\":\"Uncommon\",\"effect\":\"Reveals Light Marks left by the Killer while in their Terror Radius, granting Elusive when standing on one.\",\"description\":\"The witness has said enough.\"},{\"id\":\"lend_a_hand\",\"name\":\"Lend a Hand\",\"type\":\"Survivor\",\"character\":\"Shane Wiigwaas\",\"rarity\":\"Uncommon\",\"effect\":\"Grants a healed Survivor extra permanent healing charges after cleansing or blessing a Totem.\",\"description\":\"Walk it off, will you?\"},{\"id\":\"wide_open_throttle\",\"name\":\"Wide Open Throttle\",\"type\":\"Survivor\",\"character\":\"Shane Wiigwaas\",\"rarity\":\"Uncommon\",\"effect\":\"Fast-vaulting a Pallet grants Haste and instantly resets it, blocked by the Entity.\",\"description\":\"Nothing but the open road.\"},{\"id\":\"fruits_of_your_labor\",\"name\":\"Fruits of Your Labor\",\"type\":\"Survivor\",\"character\":\"Aurora Stardotter\",\"rarity\":\"Uncommon\",\"effect\":\"Gains Tokens from completed Generators that grant Haste and healing progress after repairing.\",\"description\":\"The people rejoiced.\"},{\"id\":\"salvations_cry\",\"name\":\"Salvation's Cry\",\"type\":\"Survivor\",\"character\":\"Aurora Stardotter\",\"rarity\":\"Uncommon\",\"effect\":\"Reveals nearby Survivor and Killer Auras to others when you are chased.\",\"description\":\"May you see as the stars see.\"},{\"id\":\"boon_steadfast\",\"name\":\"Boon: Steadfast\",\"type\":\"Survivor\",\"character\":\"Aurora Stardotter\",\"rarity\":\"Very Rare\",\"effect\":\"Blesses a Totem that slows Generator regression and boosts repair speed within range.\",\"description\":\"A blessing for those who persist.\"},{\"id\":\"spine_chill\",\"name\":\"Spine Chill\",\"type\":\"Survivor\",\"character\":\"All\",\"rarity\":\"Common\",\"effect\":\"Warns you when the Killer is nearby and looking your way, boosting several action speeds.\",\"description\":\"An unnatural tingle warns you of impending doom.\"},{\"id\":\"kindred\",\"name\":\"Kindred\",\"type\":\"Survivor\",\"character\":\"All\",\"rarity\":\"Common\",\"effect\":\"Reveals the Killer's Aura near a hooked Survivor to all Survivors, and everyone's Aura to the hooked Survivor.\",\"description\":\"Be kind to one another.\"},{\"id\":\"deja_vu\",\"name\":\"Déjà Vu\",\"type\":\"Survivor\",\"character\":\"All\",\"rarity\":\"Common\",\"effect\":\"Reveals the Auras of the three closest Generators to each other and boosts repair speed on them.\",\"description\":\"Helps prepare you from repeating the same mistakes.\"},{\"id\":\"resilience\",\"name\":\"Resilience\",\"type\":\"Survivor\",\"character\":\"All\",\"rarity\":\"Common\",\"effect\":\"Increases several action speeds while injured.\",\"description\":\"You are motivated in dire situations.\"},{\"id\":\"premonition\",\"name\":\"Premonition\",\"type\":\"Survivor\",\"character\":\"All\",\"rarity\":\"Common\",\"effect\":\"Triggers an audio cue when the Killer enters a cone in the direction you're looking.\",\"description\":\"You have the undeniable capability to sense danger.\"},{\"id\":\"slippery_meat\",\"name\":\"Slippery Meat\",\"type\":\"Survivor\",\"character\":\"All\",\"rarity\":\"Common\",\"effect\":\"Grants extra Self-Unhook attempts and increases their success chance.\",\"description\":\"You have developed an efficient way to get off Hooks.\"},{\"id\":\"small_game\",\"name\":\"Small Game\",\"type\":\"Survivor\",\"character\":\"All\",\"rarity\":\"Common\",\"effect\":\"Detects nearby Totems within a directional cone and reduces its angle as Totems are cleansed.\",\"description\":\"Nope.\"},{\"id\":\"this_is_not_happening\",\"name\":\"This Is Not Happening\",\"type\":\"Survivor\",\"character\":\"All\",\"rarity\":\"Common\",\"effect\":\"Increases the Great Skill Check success zone while injured.\",\"description\":\"You perform at your best when you are under extreme stress.\"},{\"id\":\"lightweight\",\"name\":\"Lightweight\",\"type\":\"Survivor\",\"character\":\"All\",\"rarity\":\"Common\",\"effect\":\"Reduces the lifetime and spawn chance of your Scratch Marks.\",\"description\":\"Your running is light and soft.\"},{\"id\":\"hope\",\"name\":\"Hope\",\"type\":\"Survivor\",\"character\":\"All\",\"rarity\":\"Uncommon\",\"effect\":\"Grants a permanent Haste boost once the Exit Gates are powered.\",\"description\":\"The growing odds of a successful escape fill you with hope.\"},{\"id\":\"well_make_it\",\"name\":\"We'll Make It\",\"type\":\"Survivor\",\"character\":\"All\",\"rarity\":\"Uncommon\",\"effect\":\"Greatly increases altruistic healing speed after unhooking a Survivor.\",\"description\":\"I am confident we can all escape in one piece.\"},{\"id\":\"plunderers_instinct\",\"name\":\"Plunderer's Instinct\",\"type\":\"Survivor\",\"character\":\"All\",\"rarity\":\"Uncommon\",\"effect\":\"Reveals Chest and dropped Item Auras and increases the odds of finding rarer Items.\",\"description\":\"The pioneers used to loot these babies for hours.\"},{\"id\":\"brutal_strength\",\"name\":\"Brutal Strength\",\"type\":\"Killer\",\"character\":\"The Trapper\",\"rarity\":\"Common\",\"effect\":\"Increases the speed of breaking Pallets, Breakable Walls, and Generators.\",\"description\":\"Increases your Damage Ability action speed.\"},{\"id\":\"unnerving_presence\",\"name\":\"Unnerving Presence\",\"type\":\"Killer\",\"character\":\"The Trapper\",\"rarity\":\"Uncommon\",\"effect\":\"Increases Skill Check trigger odds and reduces the success zone within your Terror Radius.\",\"description\":\"Anxiety spreads in your presence.\"},{\"id\":\"agitation\",\"name\":\"Agitation\",\"type\":\"Killer\",\"character\":\"The Trapper\",\"rarity\":\"Uncommon\",\"effect\":\"Increases your carrying movement speed and Terror Radius while carrying a Survivor.\",\"description\":\"You gain immense strength when enraged.\"},{\"id\":\"bloodhound\",\"name\":\"Bloodhound\",\"type\":\"Killer\",\"character\":\"The Wraith\",\"rarity\":\"Uncommon\",\"effect\":\"Blood pools appear brighter and last longer.\",\"description\":\"You are able to track wounded prey with ease.\"},{\"id\":\"predator\",\"name\":\"Predator\",\"type\":\"Killer\",\"character\":\"The Wraith\",\"rarity\":\"Common\",\"effect\":\"Reveals the Aura of a Survivor who escaped a chase, after a cooldown.\",\"description\":\"Your prey's tracks are more clear to you.\"},{\"id\":\"shadowborn\",\"name\":\"Shadowborn\",\"type\":\"Killer\",\"character\":\"The Wraith\",\"rarity\":\"Common\",\"effect\":\"Increases your field of view and grants Haste after being blinded.\",\"description\":\"Increases your Field of View.\"},{\"id\":\"enduring\",\"name\":\"Enduring\",\"type\":\"Killer\",\"character\":\"The Hillbilly\",\"rarity\":\"Uncommon\",\"effect\":\"Reduces the duration of Pallet stuns.\",\"description\":\"Practice makes perfect.\"},{\"id\":\"lightborn\",\"name\":\"Lightborn\",\"type\":\"Killer\",\"character\":\"The Hillbilly\",\"rarity\":\"Uncommon\",\"effect\":\"Grants immunity to Flashlight, Flashbang, and Firecracker blindness.\",\"description\":\"Intense light no longer affects you.\"},{\"id\":\"tinkerer\",\"name\":\"Tinkerer\",\"type\":\"Killer\",\"character\":\"The Hillbilly\",\"rarity\":\"Uncommon\",\"effect\":\"Grants a stealth boost once a Generator reaches a set repair threshold.\",\"description\":\"You have a knack for anticipating repairs.\"},{\"id\":\"a_nurses_calling\",\"name\":\"A Nurse's Calling\",\"type\":\"Killer\",\"character\":\"The Nurse\",\"rarity\":\"Uncommon\",\"effect\":\"Reveals the Aura of Survivors who are healing within range.\",\"description\":\"Your compassion drove you to great lengths.\"},{\"id\":\"stridor\",\"name\":\"Stridor\",\"type\":\"Killer\",\"character\":\"The Nurse\",\"rarity\":\"Uncommon\",\"effect\":\"Increases the audible volume of injured Survivors' grunts of pain.\",\"description\":\"Your acute sense of hearing lets you hear the faintest cries.\"},{\"id\":\"thanatophobia\",\"name\":\"Thanatophobia\",\"type\":\"Killer\",\"character\":\"The Nurse\",\"rarity\":\"Uncommon\",\"effect\":\"Reduces all Survivors' action speeds based on the number of injured, hooked, or dying Survivors.\",\"description\":\"Fear cripples your prey's resolve.\"},{\"id\":\"dying_light\",\"name\":\"Dying Light\",\"type\":\"Killer\",\"character\":\"The Shape\",\"rarity\":\"Very Rare\",\"effect\":\"Gains Tokens from hooking non-Obsession Survivors, weakening their action speeds.\",\"description\":\"The death of hope fuels your power.\"},{\"id\":\"play_with_your_food\",\"name\":\"Play with Your Food\",\"type\":\"Killer\",\"character\":\"The Shape\",\"rarity\":\"Uncommon\",\"effect\":\"Gains Tokens for losing chase with the Obsession, granting Haste when used.\",\"description\":\"You toy with your prey before the kill.\"},{\"id\":\"save_the_best_for_last\",\"name\":\"Save the Best for Last\",\"type\":\"Killer\",\"character\":\"The Shape\",\"rarity\":\"Very Rare\",\"effect\":\"Gains Tokens for hitting non-Obsession Survivors, reducing attack cooldown.\",\"description\":\"You save your favourite prey for last.\"},{\"id\":\"hex_ruin\",\"name\":\"Hex: Ruin\",\"type\":\"Killer\",\"character\":\"The Hag\",\"rarity\":\"Very Rare\",\"effect\":\"Increases the regression speed of Generators that are not being repaired.\",\"description\":\"A dull totem carries a curse until cleansed.\"},{\"id\":\"hex_the_third_seal\",\"name\":\"Hex: The Third Seal\",\"type\":\"Killer\",\"character\":\"The Hag\",\"rarity\":\"Uncommon\",\"effect\":\"Inflicts permanent Blindness on Survivors hit until the Hex Totem is cleansed.\",\"description\":\"Blinds those who see too much.\"},{\"id\":\"hex_no_one_escapes_death\",\"name\":\"Hex: No One Escapes Death\",\"type\":\"Killer\",\"character\":\"The Hag\",\"rarity\":\"Very Rare\",\"effect\":\"Once the Exit Gates are powered, grants Haste and exposes all Survivors.\",\"description\":\"No one escapes death.\"},{\"id\":\"monitor_abuse\",\"name\":\"Monitor & Abuse\",\"type\":\"Killer\",\"character\":\"The Doctor\",\"rarity\":\"Uncommon\",\"effect\":\"Reduces your Terror Radius outside of chase and increases it during chase.\",\"description\":\"You abuse your victims' senses.\"},{\"id\":\"overcharge\",\"name\":\"Overcharge\",\"type\":\"Killer\",\"character\":\"The Doctor\",\"rarity\":\"Uncommon\",\"effect\":\"Damaging a Generator causes the next repair attempt to trigger a difficult Skill Check.\",\"description\":\"Machines fail under stress, much like the mind.\"},{\"id\":\"overwhelming_presence\",\"name\":\"Overwhelming Presence\",\"type\":\"Killer\",\"character\":\"The Doctor\",\"rarity\":\"Uncommon\",\"effect\":\"Using an Item within your Terror Radius drains its charges and causes Exhaustion.\",\"description\":\"Your presence overwhelms the senses.\"},{\"id\":\"beast_of_prey\",\"name\":\"Beast of Prey\",\"type\":\"Killer\",\"character\":\"The Huntress\",\"rarity\":\"Uncommon\",\"effect\":\"Grants Undetectable after triggering Bloodlust.\",\"description\":\"A predator's patience is rewarded.\"},{\"id\":\"hex_huntress_lullaby\",\"name\":\"Hex: Huntress Lullaby\",\"type\":\"Killer\",\"character\":\"The Huntress\",\"rarity\":\"Very Rare\",\"effect\":\"Increases the failed Skill Check penalty for healing and repairing based on Tokens.\",\"description\":\"A haunting lullaby that punishes mistakes.\"},{\"id\":\"territorial_imperative\",\"name\":\"Territorial Imperative\",\"type\":\"Killer\",\"character\":\"The Huntress\",\"rarity\":\"Uncommon\",\"effect\":\"Reveals the Aura of a Survivor entering the Basement from far away.\",\"description\":\"You protect what is yours.\"},{\"id\":\"barbecue_chilli\",\"name\":\"Barbecue & Chilli\",\"type\":\"Killer\",\"character\":\"The Cannibal\",\"rarity\":\"Uncommon\",\"effect\":\"Reveals distant Survivor Auras for a few seconds after hooking someone.\",\"description\":\"A taste for tracking your prey.\"},{\"id\":\"franklins_demise\",\"name\":\"Franklin's Demise\",\"type\":\"Killer\",\"character\":\"The Cannibal\",\"rarity\":\"Uncommon\",\"effect\":\"Basic attacks cause Survivors to drop their held Item, whose Aura becomes visible.\",\"description\":\"Your victims lose their tools of survival.\"},{\"id\":\"knock_out\",\"name\":\"Knock Out\",\"type\":\"Killer\",\"character\":\"The Cannibal\",\"rarity\":\"Uncommon\",\"effect\":\"Downing a Survivor near a Pallet Hinders nearby Survivors briefly.\",\"description\":\"A decisive blow slows down the rest.\"},{\"id\":\"blood_warden\",\"name\":\"Blood Warden\",\"type\":\"Killer\",\"character\":\"The Nightmare\",\"rarity\":\"Very Rare\",\"effect\":\"Blocks the Exit Gates when you hook a Survivor inside one after they're opened.\",\"description\":\"Death does not end at the gates.\"},{\"id\":\"fire_up\",\"name\":\"Fire Up\",\"type\":\"Killer\",\"character\":\"The Nightmare\",\"rarity\":\"Uncommon\",\"effect\":\"Gains Tokens from completed Generators, increasing several action speeds.\",\"description\":\"Determination fuels your resolve.\"},{\"id\":\"remember_me\",\"name\":\"Remember Me\",\"type\":\"Killer\",\"character\":\"The Nightmare\",\"rarity\":\"Uncommon\",\"effect\":\"Gains Tokens from losing chase with the Obsession, increasing Exit Gate opening time.\",\"description\":\"You will not be forgotten.\"},{\"id\":\"make_your_choice\",\"name\":\"Make Your Choice\",\"type\":\"Killer\",\"character\":\"The Pig\",\"rarity\":\"Very Rare\",\"effect\":\"Exposes a Survivor who rescues a hooked ally from far away.\",\"description\":\"A difficult choice with dire consequences.\"},{\"id\":\"surveillance\",\"name\":\"Surveillance\",\"type\":\"Killer\",\"character\":\"The Pig\",\"rarity\":\"Uncommon\",\"effect\":\"Reveals the Aura and status of damaged Generators for a duration.\",\"description\":\"Nothing escapes your watchful eye.\"},{\"id\":\"scourge_hook_hangmans_trick\",\"name\":\"Scourge Hook: Hangman's Trick\",\"type\":\"Killer\",\"character\":\"The Pig\",\"rarity\":\"Uncommon\",\"effect\":\"Converts four Hooks into Scourge Hooks that reveal their Auras while carrying a Survivor.\",\"description\":\"A trick that keeps your prey in place.\"},{\"id\":\"bamboozle\",\"name\":\"Bamboozle\",\"type\":\"Killer\",\"character\":\"The Clown\",\"rarity\":\"Uncommon\",\"effect\":\"Increases vaulting speed and briefly blocks the Window you just vaulted.\",\"description\":\"A performer's agility.\"},{\"id\":\"coulrophobia\",\"name\":\"Coulrophobia\",\"type\":\"Killer\",\"character\":\"The Clown\",\"rarity\":\"Uncommon\",\"effect\":\"Reduces healing speed within your Terror Radius and increases skill check speed.\",\"description\":\"A fear that follows the crowd.\"},{\"id\":\"pop_goes_the_weasel\",\"name\":\"Pop Goes the Weasel\",\"type\":\"Killer\",\"character\":\"The Clown\",\"rarity\":\"Uncommon\",\"effect\":\"After hooking a Survivor, damaging a Generator instantly regresses extra progress.\",\"description\":\"A trick to keep the pressure on.\"},{\"id\":\"hex_haunted_ground\",\"name\":\"Hex: Haunted Ground\",\"type\":\"Killer\",\"character\":\"The Spirit\",\"rarity\":\"Very Rare\",\"effect\":\"Cleansing one of two Hex Totems exposes all Survivors for a duration.\",\"description\":\"Cursed ground punishes trespassers.\"},{\"id\":\"rancor\",\"name\":\"Rancor\",\"type\":\"Killer\",\"character\":\"The Spirit\",\"rarity\":\"Uncommon\",\"effect\":\"Reveals all Survivor locations when a Generator is completed and exposes the Obsession at the end.\",\"description\":\"Vengeance follows those who wronged you.\"},{\"id\":\"spirit_fury\",\"name\":\"Spirit Fury\",\"type\":\"Killer\",\"character\":\"The Spirit\",\"rarity\":\"Uncommon\",\"effect\":\"After breaking several Pallets, your next Pallet stun instantly breaks it instead.\",\"description\":\"Fury builds with every obstacle.\"},{\"id\":\"discordance\",\"name\":\"Discordance\",\"type\":\"Killer\",\"character\":\"The Legion\",\"rarity\":\"Uncommon\",\"effect\":\"Reveals the Aura of Generators being repaired by two or more Survivors.\",\"description\":\"You sense cooperation from afar.\"},{\"id\":\"iron_maiden\",\"name\":\"Iron Maiden\",\"type\":\"Killer\",\"character\":\"The Legion\",\"rarity\":\"Uncommon\",\"effect\":\"Increases Locker search speed and exposes Survivors exiting Lockers.\",\"description\":\"A trap sprung on the unwary.\"},{\"id\":\"mad_grit\",\"name\":\"Mad Grit\",\"type\":\"Killer\",\"character\":\"The Legion\",\"rarity\":\"Uncommon\",\"effect\":\"Removes the cooldown from missed attacks while carrying a Survivor.\",\"description\":\"Nothing will make you drop your prey.\"},{\"id\":\"corrupt_intervention\",\"name\":\"Corrupt Intervention\",\"type\":\"Killer\",\"character\":\"The Plague\",\"rarity\":\"Uncommon\",\"effect\":\"Blocks the three farthest Generators at the start of the Trial.\",\"description\":\"Corruption spreads from the start.\"},{\"id\":\"dark_devotion\",\"name\":\"Dark Devotion\",\"type\":\"Killer\",\"character\":\"The Plague\",\"rarity\":\"Uncommon\",\"effect\":\"Transfers your Terror Radius to the Obsession when they become injured.\",\"description\":\"A dark devotion binds you to your Obsession.\"},{\"id\":\"infectious_fright\",\"name\":\"Infectious Fright\",\"type\":\"Killer\",\"character\":\"The Plague\",\"rarity\":\"Uncommon\",\"effect\":\"Causes nearby Survivors to scream and reveal their location when someone enters the Dying State.\",\"description\":\"Fear spreads like a plague.\"},{\"id\":\"furtive_chase\",\"name\":\"Furtive Chase\",\"type\":\"Killer\",\"character\":\"The Ghost Face\",\"rarity\":\"Uncommon\",\"effect\":\"Grants Undetectable and Haste after hooking the Obsession.\",\"description\":\"A silent stalker's reward.\"},{\"id\":\"im_all_ears\",\"name\":\"I'm All Ears\",\"type\":\"Killer\",\"character\":\"The Ghost Face\",\"rarity\":\"Uncommon\",\"effect\":\"Reveals a Survivor's Aura after they perform a rushed vault nearby.\",\"description\":\"You hear everything.\"},{\"id\":\"thrilling_tremors\",\"name\":\"Thrilling Tremors\",\"type\":\"Killer\",\"character\":\"The Ghost Face\",\"rarity\":\"Uncommon\",\"effect\":\"Blocks all unrepaired Generators for a duration after picking up a Survivor.\",\"description\":\"The ground trembles with anticipation.\"},{\"id\":\"cruel_limits\",\"name\":\"Cruel Limits\",\"type\":\"Killer\",\"character\":\"The Demogorgon\",\"rarity\":\"Uncommon\",\"effect\":\"Blocks all Windows for a duration after a Generator is completed.\",\"description\":\"There are limits you enforce cruelly.\"},{\"id\":\"mindbreaker\",\"name\":\"Mindbreaker\",\"type\":\"Killer\",\"character\":\"The Demogorgon\",\"rarity\":\"Uncommon\",\"effect\":\"Inflicts Blindness and Exhaustion on Survivors after they stop repairing a Generator.\",\"description\":\"You break their focus.\"},{\"id\":\"surge\",\"name\":\"Surge\",\"type\":\"Killer\",\"character\":\"The Demogorgon\",\"rarity\":\"Uncommon\",\"effect\":\"Downing a Survivor with a basic attack causes nearby Generators to instantly regress.\",\"description\":\"A surge of destructive energy.\"},{\"id\":\"blood_echo\",\"name\":\"Blood Echo\",\"type\":\"Killer\",\"character\":\"The Oni\",\"rarity\":\"Uncommon\",\"effect\":\"Hooking a Survivor inflicts Exhaustion and Haemorrhage on all injured Survivors.\",\"description\":\"Blood calls to blood.\"},{\"id\":\"nemesis\",\"name\":\"Nemesis\",\"type\":\"Killer\",\"character\":\"The Oni\",\"rarity\":\"Uncommon\",\"effect\":\"Stunning you transfers Obsession status to the stunning Survivor.\",\"description\":\"You become fixated on those who defy you.\"},{\"id\":\"zanshin_tactics\",\"name\":\"Zanshin Tactics\",\"type\":\"Killer\",\"character\":\"The Oni\",\"rarity\":\"Uncommon\",\"effect\":\"Reveals nearby Pallet and Window Auras, plus a Survivor's Aura after they drop a Pallet.\",\"description\":\"A warrior's constant awareness.\"},{\"id\":\"dead_mans_switch\",\"name\":\"Dead Man's Switch\",\"type\":\"Killer\",\"character\":\"The Deathslinger\",\"rarity\":\"Uncommon\",\"effect\":\"Blocks the first Generator a Survivor stops repairing after being hit.\",\"description\":\"A trap sprung when they least expect it.\"},{\"id\":\"gearhead\",\"name\":\"Gearhead\",\"type\":\"Killer\",\"character\":\"The Deathslinger\",\"rarity\":\"Uncommon\",\"effect\":\"Reveals a Survivor's Aura after they succeed a Skill Check for a duration.\",\"description\":\"You know your way around machinery.\"},{\"id\":\"hex_retribution\",\"name\":\"Hex: Retribution\",\"type\":\"Killer\",\"character\":\"The Deathslinger\",\"rarity\":\"Very Rare\",\"effect\":\"Cleansing this Hex inflicts Oblivious, but reveals all Survivor Auras once it's gone.\",\"description\":\"Retribution comes swiftly.\"},{\"id\":\"deathbound\",\"name\":\"Deathbound\",\"type\":\"Killer\",\"character\":\"The Executioner\",\"rarity\":\"Uncommon\",\"effect\":\"Causes a healer to scream and become Oblivious if they stray far from the healed Survivor.\",\"description\":\"Bound by torment.\"},{\"id\":\"forced_penance\",\"name\":\"Forced Penance\",\"type\":\"Killer\",\"character\":\"The Executioner\",\"rarity\":\"Uncommon\",\"effect\":\"Inflicts Broken on Survivors who take a Protection Hit for another.\",\"description\":\"Penance for their choices.\"},{\"id\":\"trail_of_torment\",\"name\":\"Trail of Torment\",\"type\":\"Killer\",\"character\":\"The Executioner\",\"rarity\":\"Uncommon\",\"effect\":\"Grants Undetectable after damaging a Generator, while revealing its Aura to Survivors.\",\"description\":\"A trail of suffering follows you.\"},{\"id\":\"dragons_grip\",\"name\":\"Dragon's Grip\",\"type\":\"Killer\",\"character\":\"The Blight\",\"rarity\":\"Uncommon\",\"effect\":\"Exposes the first Survivor to interact with a Generator you just damaged.\",\"description\":\"A grip that punishes interference.\"},{\"id\":\"hex_blood_favour\",\"name\":\"Hex: Blood Favour\",\"type\":\"Killer\",\"character\":\"The Blight\",\"rarity\":\"Uncommon\",\"effect\":\"Blocks nearby upright Pallets whenever a Survivor loses a Health State.\",\"description\":\"Blood grants favour to the worthy.\"},{\"id\":\"hex_undying\",\"name\":\"Hex: Undying\",\"type\":\"Killer\",\"character\":\"The Blight\",\"rarity\":\"Very Rare\",\"effect\":\"Reveals Survivors near Dull Totems and transfers this Hex to another Totem when cleansed.\",\"description\":\"A curse that refuses to die.\"},{\"id\":\"coup_de_grace\",\"name\":\"Coup de Grâce\",\"type\":\"Killer\",\"character\":\"The Twins\",\"rarity\":\"Uncommon\",\"effect\":\"Gains Tokens from completed Generators that extend your lunge range.\",\"description\":\"A finishing blow, perfected.\"},{\"id\":\"hoarder\",\"name\":\"Hoarder\",\"type\":\"Killer\",\"character\":\"The Twins\",\"rarity\":\"Uncommon\",\"effect\":\"Reveals when Survivors interact with Chests and spawns additional Chests.\",\"description\":\"You covet what others seek.\"},{\"id\":\"oppression\",\"name\":\"Oppression\",\"type\":\"Killer\",\"character\":\"The Twins\",\"rarity\":\"Uncommon\",\"effect\":\"Damaging a Generator affects several random Generators, triggering Skill Checks on them.\",\"description\":\"Oppression spreads through the trial.\"},{\"id\":\"hex_crowd_control\",\"name\":\"Hex: Crowd Control\",\"type\":\"Killer\",\"character\":\"The Trickster\",\"rarity\":\"Uncommon\",\"effect\":\"Blocks a Window after a rushed vault through it and reveals nearby Survivor Auras.\",\"description\":\"You control the crowd from the stage.\"},{\"id\":\"no_way_out\",\"name\":\"No Way Out\",\"type\":\"Killer\",\"character\":\"The Trickster\",\"rarity\":\"Uncommon\",\"effect\":\"Gains Tokens from hooking Survivors that block the Exit Gates once opened.\",\"description\":\"There is no way out of your finale.\"},{\"id\":\"starstruck\",\"name\":\"Starstruck\",\"type\":\"Killer\",\"character\":\"The Trickster\",\"rarity\":\"Uncommon\",\"effect\":\"Exposes Survivors in your Terror Radius after you drop a carried Survivor.\",\"description\":\"They can't help but stare.\"},{\"id\":\"eruption\",\"name\":\"Eruption\",\"type\":\"Killer\",\"character\":\"The Nemesis\",\"rarity\":\"Uncommon\",\"effect\":\"Downing a Survivor causes nearby damaged Generators to regress and reveals Survivor Auras.\",\"description\":\"An eruption of chaos follows every down.\"},{\"id\":\"hysteria\",\"name\":\"Hysteria\",\"type\":\"Killer\",\"character\":\"The Nemesis\",\"rarity\":\"Uncommon\",\"effect\":\"Injuring a healthy Survivor causes all injured Survivors to become Oblivious.\",\"description\":\"Panic spreads faster than infection.\"},{\"id\":\"lethal_pursuer\",\"name\":\"Lethal Pursuer\",\"type\":\"Killer\",\"character\":\"The Nemesis\",\"rarity\":\"Uncommon\",\"effect\":\"Reveals all Survivor Auras at the start of the Trial and extends future Aura reveals.\",\"description\":\"A lethal pursuit begins immediately.\"},{\"id\":\"deadlock\",\"name\":\"Deadlock\",\"type\":\"Killer\",\"character\":\"The Cenobite\",\"rarity\":\"Uncommon\",\"effect\":\"Blocks a Generator whenever another Generator is completed.\",\"description\":\"A deadlock none can escape.\"},{\"id\":\"hex_plaything\",\"name\":\"Hex: Plaything\",\"type\":\"Killer\",\"character\":\"The Cenobite\",\"rarity\":\"Uncommon\",\"effect\":\"Curses a hooked Survivor with Oblivious until the Hex Totem is cleansed.\",\"description\":\"You are my plaything now.\"},{\"id\":\"scourge_hook_gift_of_pain\",\"name\":\"Scourge Hook: Gift of Pain\",\"type\":\"Killer\",\"character\":\"The Cenobite\",\"rarity\":\"Uncommon\",\"effect\":\"Converts Hooks into Scourge Hooks that inflict lingering Haemorrhage on unhook.\",\"description\":\"A gift wrapped in agony.\"},{\"id\":\"grim_embrace\",\"name\":\"Grim Embrace\",\"type\":\"Killer\",\"character\":\"The Artist\",\"rarity\":\"Uncommon\",\"effect\":\"Gains Tokens from first hooks that block Generators for increasing durations.\",\"description\":\"A grim embrace tightens with every hook.\"},{\"id\":\"nowhere_to_hide\",\"name\":\"Nowhere to Hide\",\"type\":\"Killer\",\"character\":\"The Artist\",\"rarity\":\"Uncommon\",\"effect\":\"Reveals nearby Survivor Auras after damaging a Generator.\",\"description\":\"There is nowhere left to hide.\"},{\"id\":\"bitter_murmur\",\"name\":\"Bitter Murmur\",\"type\":\"Killer\",\"character\":\"The Artist\",\"rarity\":\"Common\",\"effect\":\"Reveals Survivor Auras near a completed Generator.\",\"description\":\"A bitter murmur travels through the fog.\"},{\"id\":\"call_of_brine\",\"name\":\"Call of Brine\",\"type\":\"Killer\",\"character\":\"The Onryō\",\"rarity\":\"Uncommon\",\"effect\":\"Increases regression on a damaged Generator and triggers Skill Check notifications.\",\"description\":\"A call that lingers over stagnant water.\"},{\"id\":\"merciless_storm\",\"name\":\"Merciless Storm\",\"type\":\"Killer\",\"character\":\"The Onryō\",\"rarity\":\"Uncommon\",\"effect\":\"Triggers continuous Skill Checks on a highly progressed Generator, blocking it if failed.\",\"description\":\"A storm without mercy.\"},{\"id\":\"scourge_hook_floods_of_rage\",\"name\":\"Scourge Hook: Floods of Rage\",\"type\":\"Killer\",\"character\":\"The Onryō\",\"rarity\":\"Uncommon\",\"effect\":\"Converts Hooks into Scourge Hooks that reveal all Survivor Auras when someone unhooks from them.\",\"description\":\"Rage floods through the fog.\"},{\"id\":\"darkness_revealed\",\"name\":\"Darkness Revealed\",\"type\":\"Killer\",\"character\":\"The Dredge\",\"rarity\":\"Uncommon\",\"effect\":\"Reveals nearby Survivor Auras after searching a Locker.\",\"description\":\"Darkness reveals what light cannot.\"},{\"id\":\"dissolution\",\"name\":\"Dissolution\",\"type\":\"Killer\",\"character\":\"The Dredge\",\"rarity\":\"Uncommon\",\"effect\":\"Instantly breaks the next Pallet vaulted in your Terror Radius after injuring a Survivor.\",\"description\":\"Barriers dissolve before you.\"},{\"id\":\"septic_touch\",\"name\":\"Septic Touch\",\"type\":\"Killer\",\"character\":\"The Dredge\",\"rarity\":\"Uncommon\",\"effect\":\"Inflicts Blindness and Exhaustion on Survivors healing within your Terror Radius.\",\"description\":\"A touch that festers.\"},{\"id\":\"awakened_awareness\",\"name\":\"Awakened Awareness\",\"type\":\"Killer\",\"character\":\"The Mastermind\",\"rarity\":\"Uncommon\",\"effect\":\"Reveals nearby Survivor Auras while carrying a Survivor.\",\"description\":\"An awareness that never sleeps.\"},{\"id\":\"superior_anatomy\",\"name\":\"Superior Anatomy\",\"type\":\"Killer\",\"character\":\"The Mastermind\",\"rarity\":\"Uncommon\",\"effect\":\"Grants a burst of vaulting speed after a Survivor rush-vaults nearby.\",\"description\":\"A superior form, a superior hunter.\"},{\"id\":\"terminus\",\"name\":\"Terminus\",\"type\":\"Killer\",\"character\":\"The Mastermind\",\"rarity\":\"Uncommon\",\"effect\":\"Inflicts Broken on injured, dying, or hooked Survivors once the Exit Gates are powered.\",\"description\":\"This is the terminus.\"},{\"id\":\"hubris\",\"name\":\"Hubris\",\"type\":\"Killer\",\"character\":\"The Knight\",\"rarity\":\"Uncommon\",\"effect\":\"Exposes a Survivor who stuns you.\",\"description\":\"Their hubris will be their downfall.\"},{\"id\":\"human_greed\",\"name\":\"Human Greed\",\"type\":\"Killer\",\"character\":\"The Knight\",\"rarity\":\"Uncommon\",\"effect\":\"Reveals unopened Chest Auras and Survivor Auras near Chests you kick.\",\"description\":\"Greed reveals itself in the fog.\"},{\"id\":\"game_afoot\",\"name\":\"Game Afoot\",\"type\":\"Killer\",\"character\":\"The Skull Merchant\",\"rarity\":\"Uncommon\",\"effect\":\"Transfers Obsession status to the Survivor with the highest chase time when hit, granting Haste.\",\"description\":\"The game is afoot.\"},{\"id\":\"leverage\",\"name\":\"Leverage\",\"type\":\"Killer\",\"character\":\"The Skull Merchant\",\"rarity\":\"Uncommon\",\"effect\":\"Reduces healing speed for a Survivor after they are unhooked.\",\"description\":\"Every advantage counts.\"},{\"id\":\"thwack\",\"name\":\"THWACK!\",\"type\":\"Killer\",\"character\":\"The Skull Merchant\",\"rarity\":\"Uncommon\",\"effect\":\"Breaking obstacles using Tokens causes nearby Survivors to scream and reveal their Auras.\",\"description\":\"THWACK! goes the obstacle.\"},{\"id\":\"forced_hesitation\",\"name\":\"Forced Hesitation\",\"type\":\"Killer\",\"character\":\"The Singularity\",\"rarity\":\"Uncommon\",\"effect\":\"Inflicts Hindered on nearby Survivors after injuring one.\",\"description\":\"Hesitation is forced upon them.\"},{\"id\":\"genetic_limits\",\"name\":\"Genetic Limits\",\"type\":\"Killer\",\"character\":\"The Singularity\",\"rarity\":\"Uncommon\",\"effect\":\"Inflicts Exhaustion on a Survivor who loses a Health State.\",\"description\":\"There are limits to their genetics.\"},{\"id\":\"machine_learning\",\"name\":\"Machine Learning\",\"type\":\"Killer\",\"character\":\"The Singularity\",\"rarity\":\"Uncommon\",\"effect\":\"Grants Undetectable and Haste for a duration after damaging a Generator.\",\"description\":\"The machine learns from every action.\"},{\"id\":\"alien_instinct\",\"name\":\"Alien Instinct\",\"type\":\"Killer\",\"character\":\"The Xenomorph\",\"rarity\":\"Uncommon\",\"effect\":\"Reveals the farthest injured Survivor's Aura after hooking someone.\",\"description\":\"An instinct as old as the species.\"},{\"id\":\"rapid_brutality\",\"name\":\"Rapid Brutality\",\"type\":\"Killer\",\"character\":\"The Xenomorph\",\"rarity\":\"Uncommon\",\"effect\":\"Grants Haste after a basic attack hit, forfeiting Bloodlust.\",\"description\":\"Brutality without hesitation.\"},{\"id\":\"ultimate_weapon\",\"name\":\"Ultimate Weapon\",\"type\":\"Killer\",\"character\":\"The Xenomorph\",\"rarity\":\"Uncommon\",\"effect\":\"Causes nearby Survivors to scream and suffer Blindness after searching a Locker.\",\"description\":\"The ultimate weapon strikes fear.\"},{\"id\":\"batteries_included\",\"name\":\"Batteries Included\",\"type\":\"Killer\",\"character\":\"The Good Guy\",\"rarity\":\"Uncommon\",\"effect\":\"Grants Haste near completed Generators.\",\"description\":\"Batteries included, fun guaranteed.\"},{\"id\":\"friends_til_the_end\",\"name\":\"Friends 'til the End\",\"type\":\"Killer\",\"character\":\"The Good Guy\",\"rarity\":\"Very Rare\",\"effect\":\"Reveals the Obsession's Aura and exposes them after hooking a non-Obsession Survivor.\",\"description\":\"Friends 'til the end.\"},{\"id\":\"hex_two_can_play\",\"name\":\"Hex: Two Can Play\",\"type\":\"Killer\",\"character\":\"The Good Guy\",\"rarity\":\"Uncommon\",\"effect\":\"After several blinds or stuns, ignites a Hex Totem that blinds those who blind or stun you.\",\"description\":\"Two can play at this game.\"},{\"id\":\"unbound\",\"name\":\"Unbound\",\"type\":\"Killer\",\"character\":\"The Unknown\",\"rarity\":\"Uncommon\",\"effect\":\"Grants Haste after a Survivor performs a window vault following an injury.\",\"description\":\"Unbound by the rules of reality.\"},{\"id\":\"undone\",\"name\":\"Undone\",\"type\":\"Killer\",\"character\":\"The Unknown\",\"rarity\":\"Uncommon\",\"effect\":\"Gains Tokens from failed Skill Checks to regress a Generator when damaged.\",\"description\":\"What was done can be undone.\"},{\"id\":\"unforeseen\",\"name\":\"Unforeseen\",\"type\":\"Killer\",\"character\":\"The Unknown\",\"rarity\":\"Uncommon\",\"effect\":\"Transfers your Terror Radius to a damaged Generator and grants Undetectable.\",\"description\":\"An unforeseen shift in perception.\"},{\"id\":\"dark_arrogance\",\"name\":\"Dark Arrogance\",\"type\":\"Killer\",\"character\":\"The Lich\",\"rarity\":\"Uncommon\",\"effect\":\"Increases vaulting speed and reduces Pallet stun recovery time.\",\"description\":\"Arrogance born from dark power.\"},{\"id\":\"languid_touch\",\"name\":\"Languid Touch\",\"type\":\"Killer\",\"character\":\"The Lich\",\"rarity\":\"Uncommon\",\"effect\":\"Inflicts Exhaustion on a Survivor who startles a Crow nearby.\",\"description\":\"A touch that saps their will.\"},{\"id\":\"weave_attunement\",\"name\":\"Weave Attunement\",\"type\":\"Killer\",\"character\":\"The Lich\",\"rarity\":\"Uncommon\",\"effect\":\"Reveals Item and Survivor Auras after an Item depletes, inflicting Oblivious on the holder.\",\"description\":\"Attuned to the weave of fate.\"},{\"id\":\"dominance\",\"name\":\"Dominance\",\"type\":\"Killer\",\"character\":\"The Dark Lord\",\"rarity\":\"Uncommon\",\"effect\":\"Blocks the first Chest or Totem a Survivor interacts with.\",\"description\":\"Dominance over all who oppose you.\"},{\"id\":\"hex_wretched_fate\",\"name\":\"Hex: Wretched Fate\",\"type\":\"Killer\",\"character\":\"The Dark Lord\",\"rarity\":\"Very Rare\",\"effect\":\"Curses the Obsession with reduced repair speed and a visible Aura when a Generator completes.\",\"description\":\"A wretched fate awaits.\"},{\"id\":\"all_shaking_thunder\",\"name\":\"All-Shaking Thunder\",\"type\":\"Killer\",\"character\":\"The Houndmaster\",\"rarity\":\"Uncommon\",\"effect\":\"Increases lunge range for a duration after falling from a height.\",\"description\":\"Thunder that shakes the ground.\"},{\"id\":\"no_quarter\",\"name\":\"No Quarter\",\"type\":\"Killer\",\"character\":\"The Houndmaster\",\"rarity\":\"Uncommon\",\"effect\":\"Triggers continuous Skill Checks during self-healing, inflicting Broken on failure.\",\"description\":\"No quarter given.\"},{\"id\":\"scourge_hook_jagged_compass\",\"name\":\"Scourge Hook: Jagged Compass\",\"type\":\"Killer\",\"character\":\"The Houndmaster\",\"rarity\":\"Uncommon\",\"effect\":\"Converts Hooks into Scourge Hooks that reveal the most progressed Generator's Aura on hook.\",\"description\":\"A compass that always points to progress.\"},{\"id\":\"forever_entwined\",\"name\":\"Forever Entwined\",\"type\":\"Killer\",\"character\":\"The Ghoul\",\"rarity\":\"Uncommon\",\"effect\":\"Gains Tokens from damaging Survivors, increasing dropping and hooking speed.\",\"description\":\"Forever entwined in suffering.\"},{\"id\":\"none_are_free\",\"name\":\"None Are Free\",\"type\":\"Killer\",\"character\":\"The Ghoul\",\"rarity\":\"Uncommon\",\"effect\":\"Gains Tokens from first hooks that block Windows and Pallets when a Generator completes.\",\"description\":\"None are free until all are caught.\"},{\"id\":\"hex_nothing_but_misery\",\"name\":\"Hex: Nothing but Misery\",\"type\":\"Killer\",\"character\":\"The Ghoul\",\"rarity\":\"Uncommon\",\"effect\":\"After several basic attacks, ignites a Hex Totem that inflicts Hindered on hit.\",\"description\":\"Nothing but misery remains.\"},{\"id\":\"haywire\",\"name\":\"Haywire\",\"type\":\"Killer\",\"character\":\"The Animatronic\",\"rarity\":\"Uncommon\",\"effect\":\"Causes an Exit Gate to regress if a Survivor stops opening it partway through.\",\"description\":\"Something's gone haywire.\"},{\"id\":\"help_wanted\",\"name\":\"Help Wanted\",\"type\":\"Killer\",\"character\":\"The Animatronic\",\"rarity\":\"Uncommon\",\"effect\":\"Grants Undetectable and increased recovery speed after damaging a Generator.\",\"description\":\"Help wanted, applications welcome.\"},{\"id\":\"phantom_fear\",\"name\":\"Phantom Fear\",\"type\":\"Killer\",\"character\":\"The Animatronic\",\"rarity\":\"Uncommon\",\"effect\":\"Causes a Survivor who looks at you in your Terror Radius to scream and reveal their Aura.\",\"description\":\"A phantom fear grips them.\"},{\"id\":\"hex_overture_of_doom\",\"name\":\"Hex: Overture of Doom\",\"type\":\"Killer\",\"character\":\"The Krasue\",\"rarity\":\"Uncommon\",\"effect\":\"Transfers your Terror Radius to the farthest Generator once it's repaired, granting Undetectable.\",\"description\":\"An overture that heralds doom.\"},{\"id\":\"ravenous\",\"name\":\"Ravenous\",\"type\":\"Killer\",\"character\":\"The Krasue\",\"rarity\":\"Uncommon\",\"effect\":\"Gains Tokens from first hooks that expose Survivors once maxed.\",\"description\":\"A ravenous hunger for the hunt.\"},{\"id\":\"wandering_eye\",\"name\":\"Wandering Eye\",\"type\":\"Killer\",\"character\":\"The Krasue\",\"rarity\":\"Uncommon\",\"effect\":\"Reveals nearby injured Survivor Auras when starting a chase.\",\"description\":\"A wandering eye that misses nothing.\"},{\"id\":\"secret_project\",\"name\":\"Secret Project\",\"type\":\"Killer\",\"character\":\"The First\",\"rarity\":\"Uncommon\",\"effect\":\"Blesses or cleanses a Totem to block a random Generator and grant Undetectable.\",\"description\":\"A secret project comes to fruition.\"},{\"id\":\"turn_back_the_clock\",\"name\":\"Turn Back the Clock\",\"type\":\"Killer\",\"character\":\"The First\",\"rarity\":\"Uncommon\",\"effect\":\"After hooking a Survivor, causes a nearby Generator to explode and regress.\",\"description\":\"Time can be turned back.\"},{\"id\":\"hex_scared_to_death\",\"name\":\"Hex: Scared to Death\",\"type\":\"Killer\",\"character\":\"The Slasher\",\"rarity\":\"Uncommon\",\"effect\":\"After hooking several Survivors, breaking a Pallet causes nearby Survivors to scream and become Hindered.\",\"description\":\"Scared to death, and rightly so.\"},{\"id\":\"rampage\",\"name\":\"Rampage\",\"type\":\"Killer\",\"character\":\"The Slasher\",\"rarity\":\"Uncommon\",\"effect\":\"Gains Tokens from breaking obstacles that grant Haste after being stunned.\",\"description\":\"A rampage none can stop.\"},{\"id\":\"silent_shadow\",\"name\":\"Silent Shadow\",\"type\":\"Killer\",\"character\":\"The Slasher\",\"rarity\":\"Uncommon\",\"effect\":\"Grants Undetectable after hooking a Survivor, extended for the rest of the Trial once gates are powered.\",\"description\":\"A silent shadow in the dark.\"},{\"id\":\"celestial_witness\",\"name\":\"Celestial Witness\",\"type\":\"Killer\",\"character\":\"The Judgment\",\"rarity\":\"Uncommon\",\"effect\":\"Periodically reveals the Obsession's Aura if they are far from you.\",\"description\":\"A celestial witness to their fate.\"},{\"id\":\"hex_under_your_thumb\",\"name\":\"Hex: Under Your Thumb\",\"type\":\"Killer\",\"character\":\"The Judgment\",\"rarity\":\"Uncommon\",\"effect\":\"Limits running Survivors' Haste gains and reveals their location when they exceed it.\",\"description\":\"Kept firmly under your thumb.\"},{\"id\":\"lay_waste\",\"name\":\"Lay Waste\",\"type\":\"Killer\",\"character\":\"The Judgment\",\"rarity\":\"Uncommon\",\"effect\":\"Damaging a Generator increases its regression based on remaining charges.\",\"description\":\"Lay waste to their progress.\"},{\"id\":\"distressing\",\"name\":\"Distressing\",\"type\":\"Killer\",\"character\":\"All\",\"rarity\":\"Common\",\"effect\":\"Increases the size of your Terror Radius.\",\"description\":\"Your presence radiates dread.\"},{\"id\":\"insidious\",\"name\":\"Insidious\",\"type\":\"Killer\",\"character\":\"All\",\"rarity\":\"Common\",\"effect\":\"Grants Undetectable after standing still for a few seconds.\",\"description\":\"An insidious patience.\"},{\"id\":\"iron_grasp\",\"name\":\"Iron Grasp\",\"type\":\"Killer\",\"character\":\"All\",\"rarity\":\"Common\",\"effect\":\"Reduces wiggle progress gained while carrying a Survivor.\",\"description\":\"An iron grip none can escape.\"},{\"id\":\"sloppy_butcher\",\"name\":\"Sloppy Butcher\",\"type\":\"Killer\",\"character\":\"All\",\"rarity\":\"Common\",\"effect\":\"Basic attacks inflict Haemorrhage and Mangled, increasing blood pool spawn and healing regression.\",\"description\":\"A sloppy but effective technique.\"},{\"id\":\"whispers\",\"name\":\"Whispers\",\"type\":\"Killer\",\"character\":\"All\",\"rarity\":\"Common\",\"effect\":\"Notifies you when a Survivor is within a set range.\",\"description\":\"The Entity whispers of nearby prey.\"},{\"id\":\"unrelenting\",\"name\":\"Unrelenting\",\"type\":\"Killer\",\"character\":\"All\",\"rarity\":\"Common\",\"effect\":\"Reduces the cooldown after a missed basic attack.\",\"description\":\"You do not relent.\"},{\"id\":\"deerstalker\",\"name\":\"Deerstalker\",\"type\":\"Killer\",\"character\":\"All\",\"rarity\":\"Common\",\"effect\":\"Periodically reveals the Aura of the Survivor with the lowest accumulated chase time.\",\"description\":\"A hunter's patient tracking.\"},{\"id\":\"spies_from_the_shadows\",\"name\":\"Spies from the Shadows\",\"type\":\"Killer\",\"character\":\"All\",\"rarity\":\"Common\",\"effect\":\"Triggers a loud noise notification when a Crow is startled nearby.\",\"description\":\"Spies that watch from the shadows.\"},{\"id\":\"hex_devour_hope\",\"name\":\"Hex: Devour Hope\",\"type\":\"Killer\",\"character\":\"All\",\"rarity\":\"Very Rare\",\"effect\":\"Gains Tokens from distant unhooks that grant Haste, Exposure, and eventually the ability to kill.\",\"description\":\"Hope devoured turns to power.\"},{\"id\":\"hex_face_the_darkness\",\"name\":\"Hex: Face the Darkness\",\"type\":\"Killer\",\"character\":\"All\",\"rarity\":\"Uncommon\",\"effect\":\"Curses an injured Survivor to periodically cause nearby Survivors to scream.\",\"description\":\"Face the darkness within.\"},{\"id\":\"hex_fortunes_fool\",\"name\":\"Hex: Fortune's Fool\",\"type\":\"Killer\",\"character\":\"All\",\"rarity\":\"Uncommon\",\"effect\":\"Curses the first hooked Survivor with Oblivious while the Hex Totem remains lit.\",\"description\":\"Fortune favours no fool.\"},{\"id\":\"hex_hive_mind\",\"name\":\"Hex: Hive Mind\",\"type\":\"Killer\",\"character\":\"All\",\"rarity\":\"Uncommon\",\"effect\":\"Highlights Generator repair progress and causes fully repaired Generators to regress on explosion.\",\"description\":\"A hive mind connects every machine.\"},{\"id\":\"hex_pentimento\",\"name\":\"Hex: Pentimento\",\"type\":\"Killer\",\"character\":\"All\",\"rarity\":\"Very Rare\",\"effect\":\"Allows resurrecting cleansed Totems as cursed ones that reduce nearby action speeds.\",\"description\":\"What was painted over returns.\"},{\"id\":\"hex_thrill_of_the_hunt\",\"name\":\"Hex: Thrill of the Hunt\",\"type\":\"Killer\",\"character\":\"All\",\"rarity\":\"Uncommon\",\"effect\":\"Increases Totem cleansing and blessing time based on remaining Tokens.\",\"description\":\"The thrill of a hunt well fought.\"},{\"id\":\"keep_them_waiting\",\"name\":\"Keep Them Waiting\",\"type\":\"Killer\",\"character\":\"All\",\"rarity\":\"Uncommon\",\"effect\":\"Gains Tokens from non-Obsession attacks that reduce your attack cooldown.\",\"description\":\"Keep them waiting in fear.\"},{\"id\":\"no_holds_barred\",\"name\":\"No Holds Barred\",\"type\":\"Killer\",\"character\":\"All\",\"rarity\":\"Uncommon\",\"effect\":\"Blocks the most progressed Generator whenever another Generator is completed.\",\"description\":\"No holds barred in this hunt.\"},{\"id\":\"scourge_hook_monstrous_shrine\",\"name\":\"Scourge Hook: Monstrous Shrine\",\"type\":\"Killer\",\"character\":\"All\",\"rarity\":\"Uncommon\",\"effect\":\"Converts Basement Hooks into Scourge Hooks that speed up the Sacrifice Process for distant Survivors.\",\"description\":\"A monstrous shrine below.\"},{\"id\":\"scourge_hook_pain_resonance\",\"name\":\"Scourge Hook: Pain Resonance\",\"type\":\"Killer\",\"character\":\"All\",\"rarity\":\"Uncommon\",\"effect\":\"Converts Hooks into Scourge Hooks that cause a damaged Generator to regress on first hook.\",\"description\":\"Pain resonates through the fog.\"},{\"id\":\"scourge_hook_weeping_wounds\",\"name\":\"Scourge Hook: Weeping Wounds\",\"type\":\"Killer\",\"character\":\"All\",\"rarity\":\"Uncommon\",\"effect\":\"Converts Hooks into Scourge Hooks that inflict lingering Haemorrhage on unhook.\",\"description\":\"Wounds that weep long after.\"},{\"id\":\"see_how_they_run\",\"name\":\"See How They Run\",\"type\":\"Killer\",\"character\":\"All\",\"rarity\":\"Uncommon\",\"effect\":\"Gains Tokens from losing the Obsession in chase that grant Haste when consumed by an attack.\",\"description\":\"See how they run.\"},{\"id\":\"shattered_hope\",\"name\":\"Shattered Hope\",\"type\":\"Killer\",\"character\":\"All\",\"rarity\":\"Uncommon\",\"effect\":\"Reveals Survivor Auras after destroying a Boon Totem.\",\"description\":\"Hope shatters like glass.\"}]");
 }),
 "[project]/lib/data/survivors.json.[json].cjs [app-ssr] (ecmascript)", ((__turbopack_context__, module, exports) => {
 
-module.exports = [
-    {
-        "id": "dwight_fairfield",
-        "name": "Dwight Fairfield",
-        "realName": "Dwight Fairfield",
-        "chapter": "Dead by Daylight",
-        "releaseDate": "2016-06-14",
-        "difficulty": "Easy",
-        "perks": [
-            "leader",
-            "prove_thyself",
-            "spine_chill"
-        ],
-        "description": "A determined leader and office worker."
-    },
-    {
-        "id": "meg_thomas",
-        "name": "Meg Thomas",
-        "realName": "Meg Thomas",
-        "chapter": "Dead by Daylight",
-        "releaseDate": "2016-06-14",
-        "difficulty": "Easy",
-        "perks": [
-            "sprint_burst",
-            "adrenaline",
-            "resilience"
-        ],
-        "description": "A runner and athlete known for her speed."
-    },
-    {
-        "id": "claudette_morel",
-        "name": "Claudette Morel",
-        "realName": "Claudette Morel",
-        "chapter": "Dead by Daylight",
-        "releaseDate": "2016-06-14",
-        "difficulty": "Easy",
-        "perks": [
-            "self_care",
-            "botany_knowledge",
-            "empathy"
-        ],
-        "description": "A medic devoted to helping others survive."
-    },
-    {
-        "id": "jake_park",
-        "name": "Jake Park",
-        "realName": "Jake Park",
-        "chapter": "Dead by Daylight",
-        "releaseDate": "2016-06-14",
-        "difficulty": "Medium",
-        "perks": [
-            "sabotage",
-            "calm_spirit",
-            "iron_will"
-        ],
-        "description": "A resourceful hiker and outdoorsman."
-    },
-    {
-        "id": "nea_karlsson",
-        "name": "Nea Karlsson",
-        "realName": "Nea Karlsson",
-        "chapter": "Dead by Daylight",
-        "releaseDate": "2016-09-07",
-        "difficulty": "Medium",
-        "perks": [
-            "urban_evasion",
-            "windows_of_opportunity",
-            "streetwise"
-        ],
-        "description": "A rebellious graffiti artist."
-    },
-    {
-        "id": "laurie_strode",
-        "name": "Laurie Strode",
-        "realName": "Laurie Strode",
-        "chapter": "Halloween",
-        "releaseDate": "2018-09-05",
-        "difficulty": "Medium",
-        "perks": [
-            "decisive_strike",
-            "tenacity",
-            "object_of_obsession"
-        ],
-        "description": "A survivor of Michael Myers."
-    },
-    {
-        "id": "david_king",
-        "name": "David King",
-        "realName": "David King",
-        "chapter": "Dead by Daylight",
-        "releaseDate": "2016-08-11",
-        "difficulty": "Medium",
-        "perks": [
-            "dead_hard",
-            "we_will_make_it",
-            "no_mither"
-        ],
-        "description": "A tough boxer and fighter."
-    },
-    {
-        "id": "quentin_smith",
-        "name": "Quentin Smith",
-        "realName": "Quentin Smith",
-        "chapter": "A Nightmare on Elm Street",
-        "releaseDate": "2017-11-08",
-        "difficulty": "Hard",
-        "perks": [
-            "pharmacy",
-            "vigil",
-            "wake_up"
-        ],
-        "description": "A teen pulled into Freddy's nightmare."
-    },
-    {
-        "id": "bill_overbeck",
-        "name": "Bill Overbeck",
-        "realName": "Bill Overbeck",
-        "chapter": "Left 4 Dead",
-        "releaseDate": "2015-02-25",
-        "difficulty": "Easy",
-        "perks": [
-            "left_for_dead",
-            "borrowed_time",
-            "unbreakable"
-        ],
-        "description": "A hardened soldier from L4D."
-    },
-    {
-        "id": "ace_visconti",
-        "name": "Ace Visconti",
-        "realName": "Ace Visconti",
-        "chapter": "Dead by Daylight",
-        "releaseDate": "2017-12-13",
-        "difficulty": "Easy",
-        "perks": [
-            "up_the_ante",
-            "open_handed",
-            "deliverance"
-        ],
-        "description": "A lucky gambler and con artist."
-    },
-    {
-        "id": "feng_min",
-        "name": "Feng Min",
-        "realName": "Feng Min",
-        "chapter": "Dead by Daylight",
-        "releaseDate": "2016-07-13",
-        "difficulty": "Medium",
-        "perks": [
-            "alert",
-            "technician",
-            "balanced_landing"
-        ],
-        "description": "A skilled esports professional."
-    },
-    {
-        "id": "jane_romero",
-        "name": "Jane Romero",
-        "realName": "Jane Romero",
-        "chapter": "Dead by Daylight",
-        "releaseDate": "2018-08-01",
-        "difficulty": "Hard",
-        "perks": [
-            "poised",
-            "sacrifice",
-            "nemesis"
-        ],
-        "description": "An investigative journalist."
-    },
-    {
-        "id": "nancy_wheeler",
-        "name": "Nancy Wheeler",
-        "realName": "Nancy Wheeler",
-        "chapter": "Stranger Things",
-        "releaseDate": "2019-11-06",
-        "difficulty": "Medium",
-        "perks": [
-            "better_together",
-            "inner_strength",
-            "fixated"
-        ],
-        "description": "A determined teen from the Upside Down."
-    },
-    {
-        "id": "steve_harrington",
-        "name": "Steve Harrington",
-        "realName": "Steve Harrington",
-        "chapter": "Stranger Things",
-        "releaseDate": "2019-11-06",
-        "difficulty": "Easy",
-        "perks": [
-            "babysitter",
-            "camaraderie",
-            "second_wind"
-        ],
-        "description": "A charismatic leader and friend."
-    },
-    {
-        "id": "cheryl_mason",
-        "name": "Cheryl Mason",
-        "realName": "Cheryl Mason",
-        "chapter": "Silent Hill",
-        "releaseDate": "2021-06-16",
-        "difficulty": "Hard",
-        "perks": [
-            "red_herring",
-            "cherish",
-            "soul_guard"
-        ],
-        "description": "A girl tormented by Silent Hill."
-    },
-    {
-        "id": "claire_redfield",
-        "name": "Claire Redfield",
-        "realName": "Claire Redfield",
-        "chapter": "Resident Evil",
-        "releaseDate": "2021-04-14",
-        "difficulty": "Medium",
-        "perks": [
-            "lucky_break",
-            "inner_healing",
-            "protective_hit"
-        ],
-        "description": "A skilled survivor and explorer."
-    },
-    {
-        "id": "jill_valentine",
-        "name": "Jill Valentine",
-        "realName": "Jill Valentine",
-        "chapter": "Resident Evil",
-        "releaseDate": "2021-04-14",
-        "difficulty": "Hard",
-        "perks": [
-            "blast_mine",
-            "counterforce"
-        ],
-        "description": "A tactical expert from RE."
-    },
-    {
-        "id": "rebecca_chambers",
-        "name": "Rebecca Chambers",
-        "realName": "Rebecca Chambers",
-        "chapter": "Resident Evil",
-        "releaseDate": "2021-04-14",
-        "difficulty": "Medium",
-        "perks": [
-            "self_aware",
-            "finesse"
-        ],
-        "description": "A brilliant medic and scientist."
-    },
-    {
-        "id": "chris_redfield",
-        "name": "Chris Redfield",
-        "realName": "Chris Redfield",
-        "chapter": "Resident Evil",
-        "releaseDate": "2021-04-14",
-        "difficulty": "Easy",
-        "perks": [
-            "quick_gambit",
-            "reassurance"
-        ],
-        "description": "A veteran soldier."
-    },
-    {
-        "id": "ada_wong",
-        "name": "Ada Wong",
-        "realName": "Ada Wong",
-        "chapter": "Resident Evil",
-        "releaseDate": "2024-10-02",
-        "difficulty": "Medium",
-        "perks": [
-            "rookie_spirit",
-            "wiretap"
-        ],
-        "description": "A mysterious spy."
-    },
-    {
-        "id": "yoichi_asakawa",
-        "name": "Yoichi Asakawa",
-        "realName": "Yoichi Asakawa",
-        "chapter": "Ring",
-        "releaseDate": "2019-10-02",
-        "difficulty": "Medium",
-        "perks": [
-            "ringu",
-            "calm_spirit"
-        ],
-        "description": "A boy cursed by the Ring."
-    },
-    {
-        "id": "mikaela_reid",
-        "name": "Mikaela Reid",
-        "realName": "Mikaela Reid",
-        "chapter": "Dead by Daylight",
-        "releaseDate": "2021-02-03",
-        "difficulty": "Hard",
-        "perks": [
-            "inner_focus",
-            "parental_instinct"
-        ],
-        "description": "A young woman with mystical powers."
-    },
-    {
-        "id": "vittorio_tassoni",
-        "name": "Vittorio Tassoni",
-        "realName": "Vittorio Tassoni",
-        "chapter": "Dead by Daylight",
-        "releaseDate": "2021-09-08",
-        "difficulty": "Medium",
-        "perks": [
-            "potential",
-            "quick_gambit"
-        ],
-        "description": "A determined filmmaker."
-    },
-    {
-        "id": "cheryl_dempsey",
-        "name": "Cheryl Dempsey",
-        "realName": "Cheryl Dempsey",
-        "chapter": "Dead by Daylight",
-        "releaseDate": "2023-02-14",
-        "difficulty": "Medium",
-        "perks": [
-            "appraise",
-            "inner_power"
-        ],
-        "description": "A woman with inner strength."
-    },
-    {
-        "id": "sable_ward",
-        "name": "Sable Ward",
-        "realName": "Sable Ward",
-        "chapter": "Dead by Daylight",
-        "releaseDate": "2023-05-30",
-        "difficulty": "Medium",
-        "perks": [
-            "deception",
-            "overcharge"
-        ],
-        "description": "A resourceful technician."
-    },
-    {
-        "id": "haddie_kaur",
-        "name": "Haddie Kaur",
-        "realName": "Haddie Kaur",
-        "chapter": "Dead by Daylight",
-        "releaseDate": "2020-08-04",
-        "difficulty": "Hard",
-        "perks": [
-            "inner_focus",
-            "potential"
-        ],
-        "description": "A person with supernatural abilities."
-    },
-    {
-        "id": "elodie_rakoto",
-        "name": "Elodie Rakoto",
-        "realName": "Elodie Rakoto",
-        "chapter": "Dead by Daylight",
-        "releaseDate": "2021-05-25",
-        "difficulty": "Medium",
-        "perks": [
-            "inner_healing",
-            "appraise"
-        ],
-        "description": "An explorer and scholar."
-    },
-    {
-        "id": "jonah_vasquez",
-        "name": "Jonah Vasquez",
-        "realName": "Jonah Vasquez",
-        "chapter": "Dead by Daylight",
-        "releaseDate": "2021-05-25",
-        "difficulty": "Medium",
-        "perks": [
-            "inner_strength",
-            "quick_gambit"
-        ],
-        "description": "An investigative journalist."
-    },
-    {
-        "id": "yun_jin_lee",
-        "name": "Yun-Jin Lee",
-        "realName": "Yun-Jin Lee",
-        "chapter": "Dead by Daylight",
-        "releaseDate": "2021-03-30",
-        "difficulty": "Medium",
-        "perks": [
-            "self_preservation",
-            "fast_track"
-        ],
-        "description": "A music producer."
-    },
-    {
-        "id": "kate_denson",
-        "name": "Kate Denson",
-        "realName": "Kate Denson",
-        "chapter": "Dead by Daylight",
-        "releaseDate": "2016-10-04",
-        "difficulty": "Easy",
-        "perks": [
-            "windows_of_opportunity",
-            "dance_with_me"
-        ],
-        "description": "A singer and musician."
-    },
-    {
-        "id": "cheryl_mitchell",
-        "name": "Cheryl Mitchell",
-        "realName": "Cheryl Mitchell",
-        "chapter": "Dead by Daylight",
-        "releaseDate": "2021-06-16",
-        "difficulty": "Medium",
-        "perks": [
-            "red_herring",
-            "cherish"
-        ],
-        "description": "A resilient survivor."
-    },
-    {
-        "id": "jeff_johansen",
-        "name": "Jeff Johansen",
-        "realName": "Jeff Johansen",
-        "chapter": "Dead by Daylight",
-        "releaseDate": "2017-03-08",
-        "difficulty": "Medium",
-        "perks": [
-            "breakdown",
-            "distortion"
-        ],
-        "description": "A metal fan and mechanic."
-    },
-    {
-        "id": "adam_francis",
-        "name": "Adam Francis",
-        "realName": "Adam Francis",
-        "chapter": "Dead by Daylight",
-        "releaseDate": "2017-09-12",
-        "difficulty": "Hard",
-        "perks": [
-            "deliverance",
-            "diversion"
-        ],
-        "description": "A private investigator."
-    },
-    {
-        "id": "lisa_garland",
-        "name": "Lisa Garland",
-        "realName": "Lisa Garland",
-        "chapter": "Dead by Daylight",
-        "releaseDate": "2021-06-16",
-        "difficulty": "Medium",
-        "perks": [
-            "red_herring",
-            "cherish"
-        ],
-        "description": "A nurse from Silent Hill."
-    }
-];
+module.exports = JSON.parse("[{\"id\":\"dwight_fairfield\",\"name\":\"Dwight Fairfield\",\"realName\":\"Dwight Fairfield\",\"chapter\":\"Dead by Daylight\",\"difficulty\":\"Easy\",\"perks\":[\"leader\",\"prove_thyself\",\"bond\"],\"description\":\"A former office manager who became an unlikely leader in The Fog.\"},{\"id\":\"meg_thomas\",\"name\":\"Meg Thomas\",\"realName\":\"Meg Thomas\",\"chapter\":\"Dead by Daylight\",\"difficulty\":\"Easy\",\"perks\":[\"adrenaline\",\"sprint_burst\",\"quick_and_quiet\"],\"description\":\"A track athlete known for her incredible speed and determination.\"},{\"id\":\"claudette_morel\",\"name\":\"Claudette Morel\",\"realName\":\"Claudette Morel\",\"chapter\":\"Dead by Daylight\",\"difficulty\":\"Easy\",\"perks\":[\"botany_knowledge\",\"empathy\",\"self_care\"],\"description\":\"A botany student devoted to healing and helping others survive.\"},{\"id\":\"jake_park\",\"name\":\"Jake Park\",\"realName\":\"Jake Park\",\"chapter\":\"Dead by Daylight\",\"difficulty\":\"Medium\",\"perks\":[\"calm_spirit\",\"iron_will\",\"saboteur\"],\"description\":\"A skilled survivalist who retreated to the wilderness.\"},{\"id\":\"nea_karlsson\",\"name\":\"Nea Karlsson\",\"realName\":\"Nea Karlsson\",\"chapter\":\"Dead by Daylight\",\"difficulty\":\"Medium\",\"perks\":[\"balanced_landing\",\"streetwise\",\"urban_evasion\"],\"description\":\"A rebellious graffiti artist who thrives in the shadows.\"},{\"id\":\"laurie_strode\",\"name\":\"Laurie Strode\",\"realName\":\"Laurie Strode\",\"chapter\":\"Halloween\",\"difficulty\":\"Medium\",\"perks\":[\"decisive_strike\",\"object_of_obsession\",\"sole_survivor\"],\"description\":\"The lone survivor of Michael Myers' original rampage in Haddonfield.\"},{\"id\":\"ace_visconti\",\"name\":\"Ace Visconti\",\"realName\":\"Ace Visconti\",\"chapter\":\"Of Flesh and Mud\",\"difficulty\":\"Easy\",\"perks\":[\"ace_in_the_hole\",\"up_the_ante\",\"open_handed\"],\"description\":\"A lucky gambler and former professional poker player.\"},{\"id\":\"bill_overbeck\",\"name\":\"Bill Overbeck\",\"realName\":\"William Overbeck\",\"chapter\":\"Left Behind\",\"difficulty\":\"Easy\",\"perks\":[\"borrowed_time\",\"left_behind\",\"unbreakable\"],\"description\":\"A hardened Louisiana veteran pulled from the zombie apocalypse.\"},{\"id\":\"feng_min\",\"name\":\"Feng Min\",\"realName\":\"Feng Min\",\"chapter\":\"Of Flesh and Mud\",\"difficulty\":\"Medium\",\"perks\":[\"alert\",\"lithe\",\"technician\"],\"description\":\"A former professional gamer with sharp reflexes and focus.\"},{\"id\":\"david_king\",\"name\":\"David King\",\"realName\":\"David King\",\"chapter\":\"A Lullaby for the Dark\",\"difficulty\":\"Medium\",\"perks\":[\"dead_hard\",\"no_mither\",\"were_gonna_live_forever\"],\"description\":\"A tough East Ender who never backs down from a fight.\"},{\"id\":\"quentin_smith\",\"name\":\"Quentin Smith\",\"realName\":\"Quentin Smith\",\"chapter\":\"A Nightmare on Elm Street\",\"difficulty\":\"Hard\",\"perks\":[\"pharmacy\",\"vigil\",\"wake_up\"],\"description\":\"A troubled teen haunted by dreams of Freddy Krueger.\"},{\"id\":\"david_tapp\",\"name\":\"David Tapp\",\"realName\":\"David Tapp\",\"chapter\":\"Saw\",\"difficulty\":\"Medium\",\"perks\":[\"detectives_hunch\",\"stake_out\",\"tenacity\"],\"description\":\"A determined detective obsessed with catching the Jigsaw killer.\"},{\"id\":\"kate_denson\",\"name\":\"Kate Denson\",\"realName\":\"Kate Denson\",\"chapter\":\"A Lullaby for the Dark\",\"difficulty\":\"Easy\",\"perks\":[\"boil_over\",\"dance_with_me\",\"windows_of_opportunity\"],\"description\":\"A country singer with a strong will to protect her friends.\"},{\"id\":\"adam_francis\",\"name\":\"Adam Francis\",\"realName\":\"Adam Francis\",\"chapter\":\"Shattered Bloodline\",\"difficulty\":\"Hard\",\"perks\":[\"deliverance\",\"diversion\",\"autodidact\"],\"description\":\"A former private investigator with a sharp analytical mind.\"},{\"id\":\"jeff_johansen\",\"name\":\"Jeff Johansen\",\"realName\":\"Jeff Johansen\",\"chapter\":\"Curtain Call\",\"difficulty\":\"Medium\",\"perks\":[\"aftercare\",\"breakdown\",\"distortion\"],\"description\":\"A struggling artist who found unexpected purpose in The Fog.\"},{\"id\":\"jane_romero\",\"name\":\"Jane Romero\",\"realName\":\"Jane Romero\",\"chapter\":\"Shattered Bloodline\",\"difficulty\":\"Hard\",\"perks\":[\"poised\",\"solidarity\",\"dance_with_me\"],\"description\":\"A confident philanthropist with unshakable composure.\"},{\"id\":\"ash_williams\",\"name\":\"Ash Williams\",\"realName\":\"Ashley J. Williams\",\"chapter\":\"Ash vs Evil Dead\",\"difficulty\":\"Medium\",\"perks\":[\"buckle_up\",\"flip_flop\",\"mettle_of_man\"],\"description\":\"A wisecracking survivor who has fought his share of deadites.\"},{\"id\":\"nancy_wheeler\",\"name\":\"Nancy Wheeler\",\"realName\":\"Nancy Wheeler\",\"chapter\":\"Stranger Things\",\"difficulty\":\"Medium\",\"perks\":[\"better_together\",\"fixated\",\"inner_strength\"],\"description\":\"A determined teenager who has faced horrors from the Upside Down.\"},{\"id\":\"steve_harrington\",\"name\":\"Steve Harrington\",\"realName\":\"Steve Harrington\",\"chapter\":\"Stranger Things\",\"difficulty\":\"Easy\",\"perks\":[\"babysitter\",\"camaraderie\",\"second_wind\"],\"description\":\"A once-popular teen who became a loyal protector of his friends.\"},{\"id\":\"yui_kimura\",\"name\":\"Yui Kimura\",\"realName\":\"Yui Kimura\",\"chapter\":\"Cursed Legacy\",\"difficulty\":\"Medium\",\"perks\":[\"any_means_necessary\",\"breakout\",\"head_on\"],\"description\":\"A former MMA fighter with unstoppable resolve.\"},{\"id\":\"zarina_kassir\",\"name\":\"Zarina Kassir\",\"realName\":\"Zarina Kassir\",\"chapter\":\"Chains of Hate\",\"difficulty\":\"Medium\",\"perks\":[\"down_to_the_last\",\"blast_mine\",\"chemical_trap\"],\"description\":\"A documentarian investigating the disappearances tied to The Fog.\"},{\"id\":\"cheryl_mason\",\"name\":\"Cheryl Mason\",\"realName\":\"Cheryl Mason\",\"chapter\":\"Silent Hill\",\"difficulty\":\"Hard\",\"perks\":[\"red_herring\",\"repressed_alliance\",\"soul_guard\"],\"description\":\"A young woman tormented by visions of Silent Hill.\"},{\"id\":\"felix_richter\",\"name\":\"Felix Richter\",\"realName\":\"Felix Richter\",\"chapter\":\"All-Kill\",\"difficulty\":\"Medium\",\"perks\":[\"built_to_last\",\"desperate_measures\",\"visionary\"],\"description\":\"An architecture student who values careful planning.\"},{\"id\":\"elodie_rakoto\",\"name\":\"Élodie Rakoto\",\"realName\":\"Élodie Rakoto\",\"chapter\":\"All-Kill\",\"difficulty\":\"Medium\",\"perks\":[\"appraisal\",\"deception\",\"power_struggle\"],\"description\":\"A former treasure hunter and archaeologist.\"},{\"id\":\"yun_jin_lee\",\"name\":\"Yun-Jin Lee\",\"realName\":\"Yun-Jin Lee\",\"chapter\":\"All-Kill\",\"difficulty\":\"Medium\",\"perks\":[\"fast_track\",\"self_preservation\",\"smash_hit\"],\"description\":\"A shrewd music producer used to getting her way.\"},{\"id\":\"jill_valentine\",\"name\":\"Jill Valentine\",\"realName\":\"Jill Valentine\",\"chapter\":\"Resident Evil\",\"difficulty\":\"Hard\",\"perks\":[\"blast_mine\",\"counterforce\",\"resurgence\"],\"description\":\"A skilled S.T.A.R.S. officer and Raccoon City survivor.\"},{\"id\":\"leon_kennedy\",\"name\":\"Leon S. Kennedy\",\"realName\":\"Leon Scott Kennedy\",\"chapter\":\"Resident Evil\",\"difficulty\":\"Medium\",\"perks\":[\"bite_the_bullet\",\"flashbang\",\"rookie_spirit\"],\"description\":\"A rookie police officer thrust into a nightmare on his first day.\"},{\"id\":\"mikaela_reid\",\"name\":\"Mikaela Reid\",\"realName\":\"Mikaela Reid\",\"chapter\":\"All-Kill\",\"difficulty\":\"Hard\",\"perks\":[\"boon_circle_of_healing\",\"blood_pact\",\"clairvoyance\"],\"description\":\"A young woman with a mysterious connection to hidden magic.\"},{\"id\":\"jonah_vasquez\",\"name\":\"Jonah Vasquez\",\"realName\":\"Jonah Vasquez\",\"chapter\":\"Chains of Hate\",\"difficulty\":\"Medium\",\"perks\":[\"corrective_action\",\"overcome\",\"road_life\"],\"description\":\"An analytical journalist chasing the truth behind The Entity.\"},{\"id\":\"yoichi_asakawa\",\"name\":\"Yoichi Asakawa\",\"realName\":\"Yoichi Asakawa\",\"chapter\":\"Sadako Rising\",\"difficulty\":\"Medium\",\"perks\":[\"boon_dark_theory\",\"empathic_connection\",\"parental_guidance\"],\"description\":\"A young man cursed after watching the tape that summons Sadako.\"},{\"id\":\"haddie_kaur\",\"name\":\"Haddie Kaur\",\"realName\":\"Haddie Kaur\",\"chapter\":\"Roots of Dread\",\"difficulty\":\"Hard\",\"perks\":[\"inner_focus\",\"overzealous\",\"residual_manifest\"],\"description\":\"A survivor with a supernatural connection to the Ravages of the Abyss.\"},{\"id\":\"ada_wong\",\"name\":\"Ada Wong\",\"realName\":\"Ada Wong\",\"chapter\":\"Resident Evil: Descend Beyond\",\"difficulty\":\"Medium\",\"perks\":[\"low_profile\",\"reactive_healing\",\"wiretap\"],\"description\":\"A mysterious and highly skilled secret agent and spy.\"},{\"id\":\"rebecca_chambers\",\"name\":\"Rebecca Chambers\",\"realName\":\"Rebecca Chambers\",\"chapter\":\"Resident Evil: Descend Beyond\",\"difficulty\":\"Medium\",\"perks\":[\"better_than_new\",\"hyperfocus\",\"reassurance\"],\"description\":\"A brilliant S.T.A.R.S. medic and biochemistry specialist.\"},{\"id\":\"vittorio_toscano\",\"name\":\"Vittorio Toscano\",\"realName\":\"Vittorio Toscano\",\"chapter\":\"Tools of Torment\",\"difficulty\":\"Medium\",\"perks\":[\"fogwise\",\"quick_gambit\",\"extrasensory_perception\"],\"description\":\"A pacifist filmmaker who has seen the truth of great cruelty.\"},{\"id\":\"thalita_lyra\",\"name\":\"Thalita Lyra\",\"realName\":\"Thalita Lyra\",\"chapter\":\"Tools of Torment\",\"difficulty\":\"Medium\",\"perks\":[\"cut_loose\",\"friendly_competition\",\"teamwork_power_of_two\"],\"description\":\"An energetic athlete who pushes her team to keep moving.\"},{\"id\":\"renato_lyra\",\"name\":\"Renato Lyra\",\"realName\":\"Renato Lyra\",\"chapter\":\"Tools of Torment\",\"difficulty\":\"Medium\",\"perks\":[\"background_player\",\"blood_rush\",\"teamwork_collective_stealth\"],\"description\":\"Thalita's brother, quiet but quick to act under pressure.\"},{\"id\":\"gabriel_soma\",\"name\":\"Gabriel Soma\",\"realName\":\"Gabriel Soma\",\"chapter\":\"End Transmission\",\"difficulty\":\"Medium\",\"perks\":[\"made_for_this\",\"scavenger\",\"troubleshooter\"],\"description\":\"A resourceful survivor who improvises tools from scraps.\"},{\"id\":\"nicolas_cage\",\"name\":\"Nicolas Cage\",\"realName\":\"Nicolas Kim Coppola\",\"chapter\":\"Nicolas Cage\",\"difficulty\":\"Medium\",\"perks\":[\"scene_partner\",\"bardic_inspiration\",\"dramaturgy\"],\"description\":\"The legendary actor, dropped into a horror movie of his own.\"},{\"id\":\"ellen_ripley\",\"name\":\"Ellen Ripley\",\"realName\":\"Ellen Louise Ripley\",\"chapter\":\"Alien\",\"difficulty\":\"Hard\",\"perks\":[\"light_footed\",\"lucky_star\",\"clairvoyance\"],\"description\":\"A hardened warrant officer who has survived the Xenomorph before.\"},{\"id\":\"alan_wake\",\"name\":\"Alan Wake\",\"realName\":\"Alan Wake\",\"chapter\":\"Alan Wake\",\"difficulty\":\"Medium\",\"perks\":[\"champion_of_light\",\"deadline\",\"plot_twist\"],\"description\":\"A novelist trapped in a story that writes itself.\"},{\"id\":\"sable_ward\",\"name\":\"Sable Ward\",\"realName\":\"Sable Ward\",\"chapter\":\"Forced Hesitation\",\"difficulty\":\"Medium\",\"perks\":[\"strength_in_shadows\",\"wicked\",\"off_the_record\"],\"description\":\"A tenacious survivor unwilling to go down without a fight.\"},{\"id\":\"aestri_yazar\",\"name\":\"Aestri Yazar\",\"realName\":\"Aestri Yazar\",\"chapter\":\"Norse Force\",\"difficulty\":\"Hard\",\"perks\":[\"mirrored_illusion\",\"still_sight\",\"potential_energy\"],\"description\":\"One half of The Troupe, wielders of an ancient, dangerous magic.\"},{\"id\":\"lara_croft\",\"name\":\"Lara Croft\",\"realName\":\"Lara Croft\",\"chapter\":\"Tomb Raider\",\"difficulty\":\"Hard\",\"perks\":[\"finesse\",\"hardened\",\"specialist\"],\"description\":\"A world-renowned archaeologist and adventurer.\"},{\"id\":\"trevor_belmont\",\"name\":\"Trevor Belmont\",\"realName\":\"Trevor Belmont\",\"chapter\":\"Castlevania\",\"difficulty\":\"Hard\",\"perks\":[\"exultation\",\"eyes_of_belmont\",\"moment_of_glory\"],\"description\":\"The last of the Belmont line, sworn to hunt the creatures of the night.\"},{\"id\":\"taurie_cain\",\"name\":\"Taurie Cain\",\"realName\":\"Taurie Cain\",\"chapter\":\"Hour of the Witch\",\"difficulty\":\"Medium\",\"perks\":[\"clean_break\",\"invocation_weaving_spiders\",\"shoulder_the_burden\"],\"description\":\"A survivor who dabbles in forbidden invocations to aid her allies.\"},{\"id\":\"orela_rose\",\"name\":\"Orela Rose\",\"realName\":\"Orela Rose\",\"chapter\":\"Fractured Vigil\",\"difficulty\":\"Medium\",\"perks\":[\"do_no_harm\",\"duty_of_care\",\"rapid_response\"],\"description\":\"A compassionate medic who never hesitates to help the fallen.\"},{\"id\":\"rick_grimes\",\"name\":\"Rick Grimes\",\"realName\":\"Rick Grimes\",\"chapter\":\"The Walking Dead\",\"difficulty\":\"Medium\",\"perks\":[\"apocalyptic_ingenuity\",\"come_and_get_me\",\"teamwork_toughen_up\"],\"description\":\"A former sheriff's deputy hardened by the walker apocalypse.\"},{\"id\":\"michonne_grimes\",\"name\":\"Michonne Grimes\",\"realName\":\"Michonne\",\"chapter\":\"The Walking Dead\",\"difficulty\":\"Medium\",\"perks\":[\"conviction\",\"last_stand\",\"teamwork_throw_down\"],\"description\":\"A fierce survivor skilled with a blade and unshakable resolve.\"},{\"id\":\"vee_boonyasak\",\"name\":\"Vee Boonyasak\",\"realName\":\"Vee Boonyasak\",\"chapter\":\"Anniversary\",\"difficulty\":\"Medium\",\"perks\":[\"ghost_notes\",\"one_two_three_four\",\"boon_exponential\"],\"description\":\"A rhythm-obsessed musician who keeps her allies moving.\"},{\"id\":\"dustin_henderson\",\"name\":\"Dustin Henderson\",\"realName\":\"Dustin Henderson\",\"chapter\":\"Stranger Things: Chapter II\",\"difficulty\":\"Medium\",\"perks\":[\"change_of_plan\",\"teamwork_full_circuit\",\"boon_illumination\"],\"description\":\"A quick-witted member of the Hawkins gang.\"},{\"id\":\"eleven\",\"name\":\"Eleven\",\"realName\":\"Jane Hopper\",\"chapter\":\"Stranger Things: Chapter II\",\"difficulty\":\"Hard\",\"perks\":[\"teamwork_soft_spoken\",\"we_see_you\",\"boon_shadow_step\"],\"description\":\"A girl with extraordinary psychic abilities.\"},{\"id\":\"kwon_tae_young\",\"name\":\"Kwon Tae-young\",\"realName\":\"Kwon Tae-young\",\"chapter\":\"Tools of Torment II\",\"difficulty\":\"Medium\",\"perks\":[\"a_place_for_us\",\"five_moves_ahead\",\"flow_state\"],\"description\":\"A meticulous systems engineer who thinks several moves ahead.\"},{\"id\":\"shane_wiigwaas\",\"name\":\"Shane Wiigwaas\",\"realName\":\"Shane Wiigwaas\",\"chapter\":\"Tundra Terror\",\"difficulty\":\"Medium\",\"perks\":[\"cross_examination\",\"lend_a_hand\",\"wide_open_throttle\"],\"description\":\"A no-nonsense investigator with a talent for reading people.\"},{\"id\":\"aurora_stardotter\",\"name\":\"Aurora Stardotter\",\"realName\":\"Aurora Stardotter\",\"chapter\":\"Norse Force II\",\"difficulty\":\"Hard\",\"perks\":[\"fruits_of_your_labor\",\"salvations_cry\",\"boon_steadfast\"],\"description\":\"A devoted follower of an ancient stellar faith.\"}]");
 }),
 "[project]/lib/utils/randomizer.ts [app-ssr] (ecmascript)", ((__turbopack_context__) => {
 "use strict";
@@ -2352,12 +1689,8 @@ __turbopack_context__.s([
     ()=>getSurvivorPerks,
     "getSurvivors",
     ()=>getSurvivors,
-    "randomizeFullGame",
-    ()=>randomizeFullGame,
-    "randomizeKiller",
-    ()=>randomizeKiller,
-    "randomizeSurvivor",
-    ()=>randomizeSurvivor
+    "pickRandomExcluding",
+    ()=>pickRandomExcluding
 ]);
 var __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$data$2f$survivors$2e$json$2e5b$json$5d2e$cjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/lib/data/survivors.json.[json].cjs [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$data$2f$killers$2e$json$2e5b$json$5d2e$cjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/lib/data/killers.json.[json].cjs [app-ssr] (ecmascript)");
@@ -2403,54 +1736,10 @@ function getKillerAddons(killerName) {
  */ function getRandomElement(array) {
     return array[Math.floor(Math.random() * array.length)];
 }
-/**
- * Get N random unique elements from array
- */ function getRandomElements(array, count) {
-    const shuffled = [
-        ...array
-    ].sort(()=>Math.random() - 0.5);
-    return shuffled.slice(0, Math.min(count, array.length));
-}
-function randomizeSurvivor(omitIds) {
-    const availableSurvivors = __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$data$2f$survivors$2e$json$2e5b$json$5d2e$cjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"].filter((s)=>!omitIds?.includes(s.id));
-    if (availableSurvivors.length === 0) return null;
-    const survivor = getRandomElement(availableSurvivors);
-    const survivorPerks = getSurvivorPerks().filter((p)=>!omitIds?.includes(p.id));
-    const selectedPerks = getRandomElements(survivorPerks, 4);
-    const availableItems = getItems().filter((i)=>!omitIds?.includes(i.id));
-    const randomItem = availableItems.length > 0 && Math.random() > 0.3 ? getRandomElement(availableItems) : null;
-    // Get random add-ons for the item
-    let selectedAddons = [];
-    if (randomItem?.addons) {
-        const availableAddons = randomItem.addons.filter((a)=>!omitIds?.includes(a));
-        selectedAddons = getRandomElements(availableAddons, Math.min(2, availableAddons.length));
-    }
-    return {
-        survivor,
-        perks: selectedPerks,
-        item: randomItem,
-        addons: selectedAddons
-    };
-}
-function randomizeKiller(omitIds) {
-    const availableKillers = __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$data$2f$killers$2e$json$2e5b$json$5d2e$cjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"].filter((k)=>!omitIds?.includes(k.id));
-    if (availableKillers.length === 0) return null;
-    const killer = getRandomElement(availableKillers);
-    const killerPerks = getKillerPerks().filter((p)=>!omitIds?.includes(p.id));
-    const selectedPerks = getRandomElements(killerPerks, 4);
-    const killerAddons = getKillerAddons(killer.name).filter((a)=>!omitIds?.includes(a.id));
-    const selectedAddons = getRandomElements(killerAddons, 2);
-    return {
-        killer,
-        perks: selectedPerks,
-        addons: selectedAddons
-    };
-}
-function randomizeFullGame(omitIds) {
-    return {
-        survivor: randomizeSurvivor(omitIds),
-        killer: randomizeKiller(omitIds)
-    };
+function pickRandomExcluding(pool, excludeIds, idOf) {
+    const available = pool.filter((item)=>!excludeIds.has(idOf(item)));
+    if (available.length === 0) return null;
+    return getRandomElement(available);
 }
 function getOfferings() {
     return __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$data$2f$offerings$2e$json$2e5b$json$5d2e$cjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"];
