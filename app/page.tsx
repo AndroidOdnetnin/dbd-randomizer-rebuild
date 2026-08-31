@@ -31,24 +31,42 @@ interface KillerLoadout {
 
 // Tracks ids that have been individually "omitted" (e.g. not unlocked / not owned)
 // so they are excluded from re-rolls until the next full Randomize clears them.
+// Survivor-side and Killer-side pools are kept separate so resetting one side's
+// omissions (e.g. Randomize on the Survivor tab) never affects the other side.
 interface OmitSets {
   survivors: Set<string>;
   killers: Set<string>;
-  perks: Set<string>;
+  survivorPerks: Set<string>;
+  killerPerks: Set<string>;
   items: Set<string>;
-  addons: Set<string>;
-  offerings: Set<string>;
+  itemAddons: Set<string>;
+  killerAddons: Set<string>;
+  survivorOfferings: Set<string>;
+  killerOfferings: Set<string>;
 }
 
 function freshOmitSets(): OmitSets {
   return {
     survivors: new Set(),
     killers: new Set(),
-    perks: new Set(),
+    survivorPerks: new Set(),
+    killerPerks: new Set(),
     items: new Set(),
-    addons: new Set(),
-    offerings: new Set(),
+    itemAddons: new Set(),
+    killerAddons: new Set(),
+    survivorOfferings: new Set(),
+    killerOfferings: new Set(),
   };
+}
+
+function freshSurvivorOmitSets(prev: OmitSets): OmitSets {
+  const fresh = freshOmitSets();
+  return { ...fresh, killers: prev.killers, killerPerks: prev.killerPerks, killerAddons: prev.killerAddons, killerOfferings: prev.killerOfferings };
+}
+
+function freshKillerOmitSets(prev: OmitSets): OmitSets {
+  const fresh = freshOmitSets();
+  return { ...fresh, survivors: prev.survivors, survivorPerks: prev.survivorPerks, items: prev.items, itemAddons: prev.itemAddons, survivorOfferings: prev.survivorOfferings };
 }
 
 export default function Home() {
@@ -67,40 +85,40 @@ export default function Home() {
   const rollSurvivorLoadout = (omitSets: OmitSets): SurvivorLoadout | null => {
     const survivor = pickRandomExcluding(getSurvivors(), omitSets.survivors, (s) => s.id);
     if (!survivor) return null;
-    const perkPool = getSurvivorPerks().filter((p) => !omitSets.perks.has(p.id));
+    const perkPool = getSurvivorPerks().filter((p) => !omitSets.survivorPerks.has(p.id));
     const shuffledPerks = [...perkPool].sort(() => Math.random() - 0.5).slice(0, 4);
     const availableItems = getItems().filter((i) => !omitSets.items.has(i.id));
     const item =
       availableItems.length > 0 && Math.random() > 0.3
         ? availableItems[Math.floor(Math.random() * availableItems.length)]
         : null;
-    const addons = rollItemAddons(item, omitSets.addons);
-    const offering = pickRandomExcluding(getSurvivorOfferings(), omitSets.offerings, (o) => o.id);
+    const addons = rollItemAddons(item, omitSets.itemAddons);
+    const offering = pickRandomExcluding(getSurvivorOfferings(), omitSets.survivorOfferings, (o) => o.id);
     return { survivor, perks: shuffledPerks, item, addons, offering };
   };
 
   const rollKillerLoadout = (omitSets: OmitSets): KillerLoadout | null => {
     const killer = pickRandomExcluding(getKillers(), omitSets.killers, (k) => k.id);
     if (!killer) return null;
-    const perkPool = getKillerPerks().filter((p) => !omitSets.perks.has(p.id));
+    const perkPool = getKillerPerks().filter((p) => !omitSets.killerPerks.has(p.id));
     const shuffledPerks = [...perkPool].sort(() => Math.random() - 0.5).slice(0, 4);
-    const addonPool = getKillerAddons(killer.name).filter((a) => !omitSets.addons.has(a.id));
+    const addonPool = getKillerAddons(killer.name).filter((a) => !omitSets.killerAddons.has(a.id));
     const shuffledAddons = [...addonPool].sort(() => Math.random() - 0.5).slice(0, 2);
-    const offering = pickRandomExcluding(getKillerOfferings(), omitSets.offerings, (o) => o.id);
+    const offering = pickRandomExcluding(getKillerOfferings(), omitSets.killerOfferings, (o) => o.id);
     return { killer, perks: shuffledPerks, addons: shuffledAddons, offering };
   };
 
-  // Full reset: clears every omission and rolls a brand new loadout.
+  // Full reset: clears only this side's omissions (the other side's loadout/omissions are untouched).
   const handleRandomizeSurvivor = () => {
-    const fresh = freshOmitSets();
-    setOmit((prev) => ({ ...fresh, killers: prev.killers }));
-    setSurvivorLoadout(rollSurvivorLoadout(fresh));
+    const next = freshSurvivorOmitSets(omit);
+    setOmit(next);
+    setSurvivorLoadout(rollSurvivorLoadout(next));
   };
 
   const handleRandomizeKiller = () => {
-    const fresh = freshOmitSets();
-    setOmit((prev) => ({ ...fresh, survivors: prev.survivors }));
-    setKillerLoadout(rollKillerLoadout(fresh));
+    const next = freshKillerOmitSets(omit);
+    setOmit(next);
+    setKillerLoadout(rollKillerLoadout(next));
   };
 
   const handleRandomizeAll = () => {
@@ -135,10 +153,10 @@ export default function Home() {
   const omitAndRerollSurvivorPerk = (index: number) => {
     if (!survivorLoadout) return;
     const perkToOmit = survivorLoadout.perks[index];
-    const next = { ...omit, perks: new Set(omit.perks).add(perkToOmit.id) };
+    const next = { ...omit, survivorPerks: new Set(omit.survivorPerks).add(perkToOmit.id) };
     setOmit(next);
     const usedIds = new Set(survivorLoadout.perks.map((p) => p.id));
-    const pool = getSurvivorPerks().filter((p) => !next.perks.has(p.id) && !usedIds.has(p.id));
+    const pool = getSurvivorPerks().filter((p) => !next.survivorPerks.has(p.id) && !usedIds.has(p.id));
     const replacement = pool.length > 0 ? pool[Math.floor(Math.random() * pool.length)] : null;
     if (replacement) {
       const newPerks = [...survivorLoadout.perks];
@@ -150,10 +168,10 @@ export default function Home() {
   const omitAndRerollKillerPerk = (index: number) => {
     if (!killerLoadout) return;
     const perkToOmit = killerLoadout.perks[index];
-    const next = { ...omit, perks: new Set(omit.perks).add(perkToOmit.id) };
+    const next = { ...omit, killerPerks: new Set(omit.killerPerks).add(perkToOmit.id) };
     setOmit(next);
     const usedIds = new Set(killerLoadout.perks.map((p) => p.id));
-    const pool = getKillerPerks().filter((p) => !next.perks.has(p.id) && !usedIds.has(p.id));
+    const pool = getKillerPerks().filter((p) => !next.killerPerks.has(p.id) && !usedIds.has(p.id));
     const replacement = pool.length > 0 ? pool[Math.floor(Math.random() * pool.length)] : null;
     if (replacement) {
       const newPerks = [...killerLoadout.perks];
@@ -170,16 +188,16 @@ export default function Home() {
     setOmit(next);
     const availableItems = getItems().filter((i) => !next.items.has(i.id));
     const item = availableItems.length > 0 ? availableItems[Math.floor(Math.random() * availableItems.length)] : null;
-    const addons = rollItemAddons(item, next.addons);
+    const addons = rollItemAddons(item, next.itemAddons);
     setSurvivorLoadout({ ...survivorLoadout, item, addons });
   };
 
   const omitAndRerollAddon = (addonId: string) => {
     if (!survivorLoadout) return;
-    const next = { ...omit, addons: new Set(omit.addons).add(addonId) };
+    const next = { ...omit, itemAddons: new Set(omit.itemAddons).add(addonId) };
     const usedIds = new Set(survivorLoadout.addons);
     const pool = (survivorLoadout.item?.addons ?? []).filter(
-      (a) => !next.addons.has(a) && !usedIds.has(a)
+      (a) => !next.itemAddons.has(a) && !usedIds.has(a)
     );
     const replacement = pool.length > 0 ? pool[Math.floor(Math.random() * pool.length)] : null;
     const newAddons = survivorLoadout.addons
@@ -192,11 +210,11 @@ export default function Home() {
   const omitAndRerollKillerAddon = (index: number) => {
     if (!killerLoadout) return;
     const addonToOmit = killerLoadout.addons[index];
-    const next = { ...omit, addons: new Set(omit.addons).add(addonToOmit.id) };
+    const next = { ...omit, killerAddons: new Set(omit.killerAddons).add(addonToOmit.id) };
     setOmit(next);
     const usedIds = new Set(killerLoadout.addons.map((a) => a.id));
     const pool = getKillerAddons(killerLoadout.killer.name).filter(
-      (a) => !next.addons.has(a.id) && !usedIds.has(a.id)
+      (a) => !next.killerAddons.has(a.id) && !usedIds.has(a.id)
     );
     const replacement = pool.length > 0 ? pool[Math.floor(Math.random() * pool.length)] : null;
     if (replacement) {
@@ -208,17 +226,17 @@ export default function Home() {
 
   const omitAndRerollSurvivorOffering = () => {
     if (!survivorLoadout?.offering) return;
-    const next = { ...omit, offerings: new Set(omit.offerings).add(survivorLoadout.offering.id) };
+    const next = { ...omit, survivorOfferings: new Set(omit.survivorOfferings).add(survivorLoadout.offering.id) };
     setOmit(next);
-    const offering = pickRandomExcluding(getSurvivorOfferings(), next.offerings, (o) => o.id);
+    const offering = pickRandomExcluding(getSurvivorOfferings(), next.survivorOfferings, (o) => o.id);
     setSurvivorLoadout({ ...survivorLoadout, offering });
   };
 
   const omitAndRerollKillerOffering = () => {
     if (!killerLoadout?.offering) return;
-    const next = { ...omit, offerings: new Set(omit.offerings).add(killerLoadout.offering.id) };
+    const next = { ...omit, killerOfferings: new Set(omit.killerOfferings).add(killerLoadout.offering.id) };
     setOmit(next);
-    const offering = pickRandomExcluding(getKillerOfferings(), next.offerings, (o) => o.id);
+    const offering = pickRandomExcluding(getKillerOfferings(), next.killerOfferings, (o) => o.id);
     setKillerLoadout({ ...killerLoadout, offering });
   };
 
