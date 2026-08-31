@@ -542,25 +542,38 @@ export default function Home() {
                         {survivorLoadout.addons.length > 0 && (
                           <div className="border-t border-slate-600 pt-3 mt-3">
                             <p className="text-xs font-semibold text-yellow-300 mb-2">Add-ons:</p>
-                            <div className="flex flex-wrap gap-2">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                               {survivorLoadout.addons.map((addonId) => {
                                 const addon = getAddonById(addonId);
                                 return (
-                                  <span
+                                  <div
                                     key={addonId}
-                                    className="bg-slate-600 text-sm px-3 py-1.5 rounded flex items-center gap-2"
-                                    title={addon?.effect}
+                                    className="bg-slate-600 rounded-lg p-3 flex items-start justify-between gap-3"
                                   >
-                                    {addon?.name ?? addonId}
+                                    <div>
+                                      <p className="text-white font-semibold text-sm">
+                                        {addon?.name ?? addonId}
+                                      </p>
+                                      {addon?.effect && (
+                                        <p className="text-sm text-gray-300 leading-relaxed mt-1">
+                                          {addon.effect}
+                                        </p>
+                                      )}
+                                      {addon?.rarity && (
+                                        <p className="mt-2">
+                                          <Badge label={addon.rarity} styles={RARITY_STYLES} />
+                                        </p>
+                                      )}
+                                    </div>
                                     <button
                                       type="button"
                                       onClick={() => omitAndRerollAddon(addonId)}
-                                      className="text-orange-300 hover:text-orange-100 font-bold"
+                                      className={OMIT_BTN}
                                       title="Don't have this add-on? Omit it and roll another."
                                     >
-                                      ×
+                                      Omit
                                     </button>
-                                  </span>
+                                  </div>
                                 );
                               })}
                             </div>
